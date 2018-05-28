@@ -1,0 +1,36 @@
+{
+	"name": "preferans-paper-js",
+	"version": "0.0.1",
+	"description": "nodejs paper for preferans",
+	"engines": {
+		"node": ">=8.9"
+	},
+	"main": "lib/paper.js",
+	"scripts": {
+		"test": "nyc --reporter=html mocha"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/cope/preferans-paper-js.git"
+	},
+	"keywords": [
+		"paper",
+		"preferans",
+		"cards"
+	],
+	"author": "Predrag Stojadinovic",
+	"license": "Unlicense",
+	"bugs": {
+		"url": "https://github.com/cope/preferans-paper-js/issues"
+	},
+	"homepage": "https://github.com/cope/preferans-paper-js#readme",
+	"dependencies": {
+		"lodash": "^4.17.10",
+		"preferans-deck-js": "^1.0.2"
+	},
+	"devDependencies": {
+		"chai": "^4.1.2",
+		"mocha": "^5.1.1",
+		"nyc": "^11.7.3"
+	}
+}
