@@ -8,7 +8,7 @@
 	"main": "lib/paper.js",
 	"scripts": {
 		"test": "nyc --reporter=html mocha",
-		"analyze": "sonarjs -e node_modules/**,coverage/**,coverage/**,.nyc_output/**"
+		"analyze": "sonarjs -e .sonarlint/**,node_modules/**,coverage/**,.nyc_output/**"
 	},
 	"repository": {
 		"type": "git",
