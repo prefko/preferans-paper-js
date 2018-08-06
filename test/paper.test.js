@@ -1,10 +1,11 @@
 const _ = require('lodash');
 const expect = require('chai').expect;
 
-let Paper = require('../lib/paper');
+const PrefPaper = require('../lib/paper');
+const PrefPaperPlayer = PrefPaper.Player;
 
-describe('Paper tests', function () {
-	it('Paper should exist', function () {
-		expect(Paper).to.exist;
+describe('PrefPaper tests', function () {
+	it('PrefPaper should exist', function () {
+		expect(PrefPaper).to.exist;
 	});
 });
