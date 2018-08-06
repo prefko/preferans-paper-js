@@ -3,9 +3,16 @@
 
 const _ = require('lodash');
 const PrefPaper = require('./lib/paper');
-const PrefPaperPlayer = PrefPaper.PrefPaperPlayer;
+const PrefPaperPlayer = require('./lib/player');
 
-const settings = {};
-let p = new PrefPaper(60, 3, settings);
+let p = new PrefPaper(60, 3, {
+	unlimitedRefe: false,
+	playPikOnRefa: false,
+	lastHandDoubleFall: false,
+	lastHandLimitSoup: false,
+	failPikAfterRefas: false,
+	failPikAfterOneUnderZero: false,
+	allowSubAndMortKontras: false
+});
 
 console.log(p);

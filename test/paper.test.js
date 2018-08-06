@@ -2,7 +2,6 @@ const _ = require('lodash');
 const expect = require('chai').expect;
 
 const PrefPaper = require('../lib/paper');
-const PrefPaperPlayer = PrefPaper.Player;
 
 describe('PrefPaper tests', function () {
 	it('PrefPaper should exist', function () {

@@ -1,6 +1,6 @@
 {
 	"name": "preferans-paper-js",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"description": "nodejs paper for preferans",
 	"engines": {
 		"node": ">=8.9"
@@ -28,6 +28,7 @@
 	"homepage": "https://github.com/cope/preferans-paper-js#readme",
 	"dependencies": {
 		"lodash": "^4.17.10",
+		"mathjs": "^5.0.4",
 		"preferans-deck-js": "^1.0.2"
 	},
 	"devDependencies": {

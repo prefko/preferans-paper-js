@@ -4,3 +4,8 @@
 [![npm](https://img.shields.io/npm/dt/preferans-paper-js.svg)](https://www.npmjs.com/package/preferans-paper-js)
 
 preferans player paper
+
+### Usage
+
+    const PrefPaper = require('preferans-paper-js');
+    ...
