@@ -15,4 +15,4 @@ let p = new PrefPaper(60, 3, {
 	allowSubAndMortKontras: false
 });
 
-console.log(p);
+// console.log(p);

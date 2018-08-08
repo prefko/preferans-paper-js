@@ -10,3 +10,7 @@ preferans player paper
 
     const PrefPaper = require('preferans-paper-js');
     ...
+
+#### Tools
+notes
+npm-dview
