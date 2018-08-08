@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-'use strict';
+"use strict";
 
-const _ = require('lodash');
-const PrefPaper = require('./lib/paper');
-const PrefPaperPlayer = require('./lib/player');
+const _ = require("lodash");
+const PrefPaper = require("./lib/paper");
+const PrefPaperPlayer = require("./lib/player");
 
 let p = new PrefPaper(60, 3, {
 	unlimitedRefe: false,
