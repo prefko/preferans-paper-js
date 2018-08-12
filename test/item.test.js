@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const expect = require("chai").expect;
 
 const PrefPaperItem = require("../lib/item");
