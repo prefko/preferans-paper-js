@@ -23,7 +23,7 @@ describe("PrefPaperPlayer tests", function () {
 	describe("PrefPaperPlayer getJSON basic tests", function () {
 		it("getJSON should proper value", function () {
 			expect(new PrefPaperPlayer("cope", 60).getJSON()).to.deep.equal({
-				username: 'cope',
+				username: "cope",
 				score: 600,
 				refe: 0,
 				left: [],
@@ -33,7 +33,7 @@ describe("PrefPaperPlayer tests", function () {
 		});
 		it("getJSON should proper value", function () {
 			expect(new PrefPaperPlayer("cope", 80, 3).getJSON()).to.deep.equal({
-				username: 'cope',
+				username: "cope",
 				score: 800,
 				refe: 3,
 				left: [],
