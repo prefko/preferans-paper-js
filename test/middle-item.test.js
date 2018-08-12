@@ -65,17 +65,6 @@ describe("PrefPaperMiddleItem tests", function () {
 			expect(new PrefPaperMiddleItem(true).isRefaAvailable("middle")).to.be.true;
 			expect(new PrefPaperMiddleItem(true).isRefaAvailable("right")).to.be.true;
 		});
-
-		let item = new PrefPaperMiddleItem(true);
-		item.markPlayedRefa("left");
-		item.markPlayedRefa("middle", true);
-		item.markPlayedRefa("right");
-		it("markPlayedRefa should set refa properly", function () {
-			expect(() => item.isRefaAvailable("maybe")).to.throw();
-			expect(item.isRefaAvailable("left")).to.be.false;
-			expect(item.isRefaAvailable("middle")).to.be.false;
-			expect(item.isRefaAvailable("right")).to.be.false;
-		});
 	});
 
 	describe("PrefPaperMiddleItem markPlayedRefa tests", function () {
@@ -92,11 +81,19 @@ describe("PrefPaperMiddleItem tests", function () {
 			expect(new PrefPaperMiddleItem(true).markPlayedRefa("middle")).to.be.an("object");
 			expect(new PrefPaperMiddleItem(true).markPlayedRefa("right")).to.be.an("object");
 		});
+	});
 
+	describe("PrefPaperMiddleItem markPlayedRefa && isRefaAvailable combined tests", function () {
 		let item = new PrefPaperMiddleItem(true);
 		item.markPlayedRefa("left");
 		item.markPlayedRefa("middle", true);
 		item.markPlayedRefa("right");
+		it("markPlayedRefa should set refa properly", function () {
+			expect(() => item.isRefaAvailable("maybe")).to.throw();
+			expect(item.isRefaAvailable("left")).to.be.false;
+			expect(item.isRefaAvailable("middle")).to.be.false;
+			expect(item.isRefaAvailable("right")).to.be.false;
+		});
 		it("markPlayedRefa should set refa properly", function () {
 			expect(() => item.markPlayedRefa("maybe")).to.throw();
 			expect(() => item.markPlayedRefa("left")).to.throw();
