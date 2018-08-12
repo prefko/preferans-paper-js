@@ -1,8 +1,10 @@
-const _ = require("lodash");
 const expect = require("chai").expect;
 
-const PrefPaper = require("../lib/paper");
 const PrefPaperPlayer = require("../lib/player");
+// let player = new PrefPaperPlayer("cope", 60, 3);
+//
+// player.addLeftValue(10).addLeftValue(50);
+// console.log(player.getLeftValue());
 
 describe("PrefPaperPlayer tests", function () {
 	it("PrefPaperPlayer should exist", function () {
@@ -28,16 +30,6 @@ describe("PrefPaperPlayer tests", function () {
 				refe: 0,
 				left: [],
 				middle: [60],
-				right: []
-			});
-		});
-		it("getJSON should proper value", function () {
-			expect(new PrefPaperPlayer("cope", 80, 3).getJSON()).to.deep.equal({
-				username: "cope",
-				score: 800,
-				refe: 3,
-				left: [],
-				middle: [80],
 				right: []
 			});
 		});
