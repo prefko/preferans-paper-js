@@ -53,17 +53,6 @@ describe("PrefPaperColumn tests", function () {
 		});
 	});
 
-	describe("PrefPaperColumn addHat tests", function () {
-		let column1 = new PrefPaperColumn();
-		let column2 = new PrefPaperColumn(30, true);
-		it("addHat should throw properly", function () {
-			expect(() => column1.addHat()).to.throw();
-			expect(() => column1.addHat(true)).to.throw();
-			expect(() => column2.addHat()).to.not.throw();
-			expect(() => column2.addHat(true)).to.not.throw();
-		});
-	});
-
 	describe("PrefPaperColumn addRefa tests", function () {
 		it("addRefa should throw properly", function () {
 			expect(() => new PrefPaperColumn().addRefa()).to.throw();
