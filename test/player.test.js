@@ -54,33 +54,27 @@ describe("PrefPaperPlayer tests", function () {
 	});
 
 	describe("PrefPaperPlayer reset tests", function () {
+		var base = {
+			username: "cope",
+			score: -300,
+			refe: 0,
+			left: [],
+			middle: [30],
+			right: []
+		};
 		let p1 = new PrefPaperPlayer("cope", 30).addLeftValue(10).addRightValue(50).addMiddleValue(-10).newRefa().reset();
 		it("reset should return player to initial values", function () {
 			expect(p1.getLeftValue()).to.be.equal(0);
 			expect(p1.getMiddleValue()).to.be.equal(30);
 			expect(p1.getRightValue()).to.be.equal(0);
-			expect(p1.getJSON()).to.deep.equal({
-				username: "cope",
-				score: -300,
-				refe: 0,
-				left: [],
-				middle: [30],
-				right: []
-			});
+			expect(p1.getJSON()).to.deep.equal(base);
 		});
 		let p2 = new PrefPaperPlayer("cope", 30).addLeftValue(10).newRefa().addMiddleValue(-26).addRightValue(20).reset();
 		it("reset should return player to initial values", function () {
 			expect(p2.getLeftValue()).to.be.equal(0);
 			expect(p2.getMiddleValue()).to.be.equal(30);
 			expect(p1.getRightValue()).to.be.equal(0);
-			expect(p2.getJSON()).to.deep.equal({
-				username: "cope",
-				score: -300,
-				refe: 0,
-				left: [],
-				middle: [30],
-				right: []
-			});
+			expect(p2.getJSON()).to.deep.equal(base);
 		});
 	});
 
