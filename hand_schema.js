@@ -178,14 +178,16 @@ let schema = {
 	}
 };
 
-const Ajv = require('ajv');
+const Ajv = require("ajv");
 const ajv = new Ajv({allErrors: true});
 const validate = ajv.compile(schema);
 
 function test(data) {
 	var valid = validate(data);
-	if (valid) console.log('Valid!');
-	else console.log('Invalid: ' + ajv.errorsText(validate.errors));
+	if (valid) {
+		return true;
+	}
+	return "Invalid: " + ajv.errorsText(validate.errors);
 }
 
 test({
