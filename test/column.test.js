@@ -28,28 +28,28 @@ describe("PrefPaperColumn tests", function () {
 	});
 
 	describe("PrefPaperColumn reset tests", function () {
-		let column1 = new PrefPaperColumn().addValue(10).addValue(50).reset();
+		let c1 = new PrefPaperColumn().addValue(10).addValue(50).reset();
 		it("reset should return soup to initial values", function () {
-			expect(column1.getValue()).to.be.equal(0);
-			expect(column1.getJSON()).to.deep.equal([]);
+			expect(c1.getValue()).to.be.equal(0);
+			expect(c1.getJSON()).to.deep.equal([]);
 		});
-		let column2 = new PrefPaperColumn(30, true).addValue(-10).addRefa().addValue(-26).reset();
+		let c2 = new PrefPaperColumn(30, true).addValue(-10).addRefa().addValue(-26).reset();
 		it("reset should return middle to initial values", function () {
-			expect(column2.getValue()).to.be.equal(30);
-			expect(column2.getJSON()).to.deep.equal([30]);
+			expect(c2.getValue()).to.be.equal(30);
+			expect(c2.getJSON()).to.deep.equal([30]);
 		});
 	});
 
 	describe("PrefPaperColumn addValue tests", function () {
-		let column1 = new PrefPaperColumn();
-		let column2 = new PrefPaperColumn(30, true);
+		let c1 = new PrefPaperColumn();
+		let c2 = new PrefPaperColumn(30, true);
 		it("addValue should throw properly", function () {
-			expect(() => column1.addValue(9)).to.throw();
-			expect(() => column1.addValue(-10)).to.throw();
-			expect(() => column1.addValue(10)).to.not.throw();
-			expect(() => column2.addValue(9)).to.throw();
-			expect(() => column2.addValue(-10)).to.not.throw();
-			expect(() => column2.addValue(10)).to.not.throw();
+			expect(() => c1.addValue(9)).to.throw();
+			expect(() => c1.addValue(-10)).to.throw();
+			expect(() => c1.addValue(10)).to.not.throw();
+			expect(() => c2.addValue(9)).to.throw();
+			expect(() => c2.addValue(-10)).to.not.throw();
+			expect(() => c2.addValue(10)).to.not.throw();
 		});
 	});
 
