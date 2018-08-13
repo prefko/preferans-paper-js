@@ -7,7 +7,7 @@ player.addMiddleValue(-10).newRefa().addMiddleValue(-26).newRefa();
 player.markLeftPlayedRefa().markMiddlePlayedRefa(true).markRightPlayedRefa(true);
 player.markLeftPlayedRefa(true).markMiddlePlayedRefa().markRightPlayedRefa();
 player.calculateScore(50, 50);
-console.log(player.getJSON());
+// console.log(player.getJSON());
 
 describe("PrefPaperPlayer tests", function () {
 	it("PrefPaperPlayer should exist", function () {
@@ -127,7 +127,7 @@ describe("PrefPaperPlayer tests", function () {
 
 		it("getJSON should return proper value", function () {
 			expect(player.getJSON()).to.deep.equal({
-					username: 'cope',
+					username: "cope",
 					score: -120,
 					refe: 1,
 					left: [10, 60],
