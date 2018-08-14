@@ -7,7 +7,6 @@ player.addMiddleValue(-10).newRefa().addMiddleValue(-26).newRefa();
 player.markLeftPlayedRefa().markMiddlePlayedRefa(true).markRightPlayedRefa(true);
 player.markLeftPlayedRefa(true).markMiddlePlayedRefa().markRightPlayedRefa();
 player.calculateScore(50, 50);
-// console.log(player.getJSON());
 
 describe("PrefPaperPlayer tests", function () {
 	it("PrefPaperPlayer should exist", function () {
@@ -24,7 +23,7 @@ describe("PrefPaperPlayer tests", function () {
 	});
 
 	describe("PrefPaperPlayer processMyFollowing tests", function () {
-		it("processMyFollowing should throw", function () {
+		it("processMyFollowing should throw properly", function () {
 			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3}, 10, "maybe")).to.throw();
 			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3}, 10, "left")).to.not.throw();
 		});
@@ -33,7 +32,7 @@ describe("PrefPaperPlayer tests", function () {
 		it("processMyFollowing should return proper value for pass", function () {
 			expect(p1.getMiniJSON()).to.deep.equal({
 				username: "cope",
-				score: 570,
+				score: -570,
 				left: 0,
 				middle: 60,
 				right: 30
@@ -44,7 +43,7 @@ describe("PrefPaperPlayer tests", function () {
 		it("processMyFollowing should return proper value for fail", function () {
 			expect(p2.getMiniJSON()).to.deep.equal({
 					username: "cope",
-					score: 364,
+					score: -364,
 					left: 16,
 					middle: 38,
 					right: 0
@@ -98,7 +97,7 @@ describe("PrefPaperPlayer tests", function () {
 		it("getMiniJSON should return proper value", function () {
 			expect(player.getMiniJSON()).to.deep.equal({
 					username: "cope",
-					score: -120,
+					score: 120,
 					left: 60,
 					middle: -6,
 					right: 100
@@ -122,7 +121,7 @@ describe("PrefPaperPlayer tests", function () {
 		it("getJSON should return proper value", function () {
 			expect(player.getJSON()).to.deep.equal({
 					username: "cope",
-					score: -120,
+					score: 120,
 					refe: 1,
 					left: [10, 60],
 					middle: [

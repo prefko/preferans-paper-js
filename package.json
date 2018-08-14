@@ -1,6 +1,6 @@
 {
 	"name": "preferans-paper-js",
-	"version": "0.9.3",
+	"version": "1.0.0",
 	"description": "nodejs paper for preferans",
 	"engines": {
 		"node": ">=8.9"

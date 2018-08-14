@@ -71,8 +71,8 @@ describe("PrefPaperColumn tests", function () {
 		it("markPlayedRefa should throw properly", function () {
 			expect(() => new PrefPaperColumn().markPlayedRefa()).to.throw();
 			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("maybe")).to.throw();
-			expect(() => new PrefPaperColumn(30, true).markPlayedRefa("left")).to.throw();
-			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("left").markPlayedRefa("left")).to.throw();
+			expect(() => new PrefPaperColumn(30, true).markPlayedRefa("left")).to.not.throw();
+			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("left").markPlayedRefa("left")).to.not.throw();
 			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("left")).to.not.throw();
 			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("middle")).to.not.throw();
 			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("right")).to.not.throw();
