@@ -1,8 +1,7 @@
-engines:
- duplication:
-   enabled: true
-   exclude_paths:
-     - 'test/**'
-     - '**.test.js'
+duplication:
+  enabled: true
+  exclude_paths:
+    - 'test/**'
+    - '**.test.js'
 exclude_paths:
   - 'node_modules/**'
