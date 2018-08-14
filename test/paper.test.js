@@ -212,8 +212,7 @@ describe("PrefPaper tests", function () {
 				p3: {username: "p3", score: -300, refe: 0, left: [], middle: [30], right: []}
 			});
 		});
-		console.log(JSON.stringify(new PrefPaper(30).getJSON()));
-		it.only("getJSON should return proper value", function () {
+		it("getJSON should return proper value", function () {
 			expect(paper.getJSON()).to.deep.equal({
 				p1: {username: "p1", score: -40, refe: 1, left: [], middle: [30, 20, {left: 1, middle: 1, right: 1}, {left: 0, middle: 0, right: 0}, 4], right: []},
 				p2: {username: "p2", score: -220, refe: 1, left: [], middle: [30, {left: 1, middle: 1, right: 1}, {left: 0, middle: 0, right: 0}, 22], right: []},
