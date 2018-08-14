@@ -11,8 +11,10 @@ paper.addHand({value: 16, main: {username: "p1"}, left: {username: "p3"}, right:
 paper.addHand({value: 8, main: {username: "p2"}, left: {username: "p1"}, right: {username: "p3"}, refa: true});
 paper.addHand({value: 14, main: {username: "p3"}, left: {username: "p2"}, right: {username: "p1"}, refa: true});
 
+console.log(JSON.stringify(paper.getJSON()));
+
 describe("PrefPaper tests", function () {
-	it("PrefPaper should exist", function () {
+	it.only("PrefPaper should exist", function () {
 		expect(PrefPaper).to.exist;
 	});
 
