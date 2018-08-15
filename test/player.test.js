@@ -2,7 +2,7 @@ const expect = require("chai").expect;
 
 const PrefPaperPlayer = require("../lib/player");
 let player = new PrefPaperPlayer("cope", 30);
-player.addLeftValue(10).newRefa().addLeftValue(50).addRightValue(100);
+player.addValue("left", 10).newRefa().addValue("left", 50).addValue("right", 100);
 player.addMiddleValue(-10).newRefa().addMiddleValue(-26).newRefa();
 player.markLeftPlayedRefa().markMiddlePlayedRefa(true).markRightPlayedRefa(true);
 player.markLeftPlayedRefa(true).markMiddlePlayedRefa().markRightPlayedRefa();
@@ -26,6 +26,7 @@ describe("PrefPaperPlayer tests", function () {
 		it("processMyFollowing should throw properly", function () {
 			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "maybe"})).to.throw();
 			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "left"})).to.not.throw();
+			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing()).to.throw();
 		});
 		let p1 = new PrefPaperPlayer("cope", 60);
 		p1.processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "right"}).calculateScore();
@@ -61,14 +62,14 @@ describe("PrefPaperPlayer tests", function () {
 			middle: [30],
 			right: []
 		};
-		let p1 = new PrefPaperPlayer("cope", 30).addLeftValue(10).addRightValue(50).addMiddleValue(-10).newRefa().reset();
+		let p1 = new PrefPaperPlayer("cope", 30).addValue("left", 10).addValue("right", 50).addMiddleValue(-10).newRefa().reset();
 		it("reset should return player to initial values", function () {
 			expect(p1.getLeftValue()).to.be.equal(0);
 			expect(p1.getMiddleValue()).to.be.equal(30);
 			expect(p1.getRightValue()).to.be.equal(0);
 			expect(p1.getJSON()).to.deep.equal(base);
 		});
-		let p2 = new PrefPaperPlayer("cope", 30).addLeftValue(10).newRefa().addMiddleValue(-26).addRightValue(20).reset();
+		let p2 = new PrefPaperPlayer("cope", 30).addValue("left", 10).newRefa().addMiddleValue(-26).addValue("right", 20).reset();
 		it("reset should return player to initial values", function () {
 			expect(p2.getLeftValue()).to.be.equal(0);
 			expect(p2.getMiddleValue()).to.be.equal(30);

@@ -51,6 +51,9 @@ describe("PrefPaperColumn tests", function () {
 			expect(() => c2.addValue(-10)).to.not.throw();
 			expect(() => c2.addValue(10)).to.not.throw();
 		});
+		it("addValue should set the value properly", function () {
+			expect(c2.addValue(-10).addValue(-12).addValue(-10).addValue(+2).getValue()).to.be.equal(0);
+		});
 	});
 
 	describe("PrefPaperColumn addRefa tests", function () {
