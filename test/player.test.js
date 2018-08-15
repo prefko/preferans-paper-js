@@ -24,11 +24,11 @@ describe("PrefPaperPlayer tests", function () {
 
 	describe("PrefPaperPlayer processMyFollowing tests", function () {
 		it("processMyFollowing should throw properly", function () {
-			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3}, 10, "maybe")).to.throw();
-			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3}, 10, "left")).to.not.throw();
+			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "maybe"})).to.throw();
+			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "left"})).to.not.throw();
 		});
 		let p1 = new PrefPaperPlayer("cope", 60);
-		p1.processMyFollowing({followed: true, tricks: 3}, 10, "right").calculateScore();
+		p1.processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "right"}).calculateScore();
 		it("processMyFollowing should return proper value for pass", function () {
 			expect(p1.getMiniJSON()).to.deep.equal({
 				username: "cope",
@@ -39,7 +39,7 @@ describe("PrefPaperPlayer tests", function () {
 			});
 		});
 		let p2 = new PrefPaperPlayer("cope", 30);
-		p2.processMyFollowing({followed: true, tricks: 2, failed: true}, 8, "left").calculateScore();
+		p2.processMyFollowing({followed: true, tricks: 2, failed: true, value: 8, mainPosition: "left"}).calculateScore();
 		it("processMyFollowing should return proper value for fail", function () {
 			expect(p2.getMiniJSON()).to.deep.equal({
 					username: "cope",

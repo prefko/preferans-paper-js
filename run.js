@@ -37,7 +37,7 @@ const _validHand = ajv.compile({
 					properties: {
 						username: {type: "string"},
 						followed: {type: "boolean", enum: [true]},
-						tricks: {type: "integer"},
+						tricks: {type: "integer", minimum: 0, maximum: 5},
 						failed: {type: "boolean", default: false}
 					},
 					required: ["username", "followed", "tricks"],
@@ -58,7 +58,7 @@ const _validHand = ajv.compile({
 					properties: {
 						username: {type: "string"},
 						followed: {type: "boolean", enum: [true]},
-						tricks: {type: "integer"},
+						tricks: {type: "integer", minimum: 0, maximum: 5},
 						failed: {type: "boolean", default: false}
 					},
 					required: ["username", "followed", "tricks"],
@@ -107,10 +107,33 @@ let i = 0;
 // }));
 // _validHand.errors && console.log(_validHand.errors);
 
-console.log(++i, _validHand({
-	value: 10,
-	main: {username: "p1", failed: true},
-	left: {username: "p3"},
-	right: {username: "p2"}
+// console.log(++i, _validHand({
+// 	value: 10,
+// 	main: {username: "p1", failed: true},
+// 	left: {username: "p3"},
+// 	right: {username: "p2"}
+// }));
+// _validHand.errors && console.log(_validHand.errors);
+
+const _validFollowerData = ajv.compile({
+	type: "object",
+	properties: {
+		followed: {type: "boolean", default: false},
+		failed: {type: "boolean", default: false},
+		tricks: {type: "integer", default: 0, minimum: 0, maximum: 5},
+		value: {type: "integer", default: 0},
+		mainPosition: {type: "string", enum: ["left", "right"]},
+		invalidated: {type: "boolean", default: false}
+	},
+	required: ["followed", "failed", "tricks", "value", "mainPosition", "invalidated"],
+	additionalProperties: false
+});
+console.log(++i, _validFollowerData({
+	followed: true,
+	tricks: 1,
+	failed: true,
+	value: 8,
+	mainPosition: "right",
+	invalidated: false
 }));
-_validHand.errors && console.log(_validHand.errors);
+_validFollowerData.errors && console.log(_validFollowerData.errors);
