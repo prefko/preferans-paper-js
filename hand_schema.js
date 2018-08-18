@@ -184,9 +184,7 @@ const validate = ajv.compile(schema);
 
 function test(data) {
 	var valid = validate(data);
-	if (valid) {
-		return true;
-	}
+	if (valid) return true;
 	return "Invalid: " + ajv.errorsText(validate.errors);
 }
 
