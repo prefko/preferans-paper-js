@@ -8,13 +8,13 @@ let sredina = new PrefPaperColumn(30, true)
 
 let supa = new PrefPaperColumn().addValue(10).addValue(40).addValue(50);
 
-describe("PrefPaperColumn tests", function () {
-	it("PrefPaperColumn should exist", function () {
+describe("PrefPaperColumn tests", () => {
+	it("PrefPaperColumn should exist", () => {
 		expect(PrefPaperColumn).to.exist;
 	});
 
-	describe("PrefPaperColumn constructor tests", function () {
-		it("contructor should create object", function () {
+	describe("PrefPaperColumn constructor tests", () => {
+		it("contructor should create object", () => {
 			expect(() => new PrefPaperColumn()).to.not.throw();
 			expect(() => new PrefPaperColumn(15)).to.throw();
 			expect(() => new PrefPaperColumn(-20)).to.throw();
@@ -27,23 +27,23 @@ describe("PrefPaperColumn tests", function () {
 		});
 	});
 
-	describe("PrefPaperColumn reset tests", function () {
+	describe("PrefPaperColumn reset tests", () => {
 		let c1 = new PrefPaperColumn().addValue(10).addValue(50).reset();
-		it("reset should return soup to initial values", function () {
+		it("reset should return soup to initial values", () => {
 			expect(c1.getValue()).to.be.equal(0);
 			expect(c1.getJSON()).to.deep.equal([]);
 		});
 		let c2 = new PrefPaperColumn(30, true).addValue(-10).addRefa().addValue(-26).reset();
-		it("reset should return middle to initial values", function () {
+		it("reset should return middle to initial values", () => {
 			expect(c2.getValue()).to.be.equal(30);
 			expect(c2.getJSON()).to.deep.equal([30]);
 		});
 	});
 
-	describe("PrefPaperColumn addValue tests", function () {
+	describe("PrefPaperColumn addValue tests", () => {
 		let c1 = new PrefPaperColumn();
 		let c2 = new PrefPaperColumn(30, true);
-		it("addValue should throw properly", function () {
+		it("addValue should throw properly", () => {
 			expect(() => c1.addValue(9)).to.throw();
 			expect(() => c1.addValue(-10)).to.throw();
 			expect(() => c1.addValue(10)).to.not.throw();
@@ -51,27 +51,27 @@ describe("PrefPaperColumn tests", function () {
 			expect(() => c2.addValue(-10)).to.not.throw();
 			expect(() => c2.addValue(10)).to.not.throw();
 		});
-		it("addValue should set the value properly", function () {
+		it("addValue should set the value properly", () => {
 			expect(c2.addValue(-10).addValue(-12).addValue(-10).addValue(+2).getValue()).to.be.equal(0);
 		});
 	});
 
-	describe("PrefPaperColumn addRefa tests", function () {
-		it("addRefa should throw properly", function () {
+	describe("PrefPaperColumn addRefa tests", () => {
+		it("addRefa should throw properly", () => {
 			expect(() => new PrefPaperColumn().addRefa()).to.throw();
 			expect(() => new PrefPaperColumn(30, true).addRefa()).to.not.throw();
 		});
 	});
 
-	describe("PrefPaperColumn getUnplayedRefasCount tests", function () {
-		it("getUnplayedRefasCount should return correct values", function () {
+	describe("PrefPaperColumn getUnplayedRefasCount tests", () => {
+		it("getUnplayedRefasCount should return correct values", () => {
 			expect(new PrefPaperColumn(80, true).getUnplayedRefasCount()).to.be.equal(0);
 			expect(sredina.getUnplayedRefasCount()).to.be.equal(1);
 		});
 	});
 
-	describe("PrefPaperColumn markPlayedRefa tests", function () {
-		it("markPlayedRefa should throw properly", function () {
+	describe("PrefPaperColumn markPlayedRefa tests", () => {
+		it("markPlayedRefa should throw properly", () => {
 			expect(() => new PrefPaperColumn().markPlayedRefa()).to.throw();
 			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("maybe")).to.throw();
 			expect(() => new PrefPaperColumn(30, true).markPlayedRefa("left")).to.not.throw();
@@ -82,8 +82,8 @@ describe("PrefPaperColumn tests", function () {
 		});
 	});
 
-	describe("PrefPaperColumn getValue tests", function () {
-		it("getValue should return correct values", function () {
+	describe("PrefPaperColumn getValue tests", () => {
+		it("getValue should return correct values", () => {
 			expect(new PrefPaperColumn().getValue()).to.be.equal(0);
 			expect(new PrefPaperColumn(80, true).getValue()).to.be.equal(80);
 			expect(supa.getValue()).to.be.equal(100);
@@ -91,8 +91,8 @@ describe("PrefPaperColumn tests", function () {
 		});
 	});
 
-	describe("PrefPaperColumn getJSON tests", function () {
-		it("getJSON should return correct values", function () {
+	describe("PrefPaperColumn getJSON tests", () => {
+		it("getJSON should return correct values", () => {
 			expect(new PrefPaperColumn().getJSON()).to.deep.equal([]);
 			expect(new PrefPaperColumn(80, true).getJSON()).to.deep.equal([80]);
 			expect(supa.getJSON()).to.deep.equal([10, 50, 100]);

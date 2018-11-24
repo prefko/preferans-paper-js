@@ -8,13 +8,13 @@ player.markLeftPlayedRefa().markMiddlePlayedRefa(true).markRightPlayedRefa(true)
 player.markLeftPlayedRefa(true).markMiddlePlayedRefa().markRightPlayedRefa();
 player.calculateScore(50, 50);
 
-describe("PrefPaperPlayer tests", function () {
-	it("PrefPaperPlayer should exist", function () {
+describe("PrefPaperPlayer tests", () => {
+	it("PrefPaperPlayer should exist", () => {
 		expect(PrefPaperPlayer).to.exist;
 	});
 
-	describe("PrefPaperPlayer constructor tests", function () {
-		it("contructor should create object", function () {
+	describe("PrefPaperPlayer constructor tests", () => {
+		it("contructor should create object", () => {
 			expect(() => new PrefPaperPlayer()).to.throw();
 			expect(() => new PrefPaperPlayer("cope")).to.throw();
 			expect(() => new PrefPaperPlayer("cope", 60)).to.not.throw();
@@ -22,15 +22,15 @@ describe("PrefPaperPlayer tests", function () {
 		});
 	});
 
-	describe("PrefPaperPlayer processMyFollowing tests", function () {
-		it("processMyFollowing should throw properly", function () {
+	describe("PrefPaperPlayer processMyFollowing tests", () => {
+		it("processMyFollowing should throw properly", () => {
 			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "maybe"})).to.throw();
 			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "left"})).to.not.throw();
 			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing()).to.throw();
 		});
 		let p1 = new PrefPaperPlayer("cope", 60);
 		p1.processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "right"}).calculateScore();
-		it("processMyFollowing should return proper value for pass", function () {
+		it("processMyFollowing should return proper value for pass", () => {
 			expect(p1.getMiniJSON()).to.deep.equal({
 				username: "cope",
 				score: -570,
@@ -41,7 +41,7 @@ describe("PrefPaperPlayer tests", function () {
 		});
 		let p2 = new PrefPaperPlayer("cope", 30);
 		p2.processMyFollowing({followed: true, tricks: 2, failed: true, value: 8, mainPosition: "left"}).calculateScore();
-		it("processMyFollowing should return proper value for fail", function () {
+		it("processMyFollowing should return proper value for fail", () => {
 			expect(p2.getMiniJSON()).to.deep.equal({
 					username: "cope",
 					score: -364,
@@ -53,7 +53,7 @@ describe("PrefPaperPlayer tests", function () {
 		});
 	});
 
-	describe("PrefPaperPlayer reset tests", function () {
+	describe("PrefPaperPlayer reset tests", () => {
 		var base = {
 			username: "cope",
 			score: -300,
@@ -63,14 +63,14 @@ describe("PrefPaperPlayer tests", function () {
 			right: []
 		};
 		let p1 = new PrefPaperPlayer("cope", 30).addValue("left", 10).addValue("right", 50).addMiddleValue(-10).newRefa().reset();
-		it("reset should return player to initial values", function () {
+		it("reset should return player to initial values", () => {
 			expect(p1.getLeftValue()).to.be.equal(0);
 			expect(p1.getMiddleValue()).to.be.equal(30);
 			expect(p1.getRightValue()).to.be.equal(0);
 			expect(p1.getJSON()).to.deep.equal(base);
 		});
 		let p2 = new PrefPaperPlayer("cope", 30).addValue("left", 10).newRefa().addMiddleValue(-26).addValue("right", 20).reset();
-		it("reset should return player to initial values", function () {
+		it("reset should return player to initial values", () => {
 			expect(p2.getLeftValue()).to.be.equal(0);
 			expect(p2.getMiddleValue()).to.be.equal(30);
 			expect(p1.getRightValue()).to.be.equal(0);
@@ -78,15 +78,15 @@ describe("PrefPaperPlayer tests", function () {
 		});
 	});
 
-	describe("PrefPaperPlayer hasUnplayedRefa tests", function () {
-		it("hasUnplayedRefa should return proper value", function () {
+	describe("PrefPaperPlayer hasUnplayedRefa tests", () => {
+		it("hasUnplayedRefa should return proper value", () => {
 			expect(new PrefPaperPlayer("cope", 30).hasUnplayedRefa()).to.be.equal(false);
 			expect(player.hasUnplayedRefa()).to.be.equal(true);
 		});
 	});
 
-	describe("PrefPaperPlayer getMiniJSON tests", function () {
-		it("getMiniJSON should return proper value", function () {
+	describe("PrefPaperPlayer getMiniJSON tests", () => {
+		it("getMiniJSON should return proper value", () => {
 			expect(new PrefPaperPlayer("cope", 60).getMiniJSON()).to.deep.equal({
 				username: "cope",
 				score: -600,
@@ -95,7 +95,7 @@ describe("PrefPaperPlayer tests", function () {
 				right: 0
 			});
 		});
-		it("getMiniJSON should return proper value", function () {
+		it("getMiniJSON should return proper value", () => {
 			expect(player.getMiniJSON()).to.deep.equal({
 					username: "cope",
 					score: 120,
@@ -107,8 +107,8 @@ describe("PrefPaperPlayer tests", function () {
 		});
 	});
 
-	describe("PrefPaperPlayer getJSON tests", function () {
-		it("getJSON should return proper value", function () {
+	describe("PrefPaperPlayer getJSON tests", () => {
+		it("getJSON should return proper value", () => {
 			expect(new PrefPaperPlayer("cope", 60).getJSON()).to.deep.equal({
 				username: "cope",
 				score: -600,
@@ -119,7 +119,7 @@ describe("PrefPaperPlayer tests", function () {
 			});
 		});
 
-		it("getJSON should return proper value", function () {
+		it("getJSON should return proper value", () => {
 			expect(player.getJSON()).to.deep.equal({
 					username: "cope",
 					score: 120,
