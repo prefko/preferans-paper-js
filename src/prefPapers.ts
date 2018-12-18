@@ -3,79 +3,9 @@
 
 import * as _ from 'lodash';
 import * as Ajv from 'ajv';
+import PrefPapersHand from './prefPapersHand';
 import PrefPapersPaper from './prefPapersPaper';
 
-const ajv = new Ajv({useDefaults: true});
-const _validHand = ajv.compile({
-	oneOf: [{
-		type: "object",
-		properties: {
-			newRefa: {type: "boolean", enum: [true]},
-			invalidated: {type: "boolean", default: false},
-		},
-		required: ["newRefa"],
-		additionalProperties: false
-	}, {
-		type: "object",
-		properties: {
-			value: {type: "integer", minimum: 0},
-			main: {
-				type: "object",
-				properties: {
-					username: {type: "string"},
-					failed: {type: "boolean", default: false}
-				},
-				required: ["username"],
-				additionalProperties: false
-			},
-			left: {
-				oneOf: [{
-					type: "object",
-					properties: {
-						username: {type: "string"},
-						followed: {type: "boolean", enum: [true]},
-						tricks: {type: "integer", minimum: 0, maximum: 5},
-						failed: {type: "boolean", default: false}
-					},
-					required: ["username", "followed", "tricks"],
-					additionalProperties: false
-				}, {
-					type: "object",
-					properties: {
-						username: {type: "string"},
-						failed: {type: "boolean", default: false}
-					},
-					required: ["username"],
-					additionalProperties: false
-				}]
-			},
-			right: {
-				oneOf: [{
-					type: "object",
-					properties: {
-						username: {type: "string"},
-						followed: {type: "boolean", enum: [true]},
-						tricks: {type: "integer", minimum: 0, maximum: 5},
-						failed: {type: "boolean", default: false}
-					},
-					required: ["username", "followed", "tricks"],
-					additionalProperties: false
-				}, {
-					type: "object",
-					properties: {
-						username: {type: "string"},
-						failed: {type: "boolean", default: false}
-					},
-					required: ["username"],
-					additionalProperties: false
-				}]
-			},
-			invalidated: {type: "boolean", default: false},
-		},
-		required: ["value", "main", "left", "right"],
-		additionalProperties: false
-	}]
-});
 const _validTricks = (main, left, right): boolean => {
 	let tricks = _.get(left, "tricks", 0) + _.get(right, "tricks", 0);
 	return _.get(main, "failed", false) ? tricks === 5 : tricks < 5;
@@ -91,7 +21,7 @@ export default class PrefPapers {
 	private _bula: number;
 	private _refe: number;
 	private _usedRefe: number;
-	private _hands: Array<number>;
+	private _hands: Map<number, PrefPapersHand>;
 
 	constructor(bula: number, refe = 0, name1 = "p1", name2 = "p2", name3 = "p3") {
 		this._hands = [];
@@ -114,49 +44,48 @@ export default class PrefPapers {
 		throw new Error("PrefPapers::getPlayerByUsername:Player not found for username " + username);
 	}
 
-	static isValidHand(hand = {}) {
+	static isValidHand(hand: any): boolean {
 		let {main = {}, left = {}, right = {}} = hand;
 		return _validHand(hand) && _validTricks(main, left, right) && !_invalidFails(main, left, right);
 	}
 
-	addHand(hand) {
-		if (!PrefPapers.isValidHand(hand)) throw new Error("PrefPapers::addHand:Hand is not valid " + JSON.stringify(hand));
-
-		hand.id = _.size(this.hands) + 1;
-		this.hands.push(hand);
+	addHand(hand: PrefPapersHand): PrefPapers {
+		hand.id = _.size(this._hands) + 1;
+		this._hands.push(hand);
 		return this.processHand(hand);
 	}
 
-	changeHand(id, hand) {
-		let index = _.findIndex(this.hands, {id});
-		if (!this.hands[index]) throw new Error("PrefPapers::changeHand:Hand not found with id " + id);
+	changeHand(id: number, hand: PrefPapersHand): PrefPapers {
+		let index = _.findIndex(this._hands, {id});
+		if (!this._hands[index]) throw new Error("PrefPapers::changeHand:Hand not found with id " + id);
 		if (!PrefPapers.isValidHand(hand)) throw new Error("PrefPapers::changeHand:Hand is not valid " + JSON.stringify(hand));
 
-		hand.original = _.clone(this.hands[index]);
-		this.hands[index] = _.clone(hand);
-		this.hands[index].id = id;
+		hand.original = _.clone(this._hands[index]);
+		this._hands[index] = hand;
+		this._hands[index].id = id;
 
 		return this.recalculate();
 	}
 
-	invalidateHand(id) {
-		let index = _.findIndex(this.hands, {id});
-		if (!this.hands[index]) throw new Error("PrefPapers::invalidateHand:Hand not found with id " + id);
-		this.hands[index].invalidated = true;
+	invalidateHand(id: number): PrefPapers {
+		let index = _.findIndex(this._hands, {id});
+		if (!this._hands[index]) throw new Error("PrefPapers::invalidateHand:Hand not found with id " + id);
+		this._hands[index].invalidated = true;
 		return this.recalculate();
 	}
 
-	recalculate() {
-		this.usedRefe = 0;
-		this.p1.reset();
-		this.p2.reset();
-		this.p3.reset();
+	recalculate(): PrefPapers {
+		this._usedRefe = 0;
+		this._p1.reset();
+		this._p2.reset();
+		this._p3.reset();
 
-		for (let hand of this.hands) this.processHand(hand);
+		// _.forEach(this._hands, this.processHand); ?
+		for (let hand of this._hands) this.processHand(hand);
 		return this;
 	}
 
-	processHand(hand) {
+	processHand(hand: PrefPapersHand) {
 		let {value, main = {}, left = {}, right = {}, newRefa = false, invalidated = false} = hand;
 		main.failed = true === main.failed;
 
