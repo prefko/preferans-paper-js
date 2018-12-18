@@ -24,7 +24,7 @@ export default class PrefPapers {
 	private _hands: Map<number, PrefPapersHand>;
 
 	constructor(bula: number, refe = 0, name1 = "p1", name2 = "p2", name3 = "p3") {
-		this._hands = [];
+		this._hands = new Map<number, PrefPapersHand>();
 		this._bula = bula;
 		this._refe = refe;
 		this._usedRefe = 0;
@@ -34,11 +34,12 @@ export default class PrefPapers {
 		this._p3 = new PrefPapersPaper(name3, bula);
 	}
 
-	get handCount() {
+	get handCount(): number {
 		return _.size(this._hands);
 	}
 
-	getPlayerByUsername(username) {
+	// TODO...
+	getPlayerByUsername(username: string) {
 		let id = _.findKey(this, (attr) => attr.username === username);
 		if (id) return _.get(this, id);
 		throw new Error("PrefPapers::getPlayerByUsername:Player not found for username " + username);
@@ -50,8 +51,8 @@ export default class PrefPapers {
 	}
 
 	addHand(hand: PrefPapersHand): PrefPapers {
-		hand.id = _.size(this._hands) + 1;
-		this._hands.push(hand);
+		let id = _.size(this._hands) + 1;
+		this._hands.set(id, hand);
 		return this.processHand(hand);
 	}
 
@@ -80,7 +81,6 @@ export default class PrefPapers {
 		this._p2.reset();
 		this._p3.reset();
 
-		// _.forEach(this._hands, this.processHand); ?
 		for (let hand of this._hands) this.processHand(hand);
 		return this;
 	}
