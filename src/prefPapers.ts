@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 "use strict";
 
-const _ = require("lodash");
-const Ajv = require("ajv");
-const PrefPaperPlayer = require("./player");
+import * as _ from 'lodash';
+import * as Ajv from 'ajv';
+import PrefPapersPaper from './prefPapersPaper';
 
 const ajv = new Ajv({useDefaults: true});
 const _validHand = ajv.compile({
@@ -76,7 +76,7 @@ const _validHand = ajv.compile({
 		additionalProperties: false
 	}]
 });
-const _validTricks = (main, left, right) => {
+const _validTricks = (main, left, right): boolean => {
 	let tricks = _.get(left, "tricks", 0) + _.get(right, "tricks", 0);
 	return _.get(main, "failed", false) ? tricks === 5 : tricks < 5;
 };
@@ -84,31 +84,34 @@ const _invalidFails = (main, left, right) => {
 	return _.get(main, "failed", false) && (_.get(left, "failed", false) || _.get(right, "failed", false));
 };
 
-class PrefPaper {
+export default class PrefPapers {
+	private _p1: PrefPapersPaper;
+	private _p2: PrefPapersPaper;
+	private _p3: PrefPapersPaper;
+	private _bula: number;
+	private _refe: number;
+	private _usedRefe: number;
+	private _hands: Array<number>;
 
-	constructor(bula, refe = 0, p1 = "p1", p2 = "p2", p3 = "p3") {
-		if (!bula) throw new Error("PrefPaper::constructor:No bula defined " + bula);
+	constructor(bula: number, refe = 0, name1 = "p1", name2 = "p2", name3 = "p3") {
+		this._hands = [];
+		this._bula = bula;
+		this._refe = refe;
+		this._usedRefe = 0;
 
-		this.hands = [];
-		this.bula = bula;
-		this.refe = refe;
-
-		this.usedRefe = 0;
-		this.p1 = new PrefPaperPlayer(p1, this.bula);
-		this.p2 = new PrefPaperPlayer(p2, this.bula);
-		this.p3 = new PrefPaperPlayer(p3, this.bula);
-
-		return this;
+		this._p1 = new PrefPapersPaper(name1, bula);
+		this._p2 = new PrefPapersPaper(name2, bula);
+		this._p3 = new PrefPapersPaper(name3, bula);
 	}
 
-	getHandCount() {
-		return _.size(this.hands);
+	get handCount() {
+		return _.size(this._hands);
 	}
 
 	getPlayerByUsername(username) {
 		let id = _.findKey(this, (attr) => attr.username === username);
 		if (id) return _.get(this, id);
-		throw new Error("PrefPaper::getPlayerByUsername:Player not found for username " + username);
+		throw new Error("PrefPapers::getPlayerByUsername:Player not found for username " + username);
 	}
 
 	static isValidHand(hand = {}) {
@@ -117,7 +120,7 @@ class PrefPaper {
 	}
 
 	addHand(hand) {
-		if (!PrefPaper.isValidHand(hand)) throw new Error("PrefPaper::addHand:Hand is not valid " + JSON.stringify(hand));
+		if (!PrefPapers.isValidHand(hand)) throw new Error("PrefPapers::addHand:Hand is not valid " + JSON.stringify(hand));
 
 		hand.id = _.size(this.hands) + 1;
 		this.hands.push(hand);
@@ -126,8 +129,8 @@ class PrefPaper {
 
 	changeHand(id, hand) {
 		let index = _.findIndex(this.hands, {id});
-		if (!this.hands[index]) throw new Error("PrefPaper::changeHand:Hand not found with id " + id);
-		if (!PrefPaper.isValidHand(hand)) throw new Error("PrefPaper::changeHand:Hand is not valid " + JSON.stringify(hand));
+		if (!this.hands[index]) throw new Error("PrefPapers::changeHand:Hand not found with id " + id);
+		if (!PrefPapers.isValidHand(hand)) throw new Error("PrefPapers::changeHand:Hand is not valid " + JSON.stringify(hand));
 
 		hand.original = _.clone(this.hands[index]);
 		this.hands[index] = _.clone(hand);
@@ -138,7 +141,7 @@ class PrefPaper {
 
 	invalidateHand(id) {
 		let index = _.findIndex(this.hands, {id});
-		if (!this.hands[index]) throw new Error("PrefPaper::invalidateHand:Hand not found with id " + id);
+		if (!this.hands[index]) throw new Error("PrefPapers::invalidateHand:Hand not found with id " + id);
 		this.hands[index].invalidated = true;
 		return this.recalculate();
 	}
@@ -179,7 +182,7 @@ class PrefPaper {
 	}
 
 	processNewRefa() {
-		if (this.refe > 0 && this.usedRefe >= this.refe) throw new Error("PrefPaper::processNewRefa:All refas have been used " + this.refe);
+		if (this.refe > 0 && this.usedRefe >= this.refe) throw new Error("PrefPapers::processNewRefa:All refas have been used " + this.refe);
 
 		this.usedRefe++;
 		this.p1.newRefa(true);
@@ -198,5 +201,3 @@ class PrefPaper {
 	}
 
 }
-
-module.exports = PrefPaper;

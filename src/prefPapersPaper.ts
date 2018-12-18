@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
-const Ajv = require("ajv");
-const PrefPaperColumn = require("./column");
+import * as Ajv from 'ajv';
+import PrefPaperColumn from './prefPapersColumn';
 
 const ajv = new Ajv({useDefaults: true});
 const _validFollowerData = ajv.compile({
@@ -20,11 +20,11 @@ const _validFollowerData = ajv.compile({
 	additionalProperties: false
 });
 
-class PrefPaperPlayer {
+export default class PrefPapersPaper {
 
 	constructor(username, bula) {
-		if (!username) throw new Error("PrefPaperPlayer::constructor:Username is not valid " + username);
-		if (!bula) throw new Error("PrefPaperPlayer::constructor:Bula is not valid " + bula);
+		if (!username) throw new Error("PrefPapersPaper::constructor:Username is not valid " + username);
+		if (!bula) throw new Error("PrefPapersPaper::constructor:Bula is not valid " + bula);
 
 		this.username = username;
 		this.bula = bula;
@@ -38,7 +38,7 @@ class PrefPaperPlayer {
 	}
 
 	processMyFollowing(data = {}) {
-		if (!_validFollowerData(data)) throw new Error("PrefPaperPlayer::processMyFollowing:Invalid data " + JSON.stringify(data));
+		if (!_validFollowerData(data)) throw new Error("PrefPapersPaper::processMyFollowing:Invalid data " + JSON.stringify(data));
 
 		let {followed, tricks, failed, value, mainPosition, invalidated} = data;
 		if (followed) {
@@ -130,5 +130,3 @@ class PrefPaperPlayer {
 		};
 	}
 }
-
-module.exports = PrefPaperPlayer;

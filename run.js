@@ -2,8 +2,8 @@
 "use strict";
 
 const _ = require("lodash");
-const PrefPaper = require("./lib/paper");
-const PrefPaperPlayer = require("./lib/player");
+const PrefPapers = require("./lib/paper");
+const PrefPapersPaper = require("./lib/player");
 
 // console.log(p);
 

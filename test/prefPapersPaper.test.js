@@ -1,34 +1,34 @@
 const expect = require("chai").expect;
 
-const PrefPaperPlayer = require("../lib/player");
-let player = new PrefPaperPlayer("cope", 30);
+const PrefPapersPaper = require("../lib/player");
+let player = new PrefPapersPaper("cope", 30);
 player.addValue("left", 10).newRefa().addValue("left", 50).addValue("right", 100);
 player.addMiddleValue(-10).newRefa().addMiddleValue(-26).newRefa();
 player.markLeftPlayedRefa().markMiddlePlayedRefa(true).markRightPlayedRefa(true);
 player.markLeftPlayedRefa(true).markMiddlePlayedRefa().markRightPlayedRefa();
 player.calculateScore(50, 50);
 
-describe("PrefPaperPlayer tests", () => {
-	it("PrefPaperPlayer should exist", () => {
-		expect(PrefPaperPlayer).to.exist;
+describe("PrefPapersPaper tests", () => {
+	it("PrefPapersPaper should exist", () => {
+		expect(PrefPapersPaper).to.exist;
 	});
 
-	describe("PrefPaperPlayer constructor tests", () => {
+	describe("PrefPapersPaper constructor tests", () => {
 		it("contructor should create object", () => {
-			expect(() => new PrefPaperPlayer()).to.throw();
-			expect(() => new PrefPaperPlayer("cope")).to.throw();
-			expect(() => new PrefPaperPlayer("cope", 60)).to.not.throw();
-			expect(new PrefPaperPlayer("cope", 60)).to.be.an("object");
+			expect(() => new PrefPapersPaper()).to.throw();
+			expect(() => new PrefPapersPaper("cope")).to.throw();
+			expect(() => new PrefPapersPaper("cope", 60)).to.not.throw();
+			expect(new PrefPapersPaper("cope", 60)).to.be.an("object");
 		});
 	});
 
-	describe("PrefPaperPlayer processMyFollowing tests", () => {
+	describe("PrefPapersPaper processMyFollowing tests", () => {
 		it("processMyFollowing should throw properly", () => {
-			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "maybe"})).to.throw();
-			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "left"})).to.not.throw();
-			expect(() => new PrefPaperPlayer("cope", 30).processMyFollowing()).to.throw();
+			expect(() => new PrefPapersPaper("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "maybe"})).to.throw();
+			expect(() => new PrefPapersPaper("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "left"})).to.not.throw();
+			expect(() => new PrefPapersPaper("cope", 30).processMyFollowing()).to.throw();
 		});
-		let p1 = new PrefPaperPlayer("cope", 60);
+		let p1 = new PrefPapersPaper("cope", 60);
 		p1.processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "right"}).calculateScore();
 		it("processMyFollowing should return proper value for pass", () => {
 			expect(p1.getMiniJSON()).to.deep.equal({
@@ -39,7 +39,7 @@ describe("PrefPaperPlayer tests", () => {
 				right: 30
 			});
 		});
-		let p2 = new PrefPaperPlayer("cope", 30);
+		let p2 = new PrefPapersPaper("cope", 30);
 		p2.processMyFollowing({followed: true, tricks: 2, failed: true, value: 8, mainPosition: "left"}).calculateScore();
 		it("processMyFollowing should return proper value for fail", () => {
 			expect(p2.getMiniJSON()).to.deep.equal({
@@ -53,7 +53,7 @@ describe("PrefPaperPlayer tests", () => {
 		});
 	});
 
-	describe("PrefPaperPlayer reset tests", () => {
+	describe("PrefPapersPaper reset tests", () => {
 		var base = {
 			username: "cope",
 			score: -300,
@@ -62,14 +62,14 @@ describe("PrefPaperPlayer tests", () => {
 			middle: [30],
 			right: []
 		};
-		let p1 = new PrefPaperPlayer("cope", 30).addValue("left", 10).addValue("right", 50).addMiddleValue(-10).newRefa().reset();
+		let p1 = new PrefPapersPaper("cope", 30).addValue("left", 10).addValue("right", 50).addMiddleValue(-10).newRefa().reset();
 		it("reset should return player to initial values", () => {
 			expect(p1.getLeftValue()).to.be.equal(0);
 			expect(p1.getMiddleValue()).to.be.equal(30);
 			expect(p1.getRightValue()).to.be.equal(0);
 			expect(p1.getJSON()).to.deep.equal(base);
 		});
-		let p2 = new PrefPaperPlayer("cope", 30).addValue("left", 10).newRefa().addMiddleValue(-26).addValue("right", 20).reset();
+		let p2 = new PrefPapersPaper("cope", 30).addValue("left", 10).newRefa().addMiddleValue(-26).addValue("right", 20).reset();
 		it("reset should return player to initial values", () => {
 			expect(p2.getLeftValue()).to.be.equal(0);
 			expect(p2.getMiddleValue()).to.be.equal(30);
@@ -78,16 +78,16 @@ describe("PrefPaperPlayer tests", () => {
 		});
 	});
 
-	describe("PrefPaperPlayer hasUnplayedRefa tests", () => {
+	describe("PrefPapersPaper hasUnplayedRefa tests", () => {
 		it("hasUnplayedRefa should return proper value", () => {
-			expect(new PrefPaperPlayer("cope", 30).hasUnplayedRefa()).to.be.equal(false);
+			expect(new PrefPapersPaper("cope", 30).hasUnplayedRefa()).to.be.equal(false);
 			expect(player.hasUnplayedRefa()).to.be.equal(true);
 		});
 	});
 
-	describe("PrefPaperPlayer getMiniJSON tests", () => {
+	describe("PrefPapersPaper getMiniJSON tests", () => {
 		it("getMiniJSON should return proper value", () => {
-			expect(new PrefPaperPlayer("cope", 60).getMiniJSON()).to.deep.equal({
+			expect(new PrefPapersPaper("cope", 60).getMiniJSON()).to.deep.equal({
 				username: "cope",
 				score: -600,
 				left: 0,
@@ -107,9 +107,9 @@ describe("PrefPaperPlayer tests", () => {
 		});
 	});
 
-	describe("PrefPaperPlayer getJSON tests", () => {
+	describe("PrefPapersPaper getJSON tests", () => {
 		it("getJSON should return proper value", () => {
-			expect(new PrefPaperPlayer("cope", 60).getJSON()).to.deep.equal({
+			expect(new PrefPapersPaper("cope", 60).getJSON()).to.deep.equal({
 				username: "cope",
 				score: -600,
 				refe: 0,

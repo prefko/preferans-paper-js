@@ -9,7 +9,7 @@ preferans player paper
 
 ### Usage
 
-    const PrefPaper = require('preferans-paper-js');
+    const PrefPapers = require('preferans-paper-js');
     ...
 
 #### Tools

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-const _ = require("lodash");
+import * as _ from 'lodash';
 
 const _even = (n) => _.isInteger(n) && n % 2 === 0;
 const _validPosition = (p) => p === "left" || p === "middle" || p === "right";
@@ -39,7 +39,7 @@ const _checkPosition = (p, s) => {
 	if (!_validPosition(p)) throw new Error(s + ":Invalid position " + p);
 };
 
-class PrefPaperColumn {
+export default class PrefPapersColumn {
 
 	constructor(value, middle = false) {
 		if (!_validStartValue(value, middle)) throw new Error("PrefPaperColumn::constructor:Value is not valid " + value);
@@ -108,5 +108,3 @@ class PrefPaperColumn {
 	}
 
 }
-
-module.exports = PrefPaperColumn;
