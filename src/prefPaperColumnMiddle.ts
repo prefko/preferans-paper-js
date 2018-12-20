@@ -3,11 +3,12 @@
 
 import * as _ from 'lodash';
 import PrefPaperColumn from './prefPaperColumn';
+import {PrefPaperPosition} from "./prefPaperEnums";
 
 export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 
 	constructor(value: number) {
-		super();
+		super(PrefPaperPosition.MIDDLE);
 
 		this.middle = value;
 		this.initialValue = value;

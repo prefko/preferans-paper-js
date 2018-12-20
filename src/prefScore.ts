@@ -2,7 +2,6 @@
 "use strict";
 
 import * as _ from 'lodash';
-import * as Ajv from 'ajv';
 import PrefPaperHand from './prefPapersHand';
 import PrefPaper from './prefPapersPaper';
 

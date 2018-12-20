@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
+import {PrefPaperPosition} from './prefPaperEnums';
+
 import PrefPaperColumn from './prefPaperColumn';
 import PrefPaperFollower from './prefPaperFollower';
 

@@ -2,9 +2,10 @@
 "use strict";
 
 import * as _ from 'lodash';
+import {PrefPaperPosition} from './prefPaperEnums';
+import PrefPaperEntry from "./prefPaperEntry";
 
 const _even = (n: number): boolean => n % 2 === 0;
-const _validPosition = (p: string): boolean => p === "left" || p === "middle" || p === "right";
 const _validValue = (v: number, m: number): boolean => _even(v) && !!(m || v > 0);
 const _validStartValue = (v: number, m: number): boolean => m ? _validValue(v, m) : !v;
 
@@ -36,17 +37,19 @@ const _checkMiddle = (m, s) => {
 	if (!m) throw new Error(s + ":Cannot mark a refa in a soup column! middle=" + m);
 };
 
-const _checkPosition = (p, s) => {
-	if (!_validPosition(p)) throw new Error(s + ":Invalid position " + p);
-};
-
 export default class PrefPaperColumn {
+	private _position: PrefPaperPosition;
+	private _values: Array<PrefPaperEntry>;
+	private _value: number;
+	private _initialValue: number;
 
-	constructor() {
-		if (!_validStartValue(value, middle)) throw new Error("PrefPaperColumn::constructor:Value is not valid " + value);
+	constructor(position: PrefPaperPosition) {
+		this._position = position;
 
+		this._values = new Array<PrefPaperEntry>();
 		this.middle = 0;
-		this.initialValue = 0;
+		this._value = 0;
+		this._initialValue = 0;
 		this.reset();
 
 		return this;
@@ -66,7 +69,7 @@ export default class PrefPaperColumn {
 		if (this.value !== 0) this.values.push(this.value);
 	}
 
-	addValue(value, invalidated = false) {
+	addValue(value: PrefPaperEntry, invalidated = false) {
 		if (!_validValue(value, this.middle)) throw new Error("PrefPaperColumn::addValue:Value is not valid " + value);
 		if (invalidated) this.values.push({invalidated: true, value: this.value + value});
 		else this.processNewValue(value);
