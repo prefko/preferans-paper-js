@@ -1,55 +1,36 @@
 #!/usr/bin/env node
 "use strict";
 
-import * as Ajv from 'ajv';
-import PrefPaperColumn from './prefPapersColumn';
+import PrefPaperColumn from './prefPaperColumn';
+import PrefPaperFollower from './prefPaperFollower';
 
-const ajv = new Ajv({useDefaults: true});
-const _validFollowerData = ajv.compile({
-	type: "object",
-	properties: {
-		username: {type: "string"},
-		followed: {type: "boolean", default: false},
-		failed: {type: "boolean", default: false},
-		tricks: {type: "integer", default: 0, minimum: 0, maximum: 5},
-		value: {type: "integer", default: 0},
-		mainPosition: {type: "string", enum: ["left", "right"]},
-		invalidated: {type: "boolean", default: false}
-	},
-	required: ["followed", "failed", "tricks", "value", "mainPosition", "invalidated"],
-	additionalProperties: false
-});
+export default class PrefPaper {
+	private _username: string;
+	private _bula: number;
+	private _left: PrefPaperColumn;
+	private _middle: PrefPaperColumn;
+	private _right: PrefPaperColumn;
 
-export default class PrefPapersPaper {
+	constructor(username: string, bula: number) {
+		this._username = username;
+		this._bula = bula;
 
-	constructor(username, bula) {
-		if (!username) throw new Error("PrefPapersPaper::constructor:Username is not valid " + username);
-		if (!bula) throw new Error("PrefPapersPaper::constructor:Bula is not valid " + bula);
-
-		this.username = username;
-		this.bula = bula;
-
-		this.reset();
-		return this;
+		this._left = new PrefPaperColumn();
+		this._middle = new PrefPaperColumn(bula, true);
+		this._right = new PrefPaperColumn();
 	}
 
-	processFailed(failed, value, invalidated) {
-		if (failed) this.addMiddleValue(value, invalidated);
-	}
-
-	processMyFollowing(data = {}) {
-		if (!_validFollowerData(data)) throw new Error("PrefPapersPaper::processMyFollowing:Invalid data " + JSON.stringify(data));
-
+	processMyFollowing(data: any) {
 		let {followed, tricks, failed, value, mainPosition, invalidated} = data;
 		if (followed) {
 			this.addValue(mainPosition, value * tricks, invalidated);
-			this.processFailed(failed, value, invalidated);
+			if (failed) this.addMiddleValue(value, invalidated);
 		}
 		return this;
 	}
 
 	reset() {
-		this.score = -this.bula * 10;
+		// this.score = -this.bula * 10;
 		this.left = new PrefPaperColumn();
 		this.middle = new PrefPaperColumn(this.bula, true);
 		this.right = new PrefPaperColumn();

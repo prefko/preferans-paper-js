@@ -74,7 +74,7 @@ const _validHand = {
 	}]
 };
 
-export default class PrefPapersHand {
+export default class PrefPaperHand {
 	private _left: any;
 	private _main: any;
 	private _right: any;

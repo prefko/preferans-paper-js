@@ -3,8 +3,8 @@
 
 import * as _ from 'lodash';
 import * as Ajv from 'ajv';
-import PrefPapersHand from './prefPapersHand';
-import PrefPapersPaper from './prefPapersPaper';
+import PrefPaperHand from './prefPapersHand';
+import PrefPaper from './prefPapersPaper';
 
 const _validTricks = (main, left, right): boolean => {
 	let tricks = _.get(left, "tricks", 0) + _.get(right, "tricks", 0);
@@ -14,24 +14,26 @@ const _invalidFails = (main, left, right) => {
 	return _.get(main, "failed", false) && (_.get(left, "failed", false) || _.get(right, "failed", false));
 };
 
-export default class PrefPapers {
-	private _p1: PrefPapersPaper;
-	private _p2: PrefPapersPaper;
-	private _p3: PrefPapersPaper;
+// TODO: MOVE to PrefEngine
+
+export default class PrefScore {
+	private _p1: PrefPaper;
+	private _p2: PrefPaper;
+	private _p3: PrefPaper;
 	private _bula: number;
 	private _refe: number;
 	private _usedRefe: number;
-	private _hands: Map<number, PrefPapersHand>;
+	private _hands: Map<number, PrefPaperHand>;
 
 	constructor(bula: number, refe = 0, name1 = "p1", name2 = "p2", name3 = "p3") {
-		this._hands = new Map<number, PrefPapersHand>();
+		this._hands = new Map<number, PrefPaperHand>();
 		this._bula = bula;
 		this._refe = refe;
 		this._usedRefe = 0;
 
-		this._p1 = new PrefPapersPaper(name1, bula);
-		this._p2 = new PrefPapersPaper(name2, bula);
-		this._p3 = new PrefPapersPaper(name3, bula);
+		this._p1 = new PrefPaper(name1, bula);
+		this._p2 = new PrefPaper(name2, bula);
+		this._p3 = new PrefPaper(name3, bula);
 	}
 
 	get handCount(): number {
@@ -50,16 +52,16 @@ export default class PrefPapers {
 		return _validHand(hand) && _validTricks(main, left, right) && !_invalidFails(main, left, right);
 	}
 
-	addHand(hand: PrefPapersHand): PrefPapers {
+	addHand(hand: PrefPaperHand): PrefScore {
 		let id = _.size(this._hands) + 1;
 		this._hands.set(id, hand);
 		return this.processHand(hand);
 	}
 
-	changeHand(id: number, hand: PrefPapersHand): PrefPapers {
+	changeHand(id: number, hand: PrefPaperHand): PrefScore {
 		let index = _.findIndex(this._hands, {id});
 		if (!this._hands[index]) throw new Error("PrefPapers::changeHand:Hand not found with id " + id);
-		if (!PrefPapers.isValidHand(hand)) throw new Error("PrefPapers::changeHand:Hand is not valid " + JSON.stringify(hand));
+		if (!PrefScore.isValidHand(hand)) throw new Error("PrefPapers::changeHand:Hand is not valid " + JSON.stringify(hand));
 
 		hand.original = _.clone(this._hands[index]);
 		this._hands[index] = hand;
@@ -68,14 +70,14 @@ export default class PrefPapers {
 		return this.recalculate();
 	}
 
-	invalidateHand(id: number): PrefPapers {
+	invalidateHand(id: number): PrefScore {
 		let index = _.findIndex(this._hands, {id});
 		if (!this._hands[index]) throw new Error("PrefPapers::invalidateHand:Hand not found with id " + id);
 		this._hands[index].invalidated = true;
 		return this.recalculate();
 	}
 
-	recalculate(): PrefPapers {
+	recalculate(): PrefScore {
 		this._usedRefe = 0;
 		this._p1.reset();
 		this._p2.reset();
@@ -85,7 +87,7 @@ export default class PrefPapers {
 		return this;
 	}
 
-	processHand(hand: PrefPapersHand) {
+	processHand(hand: PrefPaperHand) {
 		let {value, main = {}, left = {}, right = {}, newRefa = false, invalidated = false} = hand;
 		main.failed = true === main.failed;
 

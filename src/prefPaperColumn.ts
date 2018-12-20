@@ -3,33 +3,34 @@
 
 import * as _ from 'lodash';
 
-const _even = (n) => _.isInteger(n) && n % 2 === 0;
-const _validPosition = (p) => p === "left" || p === "middle" || p === "right";
-const _validValue = (v, m) => _even(v) && (m || v > 0);
-const _validStartValue = (v, m) => m ? _validValue(v, m) : !v;
+const _even = (n: number): boolean => n % 2 === 0;
+const _validPosition = (p: string): boolean => p === "left" || p === "middle" || p === "right";
+const _validValue = (v: number, m: number): boolean => _even(v) && !!(m || v > 0);
+const _validStartValue = (v: number, m: number): boolean => m ? _validValue(v, m) : !v;
 
-const _lastNonZeroValue = (vals) => {
+const _lastNonZeroValue = (vals: Array<number>): number | undefined => {
 	let nums = _.filter(vals, (val) => {
 		return _.isInteger(val) && val !== 0;
 	});
 	return _.last(nums);
 };
 
-const _validAddHat = (v, a) => a < 0 && (v + a) <= 0;
+const _validAddHat = (v: number, a: number): boolean => a < 0 && (v + a) <= 0;
 const _shouldAddHatNormal = (m, vs, v, a) => {
 	if (!m) return false;
-	if (_lastNonZeroValue(vs) <= 0) return false;
+	let lastValue = _lastNonZeroValue(vs);
+	if (lastValue && lastValue <= 0) return false;
 	return _validAddHat(v, a);
 };
 
-const _validAddHatCrossed = (v, a) => a > 0 && (v + a) >= 0;
+const _validAddHatCrossed = (v: number, a: number): boolean => a > 0 && (v + a) >= 0;
 const _shouldAddHatCrossed = (m, vs, v, a) => {
 	if (!m) return false;
 	if (_lastNonZeroValue(vs) >= 0) return false;
 	return _validAddHatCrossed(v, a);
 };
 
-const _isUnplayedRefa = (i) => _.isPlainObject(i) && _.get(i, "middle", 22) === 0;
+const _isUnplayedRefa = (i: object): boolean => _.get(i, "middle", 22) === 0;
 
 const _checkMiddle = (m, s) => {
 	if (!m) throw new Error(s + ":Cannot mark a refa in a soup column! middle=" + m);
@@ -39,13 +40,13 @@ const _checkPosition = (p, s) => {
 	if (!_validPosition(p)) throw new Error(s + ":Invalid position " + p);
 };
 
-export default class PrefPapersColumn {
+export default class PrefPaperColumn {
 
-	constructor(value, middle = false) {
+	constructor() {
 		if (!_validStartValue(value, middle)) throw new Error("PrefPaperColumn::constructor:Value is not valid " + value);
 
-		this.middle = middle;
-		this.initialValue = this.middle ? value : 0;
+		this.middle = 0;
+		this.initialValue = 0;
 		this.reset();
 
 		return this;
@@ -58,6 +59,7 @@ export default class PrefPapersColumn {
 		return this;
 	}
 
+	// TODO: add abstract prefPaperColumnEntry class to be extended by numbers, refa and hat
 	processNewValue(value) {
 		this.processHatAddition(value);
 		this.value += value;
