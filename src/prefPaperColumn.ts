@@ -37,6 +37,7 @@ const _checkMiddle = (m, s) => {
 	if (!m) throw new Error(s + ":Cannot mark a refa in a soup column! middle=" + m);
 };
 
+// this.middle je bio FLAG da je u pitanju srednja kolona
 export default class PrefPaperColumn {
 	private _position: PrefPaperPosition;
 	private _values: Array<PrefPaperEntry>;
@@ -47,7 +48,6 @@ export default class PrefPaperColumn {
 		this._position = position;
 
 		this._values = new Array<PrefPaperEntry>();
-		this.middle = 0;
 		this._value = 0;
 		this._initialValue = 0;
 		this.reset();
