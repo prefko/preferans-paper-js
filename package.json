@@ -5,7 +5,7 @@
 	"engines": {
 		"node": ">=8.9"
 	},
-	"main": "lib/paper.js",
+	"main": "lib/prefPaper.js",
 	"scripts": {
 		"build": "tsc",
 		"lint": "tslint -p tsconfig.json",
