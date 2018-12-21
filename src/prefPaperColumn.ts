@@ -2,51 +2,44 @@
 "use strict";
 
 import * as _ from 'lodash';
-import PrefPaperEntry from "./prefPaperEntry";
+import PrefPaperEntry, {PrefPaperEntryNumber} from "./prefPaperEntry";
 import {PrefPaperPosition} from './prefPaperEnums';
 
 const _even = (n: number): boolean => n % 2 === 0;
-const _validValue = (v: number): boolean => _even(v) && v > 0;
 
-// this.middle je bio FLAG da je u pitanju srednja kolona
 export default class PrefPaperColumn {
 	protected _position: PrefPaperPosition;
 	protected _values: Array<PrefPaperEntry>;
 	protected _value: number;
 	protected _initialValue: number;
 
-	constructor(position: PrefPaperPosition) {
+	constructor(position: PrefPaperPosition, value = 0) {
 		this._position = position;
 
 		this._values = new Array<PrefPaperEntry>();
-		this._value = 0;
-		this._initialValue = 0;
+		this._initialValue = this._value = value;
 		this.reset();
 	}
 
 	reset(): PrefPaperColumn {
 		this._values = new Array<PrefPaperEntry>();
-		this._value = this.initialValue;
+		this._value = this._initialValue;
 		return this;
 	}
 
-	// TODO: add abstract prefPaperColumnEntry class to be extended by numbers, refa and hat
-	processNewValue(value: number): PrefPaperColumn {
+	addValue(value: number): PrefPaperColumn {
+		if (!_even(value)) throw new Error("PrefPaperColumn::addValue:Value is not even " + value);
+
 		this._value += value;
+		this._values.push(new PrefPaperEntryNumber(this._value));
 		return this;
 	}
 
-	addValue(value: number, repealed = false): PrefPaperColumn {
-		if (repealed) this._values.push({repealed: true, value: this.value + value});
-		else this.processNewValue(value);
-		return this;
-	}
-
-	getValue() {	// TODO
+	get value(): number {
 		return this._value;
 	}
 
-	getJSON(): any {	// TODO: not any
+	get json(): Array<PrefPaperEntry> {
 		return this._values;
 	}
 

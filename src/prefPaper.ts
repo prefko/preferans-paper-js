@@ -2,7 +2,6 @@
 "use strict";
 
 import {PrefPaperPosition} from './prefPaperEnums';
-
 import PrefPaperColumn from './prefPaperColumn';
 import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
 import {PrefPaperPlayerFollower} from "./prefPaperPlayer";
@@ -85,16 +84,16 @@ export default class PrefPaper {
 		return this;
 	}
 
-	getLeftValue(): number {
-		return this._left.getValue();
+	get leftValue(): number {
+		return this._left.value;
 	}
 
 	getMiddleValue(): number {
-		return this._middle.getValue();
+		return this._middle.value;
 	}
 
 	getRightValue(): number {
-		return this._right.getValue();
+		return this._right.value;
 	}
 
 	getJSON(): any {

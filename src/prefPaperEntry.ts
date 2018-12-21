@@ -13,7 +13,7 @@ export default class PrefPaperEntry {
 		return this._repealed;
 	}
 
-	set repealed(repealed: boolean) {
+	set repeal(repealed: boolean) {
 		this._repealed = repealed;
 	}
 

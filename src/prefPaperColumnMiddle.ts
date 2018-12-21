@@ -33,21 +33,15 @@ const _shouldAddHatCrossed = (m, vs, v, a) => {
 
 const _isUnplayedRefa = (i: object): boolean => _.get(i, "middle", 22) === 0;
 
-// this.middle je bio FLAG da je u pitanju srednja kolona
 export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 
 	constructor(value: number) {
-		super(PrefPaperPosition.MIDDLE);
+		if (!_validInitialValue(value)) throw new Error("PrefPaperColumnMiddle::constructor:Value is not valid " + value);
 
-		this._value = value;
-		this._initialValue = value;
-
-		if (!_validInitialValue(value)) throw new Error("PrefPaperColumnMiddle::addValue:Value is not valid " + value);
+		super(PrefPaperPosition.MIDDLE, value);
 
 		this.reset();
 	}
-
-	// TODO: remove the repealed boolean and add a REPEAL method
 
 	reset() {
 		super.reset();
@@ -93,16 +87,6 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 		let index = _.findIndex(this.values, (i) => _.get(i, position, 222) === 0);
 		if (index >= 0) _.set(this.values[index], position, (failed ? -1 : 1));
 		return this;
-	}
-
-	// TODO
-	getValue() {
-		return this._value;
-	}
-
-	// TODO
-	getJSON() {
-		return this._values;
 	}
 
 }
