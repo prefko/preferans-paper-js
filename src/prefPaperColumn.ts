@@ -27,11 +27,20 @@ export default class PrefPaperColumn {
 		return this;
 	}
 
-	addValue(value: number): PrefPaperColumn {
+	addValue(value: number, repealed = false): PrefPaperColumn {
 		if (!_even(value)) throw new Error("PrefPaperColumn::addValue:Value is not even " + value);
 
-		this._value += value;
-		this._values.push(new PrefPaperEntryNumber(this._value));
+		let newValue = this._value + value;
+		let entry = new PrefPaperEntryNumber(newValue, true);
+		if (repealed) {
+			entry.repealed = true;
+			this._values.push(entry);
+
+		} else {
+			this._value += newValue;
+			if (0 !== this._value) this._values.push(entry);
+		}
+
 		return this;
 	}
 
@@ -39,8 +48,8 @@ export default class PrefPaperColumn {
 		return this._value;
 	}
 
-	get json(): Array<PrefPaperEntry> {
-		return this._values;
+	get json(): Array<any> {
+		return _.map(this._values, (val) => val.json);
 	}
 
 }

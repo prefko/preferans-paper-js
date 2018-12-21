@@ -6,6 +6,8 @@ import PrefPaperColumn from './prefPaperColumn';
 import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
 import {PrefPaperPlayerFollower} from "./prefPaperPlayer";
 
+export type PrefPaperObject = { username: string, refas: number, unusedRefas: number, left: number, middle: number, right: number };
+
 export default class PrefPaper {
 	readonly _username: string;
 	readonly _bula: number;
@@ -28,12 +30,25 @@ export default class PrefPaper {
 		this._right = new PrefPaperColumn(PrefPaperPosition.RIGHT);
 	}
 
-	repeal(handID: number) {
-		// TODO: find hand by id and repeal it
-		// TODO: then recalculate
+	reset(): PrefPaper {
+		this._left = new PrefPaperColumn(PrefPaperPosition.LEFT);
+		this._middle = new PrefPaperColumnMiddle(this._bula);
+		this._right = new PrefPaperColumn(PrefPaperPosition.RIGHT);
+		return this;
 	}
 
-	processFollowingLeft(value: number, follower: PrefPaperPlayerFollower): PrefPaper {
+	processFollowing(position: PrefPaperPosition, value: number, follower: PrefPaperPlayerFollower): PrefPaper {
+		switch (position) {
+			case PrefPaperPosition.LEFT:
+				return this.processFollowingLeft(value, follower);
+			case PrefPaperPosition.RIGHT:
+				return this.processFollowingRight(value, follower);
+			default:
+				throw new Error("PrefPaper::processFollowing:Invalid position " + position);
+		}
+	}
+
+	processFollowingLeft(value: number, follower: PrefPaperPlayerFollower, repealed = false): PrefPaper {
 		if (follower.followed) {
 			this.addLeft(value * follower.tricks);
 			if (follower.failed) this.addMiddle(value);
@@ -49,13 +64,6 @@ export default class PrefPaper {
 		return this;
 	}
 
-	reset(): PrefPaper {
-		this._left = new PrefPaperColumn(PrefPaperPosition.LEFT);
-		this._middle = new PrefPaperColumnMiddle(this._bula);
-		this._right = new PrefPaperColumn(PrefPaperPosition.RIGHT);
-		return this;
-	}
-
 	markPlayedRefa(position: PrefPaperPosition, failed = false): PrefPaper {
 		this._middle.markPlayedRefa(position, failed);
 		return this;
@@ -67,6 +75,17 @@ export default class PrefPaper {
 			this._middle.addRefa();
 		}
 		return this;
+	}
+
+	addValue(position: PrefPaperPosition, value: number): PrefPaper {
+		switch (position) {
+			case PrefPaperPosition.LEFT:
+				return this.addLeft(value);
+			case PrefPaperPosition.MIDDLE:
+				return this.addMiddle(value);
+			case PrefPaperPosition.RIGHT:
+				return this.addRight(value);
+		}
 	}
 
 	addLeft(value: number): PrefPaper {
@@ -96,7 +115,7 @@ export default class PrefPaper {
 		return this._right.value;
 	}
 
-	get josn(): any {
+	get json(): PrefPaperObject {
 		return {
 			username: this._username,
 			refas: this._refas,
@@ -106,4 +125,4 @@ export default class PrefPaper {
 			right: this.rightValue
 		};
 	}
-}
+};

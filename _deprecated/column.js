@@ -64,9 +64,9 @@ class PrefPaperColumn {
 		if (this.value !== 0) this.values.push(this.value);
 	}
 
-	addValue(value, invalidated = false) {
+	addValue(value, repealed = false) {
 		if (!_validValue(value, this.middle)) throw new Error("PrefPaperColumn::addValue:Value is not valid " + value);
-		if (invalidated) this.values.push({invalidated: true, value: this.value + value});
+		if (repealed) this.values.push({repealed: true, value: this.value + value});
 		else this.processNewValue(value);
 		return this;
 	}
