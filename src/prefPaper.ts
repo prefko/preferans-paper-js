@@ -88,22 +88,22 @@ export default class PrefPaper {
 		return this._left.value;
 	}
 
-	getMiddleValue(): number {
+	get middleValue(): number {
 		return this._middle.value;
 	}
 
-	getRightValue(): number {
+	get rightValue(): number {
 		return this._right.value;
 	}
 
-	getJSON(): any {
+	get josn(): any {
 		return {
 			username: this._username,
 			refas: this._refas,
 			unusedRefas: this._unusedRefas,
-			left: this.getLeftValue(),
-			middle: this.getMiddleValue(),
-			right: this.getRightValue()
+			left: this.leftValue,
+			middle: this.middleValue,
+			right: this.rightValue
 		};
 	}
 }
