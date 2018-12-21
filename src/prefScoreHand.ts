@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-import {PrefScorePlayerFollower, PrefScorePlayerMain} from "./prefScorePlayer";
+import {PrefPaperPlayerFollower, PrefPaperPlayerMain} from "./prefPaperPlayer";
 
 // TODO: MOVE to PrefScore
 export default abstract class PrefScoreHand {
@@ -40,11 +40,11 @@ export class PrefScoreHandRefa extends PrefScoreHand {
 
 export class PrefScoreHandPlayed extends PrefScoreHand {
 	private _value: number;
-	private _left: PrefScorePlayerFollower;
-	private _middle: PrefScorePlayerMain;
-	private _right: PrefScorePlayerFollower;
+	private _left: PrefPaperPlayerFollower;
+	private _middle: PrefPaperPlayerMain;
+	private _right: PrefPaperPlayerFollower;
 
-	constructor(value: number, left: PrefScorePlayerFollower, middle: PrefScorePlayerMain, right: PrefScorePlayerFollower, repealed = false) {
+	constructor(value: number, left: PrefPaperPlayerFollower, middle: PrefPaperPlayerMain, right: PrefPaperPlayerFollower, repealed = false) {
 		super(repealed);
 
 		this._value = value;

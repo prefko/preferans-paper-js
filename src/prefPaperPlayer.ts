@@ -2,7 +2,7 @@
 "use strict";
 
 // TODO: MOVE to PrefScore
-export default abstract class PrefScorePlayer {
+export default abstract class PrefPaperPlayer {
 	protected readonly _username: string;
 	protected readonly _failed: boolean;
 
@@ -28,13 +28,13 @@ export default abstract class PrefScorePlayer {
 	}
 }
 
-export class PrefScorePlayerMain extends PrefScorePlayer {
+export class PrefPaperPlayerMain extends PrefPaperPlayer {
 	get main() {
 		return true;
 	}
 }
 
-export class PrefScorePlayerFollower extends PrefScorePlayer {
+export class PrefPaperPlayerFollower extends PrefPaperPlayer {
 	private readonly _followed: boolean;
 	private readonly _tricks: number;
 

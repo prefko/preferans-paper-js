@@ -5,116 +5,106 @@ import {PrefPaperPosition} from './prefPaperEnums';
 
 import PrefPaperColumn from './prefPaperColumn';
 import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
-import PrefPaperFollower from './prefPaperFollower';
+import {PrefPaperPlayerFollower} from "./prefPaperPlayer";
 
 export default class PrefPaper {
 	private _username: string;
 	private _bula: number;
-	private _refe = 0;					// 0 means infinity
+	private _refas = Infinity;
+	private _unusedRefas = Infinity;
 	private _left: PrefPaperColumn;
 	private _middle: PrefPaperColumnMiddle;
 	private _right: PrefPaperColumn;
 
-	constructor(username: string, bula: number, refe?: number) {
+	constructor(username: string, bula: number, refas = 0) {
 		this._username = username;
 		this._bula = bula;
-		if (refe) this._refe = refe;
+		if (refas > 0 && refas < Infinity) {
+			this._refas = refas;
+			this._unusedRefas = refas;
+		}
 
 		this._left = new PrefPaperColumn(PrefPaperPosition.LEFT);
-		this._middle = new PrefPaperColumnMiddle(bula);
+		this._middle = new PrefPaperColumnMiddle(this._bula);
 		this._right = new PrefPaperColumn(PrefPaperPosition.RIGHT);
 	}
 
-	// TODO: remove the repealed boolean and add a REPEAL method
+	repeal(handID: number) {
+		// TODO: find hand by id and repeal it
+		// TODO: then recalculate
+	}
 
-	processMeFollowing(follower: PrefPaperFollower, mainsPosition: PrefPaperPosition): PrefPaper {
-		let {followed, tricks, failed, value, repealed} = follower;
-		if (followed) {
-			this.addValue(mainsPosition, value * tricks, repealed);
-			if (failed) this.addMiddleValue(value, repealed);
+	processFollowingLeft(value: number, follower: PrefPaperPlayerFollower): PrefPaper {
+		if (follower.followed) {
+			this.addLeft(value * follower.tricks);
+			if (follower.failed) this.addMiddle(value);
+		}
+		return this;
+	}
+
+	processFollowingRight(value: number, follower: PrefPaperPlayerFollower): PrefPaper {
+		if (follower.followed) {
+			this.addRight(value * follower.tricks);
+			if (follower.failed) this.addMiddle(value);
 		}
 		return this;
 	}
 
 	reset(): PrefPaper {
-		// this.score = -this.bula * 10;
 		this._left = new PrefPaperColumn(PrefPaperPosition.LEFT);
-		this._middle = new PrefPaperColumnMiddle(bula);
+		this._middle = new PrefPaperColumnMiddle(this._bula);
 		this._right = new PrefPaperColumn(PrefPaperPosition.RIGHT);
 		return this;
 	}
 
-	hasUnplayedRefa() {
-		return this._middle.getUnplayedRefasCount() > 0;
-	}
-
-	markLeftPlayedRefa(failed = false): PrefPaper {
-		this._middle.markPlayedRefa(PrefPaperPosition.LEFT, failed);
+	markPlayedRefa(position: PrefPaperPosition, failed = false): PrefPaper {
+		this._middle.markPlayedRefa(position, failed);
 		return this;
 	}
 
-	markMePlayedRefa(failed = false): PrefPaper {
-		this._middle.markPlayedRefa(PrefPaperPosition.MIDDLE, failed);
+	addRefa(): PrefPaper {
+		if (this._unusedRefas > 0) {
+			this._unusedRefas--;
+			this._middle.addRefa();
+		}
 		return this;
 	}
 
-	markRightPlayedRefa(failed = false): PrefPaper {
-		this._middle.markPlayedRefa(PrefPaperPosition.RIGHT, failed);
+	addLeft(value: number): PrefPaper {
+		this._left.addValue(value);
 		return this;
 	}
 
-	newRefa(): PrefPaper {
-		this._middle.addRefa();
+	addMiddle(value: number): PrefPaper {
+		this._middle.addValue(value);
 		return this;
 	}
 
-	addValue(position, value, repealed = false): PrefPaper {
-		if ("left" === position) this.left.addValue(value, repealed);
-		if ("right" === position) this.right.addValue(value, repealed);
+	addRight(value: number): PrefPaper {
+		this._right.addValue(value);
 		return this;
 	}
 
-	addMiddleValue(value, repealed = false): PrefPaper {
-		this.middle.addValue(value, repealed);
-		return this;
+	getLeftValue(): number {
+		return this._left.getValue();
 	}
 
-	calculateScore(leftValue = 0, rightValue = 0): PrefPaper {
-		let tmp = this.score;
-		this.score = this.getLeftValue() + this.getRightValue() - (this.getMiddleValue() * 10) - leftValue - rightValue;
-		return this;
+	getMiddleValue(): number {
+		return this._middle.getValue();
 	}
 
-	getLeftValue() {
-		return this.left.getValue();
+	getRightValue(): number {
+		return this._right.getValue();
 	}
 
-	getMiddleValue() {
-		return this.middle.getValue();
-	}
-
-	getRightValue() {
-		return this.right.getValue();
-	}
-
-	getMiniJSON() {
+	getJSON(): any {
 		return {
-			username: this.username,
-			score: this.score,
-			left: this.left.getValue(),
-			middle: this.middle.getValue(),
-			right: this.right.getValue()
-		};
-	}
-
-	getJSON() {
-		return {
-			username: this.username,
-			score: this.score,
-			refe: this.middle.getUnplayedRefasCount(),
-			left: this.left.getJSON(),
-			middle: this.middle.getJSON(),
-			right: this.right.getJSON()
+			username: this._username,
+			refas: this._refas,
+			unusedRefas: this._unusedRefas,
+			left: this.getLeftValue(),
+			middle: this.getMiddleValue(),
+			right: this.getRightValue()
 		};
 	}
 }

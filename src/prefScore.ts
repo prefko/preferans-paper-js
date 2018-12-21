@@ -99,8 +99,8 @@ export default class PrefScore {
 		rightPlayer.markLeftPlayedRefa(main.failed);
 
 		mainPlayer.addMiddleValue(main.failed ? value : -value, repealed);
-		leftPlayer.processMeFollowing(_.merge({}, left, {value, mainPosition: "right", repealed}));
-		rightPlayer.processMeFollowing(_.merge({}, right, {value, mainPosition: "left", repealed}));
+		leftPlayer.processFollowing(_.merge({}, left, {value, mainPosition: "right", repealed}));
+		rightPlayer.processFollowing(_.merge({}, right, {value, mainPosition: "left", repealed}));
 
 		mainPlayer.calculateScore(leftPlayer.getRightValue(), rightPlayer.getLeftValue());
 		leftPlayer.calculateScore(rightPlayer.getRightValue(), mainPlayer.getLeftValue());
@@ -127,5 +127,12 @@ export default class PrefScore {
 			p3: this.p3.getJSON()
 		};
 	}
+
+	// TODO: moved from paper
+	// calculateScore(leftValue = 0, rightValue = 0): PrefPaper {
+	// 	let tmp = this.score;
+	// 	this.score = this.getLeftValue() + this.getRightValue() - (this.getMiddleValue() * 10) - leftValue - rightValue;
+	// 	return this;
+	// }
 
 }

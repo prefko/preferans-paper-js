@@ -5,7 +5,15 @@ export default class PrefPaperEntry {
 
 	protected _repealed = false;	// <- Repealed by referee (poništena ruka)
 
-	protected constructor(repealed: boolean) {
+	protected constructor(repealed = false) {
+		this._repealed = repealed;
+	}
+
+	get repealed() {
+		return this._repealed;
+	}
+
+	set repealed(repealed: boolean) {
 		this._repealed = repealed;
 	}
 
@@ -27,8 +35,8 @@ export default class PrefPaperEntry {
 export class PrefPaperEntryNumber extends PrefPaperEntry {
 	protected _value: number;
 
-	constructor(value: number, repealed = false) {
-		super(repealed);
+	constructor(value: number) {
+		super();
 		this._value = value;
 	}
 
@@ -39,6 +47,10 @@ export class PrefPaperEntryNumber extends PrefPaperEntry {
 
 // TODO:
 export class PrefPaperEntryRefa extends PrefPaperEntry {
+	constructor() {
+		super();
+	}
+
 	get refa(): boolean {
 		return true;
 	}
@@ -46,6 +58,10 @@ export class PrefPaperEntryRefa extends PrefPaperEntry {
 
 // TODO:
 export class PrefPaperEntryHat extends PrefPaperEntry {
+	constructor() {
+		super();
+	}
+
 	get hat(): boolean {
 		return true;
 	}

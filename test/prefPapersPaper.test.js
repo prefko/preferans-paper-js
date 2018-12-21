@@ -22,15 +22,15 @@ describe("PrefPapersPaper tests", () => {
 		});
 	});
 
-	describe("PrefPapersPaper processMeFollowing tests", () => {
-		it("processMeFollowing should throw properly", () => {
-			expect(() => new PrefPapersPaper("cope", 30).processMeFollowing({followed: true, tricks: 3, value: 10, mainPosition: "maybe"})).to.throw();
-			expect(() => new PrefPapersPaper("cope", 30).processMeFollowing({followed: true, tricks: 3, value: 10, mainPosition: "left"})).to.not.throw();
-			expect(() => new PrefPapersPaper("cope", 30).processMeFollowing()).to.throw();
+	describe("PrefPapersPaper processFollowing tests", () => {
+		it("processFollowing should throw properly", () => {
+			expect(() => new PrefPapersPaper("cope", 30).processFollowing({followed: true, tricks: 3, value: 10, mainPosition: "maybe"})).to.throw();
+			expect(() => new PrefPapersPaper("cope", 30).processFollowing({followed: true, tricks: 3, value: 10, mainPosition: "left"})).to.not.throw();
+			expect(() => new PrefPapersPaper("cope", 30).processFollowing()).to.throw();
 		});
 		let p1 = new PrefPapersPaper("cope", 60);
-		p1.processMeFollowing({followed: true, tricks: 3, value: 10, mainPosition: "right"}).calculateScore();
-		it("processMeFollowing should return proper value for pass", () => {
+		p1.processFollowing({followed: true, tricks: 3, value: 10, mainPosition: "right"}).calculateScore();
+		it("processFollowing should return proper value for pass", () => {
 			expect(p1.getMiniJSON()).to.deep.equal({
 				username: "cope",
 				score: -570,
@@ -40,8 +40,8 @@ describe("PrefPapersPaper tests", () => {
 			});
 		});
 		let p2 = new PrefPapersPaper("cope", 30);
-		p2.processMeFollowing({followed: true, tricks: 2, failed: true, value: 8, mainPosition: "left"}).calculateScore();
-		it("processMeFollowing should return proper value for fail", () => {
+		p2.processFollowing({followed: true, tricks: 2, failed: true, value: 8, mainPosition: "left"}).calculateScore();
+		it("processFollowing should return proper value for fail", () => {
 			expect(p2.getMiniJSON()).to.deep.equal({
 					username: "cope",
 					score: -364,

@@ -79,6 +79,10 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 		return this;
 	}
 
+	hasUnplayedRefa() {
+		return this.getUnplayedRefasCount() > 0;
+	}
+
 	getUnplayedRefasCount(): number {
 		// TODO
 		return _.size(_.filter(this._values, _isUnplayedRefa));
