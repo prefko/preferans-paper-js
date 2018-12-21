@@ -8,7 +8,7 @@ const _validHand = {
 		type: "object",
 		properties: {
 			newRefa: {type: "boolean", enum: [true]},
-			invalidated: {type: "boolean", default: false},
+			repealed: {type: "boolean", default: false},
 		},
 		required: ["newRefa"],
 		additionalProperties: false
@@ -67,7 +67,7 @@ const _validHand = {
 					additionalProperties: false
 				}]
 			},
-			invalidated: {type: "boolean", default: false},
+			repealed: {type: "boolean", default: false},
 		},
 		required: ["value", "main", "left", "right"],
 		additionalProperties: false

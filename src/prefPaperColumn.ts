@@ -2,10 +2,14 @@
 "use strict";
 
 import * as _ from 'lodash';
+import PrefPaperEntry from "./prefPaperEntry";
 import {PrefPaperPosition} from './prefPaperEnums';
-import {PrefPaperEntry} from "./prefPaperEntry";
 
-export default abstract class PrefPaperColumn {
+const _even = (n: number): boolean => n % 2 === 0;
+const _validValue = (v: number): boolean => _even(v) && v > 0;
+
+// this.middle je bio FLAG da je u pitanju srednja kolona
+export default class PrefPaperColumn {
 	protected _position: PrefPaperPosition;
 	protected _values: Array<PrefPaperEntry>;
 	protected _value: number;
@@ -22,13 +26,7 @@ export default abstract class PrefPaperColumn {
 
 	reset(): PrefPaperColumn {
 		this._values = new Array<PrefPaperEntry>();
-		this._value = this._initialValue;
-		return this;
-	}
-
-	addValue(value: number, invalidated = false): PrefPaperColumn {
-		if (invalidated) this._values.push({invalidated: true, value: this.value + value});
-		else this.processNewValue(value);
+		this._value = this.initialValue;
 		return this;
 	}
 
@@ -38,10 +36,18 @@ export default abstract class PrefPaperColumn {
 		return this;
 	}
 
+	addValue(value: number, repealed = false): PrefPaperColumn {
+		if (repealed) this._values.push({repealed: true, value: this.value + value});
+		else this.processNewValue(value);
+		return this;
+	}
+
 	getValue() {	// TODO
 		return this._value;
 	}
 
-	abstract getJSON(): any;
+	getJSON(): any {	// TODO: not any
+		return this._values;
+	}
 
 }

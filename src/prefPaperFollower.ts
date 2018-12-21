@@ -12,9 +12,9 @@ const _validFollowerData = {
 		tricks: {type: "integer", default: 0, minimum: 0, maximum: 5},
 		value: {type: "integer", default: 0},
 		mainPosition: {type: "string", enum: ["left", "right"]},
-		invalidated: {type: "boolean", default: false}
+		repealed: {type: "boolean", default: false}
 	},
-	required: ["followed", "failed", "tricks", "value", "mainPosition", "invalidated"],
+	required: ["followed", "failed", "tricks", "value", "mainPosition", "repealed"],
 	additionalProperties: false
 };
 

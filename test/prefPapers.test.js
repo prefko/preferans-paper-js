@@ -59,7 +59,7 @@ describe("PrefPapers tests", () => {
 		});
 		it("isValidHand should return proper value for child attributes", () => {
 			expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}, newRefa: "yes"})).to.be.equal(false);
-			expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}, invalidated: "yes"})).to.be.equal(false);
+			expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}, repealed: "yes"})).to.be.equal(false);
 
 			expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3", followed: true}, right: {username: "p2"}})).to.be.equal(false);
 			expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2", followed: true}})).to.be.equal(false);
@@ -193,7 +193,7 @@ describe("PrefPapers tests", () => {
 				.invalidateHand(1)
 				.getJSON()
 			).to.deep.equal({
-				p1: {username: "p1", score: -300, refe: 0, left: [], middle: [30, {invalidated: true, value: 20}], right: []},
+				p1: {username: "p1", score: -300, refe: 0, left: [], middle: [30, {repealed: true, value: 20}], right: []},
 				p2: {username: "p2", score: -300, refe: 0, left: [], middle: [30], right: []},
 				p3: {username: "p3", score: -300, refe: 0, left: [], middle: [30], right: []}
 			});

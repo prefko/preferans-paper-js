@@ -14,7 +14,7 @@ const _validHand = ajv.compile({
 		type: "object",
 		properties: {
 			newRefa: {type: "boolean", enum: [true]},
-			invalidated: {type: "boolean", default: false},
+			repealed: {type: "boolean", default: false},
 		},
 		required: ["newRefa"],
 		additionalProperties: false
@@ -73,7 +73,7 @@ const _validHand = ajv.compile({
 					additionalProperties: false
 				}]
 			},
-			invalidated: {type: "boolean", default: false},
+			repealed: {type: "boolean", default: false},
 		},
 		required: ["value", "main", "left", "right"],
 		additionalProperties: false
@@ -123,9 +123,9 @@ const _validFollowerData = ajv.compile({
 		tricks: {type: "integer", default: 0, minimum: 0, maximum: 5},
 		value: {type: "integer", default: 0},
 		mainPosition: {type: "string", enum: ["left", "right"]},
-		invalidated: {type: "boolean", default: false}
+		repealed: {type: "boolean", default: false}
 	},
-	required: ["followed", "failed", "tricks", "value", "mainPosition", "invalidated"],
+	required: ["followed", "failed", "tricks", "value", "mainPosition", "repealed"],
 	additionalProperties: false
 });
 console.log(++i, _validFollowerData({
@@ -134,6 +134,6 @@ console.log(++i, _validFollowerData({
 	failed: true,
 	value: 8,
 	mainPosition: "right",
-	invalidated: false
+	repealed: false
 }));
 _validFollowerData.errors && console.log(_validFollowerData.errors);

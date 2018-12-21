@@ -1,10 +1,17 @@
 #!/usr/bin/env node
 "use strict";
 
-export abstract class PrefPaperEntry {
+export default class PrefPaperEntry {
+
+	protected _repealed = false;	// <- Repealed by referee (poništena ruka)
+	protected _value: number;
+
+	constructor(value: number) {
+		this._value = value;
+	}
 
 	isNumber(): boolean {
-		return false;
+		return true;
 	}
 
 	isRefa(): boolean {
@@ -17,17 +24,16 @@ export abstract class PrefPaperEntry {
 
 }
 
-export class PrefPaperNumberEntry extends PrefPaperEntry {
-
-	private _value: number;
-
-	constructor(value: number) {
-		super();
-		this._value = value;
-	}
-
-	isNumber(): boolean {
+// TODO:
+export class PrefPaperEntryRefa extends PrefPaperEntry {
+	isRefa(): boolean {
 		return true;
 	}
+}
 
+// TODO:
+export class PrefPaperEntryHat extends PrefPaperEntry {
+	isHat(): boolean {
+		return true;
+	}
 }

@@ -166,8 +166,8 @@ let schema = {
 				false
 			]
 		},
-		"invalidated": {
-			"$id": "/properties/invalidated",
+		"repealed": {
+			"$id": "/properties/repealed",
 			"type": "boolean",
 			"title": "The Invalidated Schema ",
 			"default": false,

@@ -14,25 +14,23 @@ const _invalidFails = (main, left, right) => {
 };
 
 // TODO: MOVE to PrefEngine
-
 export default class PrefScore {
 	private _p1: PrefPaper;
 	private _p2: PrefPaper;
 	private _p3: PrefPaper;
 	private _bula: number;
-	private _refe: number;
-	private _usedRefe: number;
+	private _refe = 0;
+	private _usedRefe = 0;
 	private _hands: Map<number, PrefPaperHand>;
 
-	constructor(bula: number, refe = 0, name1 = "p1", name2 = "p2", name3 = "p3") {
+	constructor(name1: string, name2: string, name3: string, bula: number, refe?: number) {
 		this._hands = new Map<number, PrefPaperHand>();
 		this._bula = bula;
-		this._refe = refe;
-		this._usedRefe = 0;
+		if (refe) this._refe = refe;
 
-		this._p1 = new PrefPaper(name1, bula);
-		this._p2 = new PrefPaper(name2, bula);
-		this._p3 = new PrefPaper(name3, bula);
+		this._p1 = new PrefPaper(name1, bula, this._refe);
+		this._p2 = new PrefPaper(name2, bula, this._refe);
+		this._p3 = new PrefPaper(name3, bula, this._refe);
 	}
 
 	get handCount(): number {
@@ -72,7 +70,7 @@ export default class PrefScore {
 	invalidateHand(id: number): PrefScore {
 		let index = _.findIndex(this._hands, {id});
 		if (!this._hands[index]) throw new Error("PrefPapers::invalidateHand:Hand not found with id " + id);
-		this._hands[index].invalidated = true;
+		this._hands[index].repealed = true;
 		return this.recalculate();
 	}
 
@@ -87,7 +85,7 @@ export default class PrefScore {
 	}
 
 	processHand(hand: PrefPaperHand) {
-		let {value, main = {}, left = {}, right = {}, newRefa = false, invalidated = false} = hand;
+		let {value, main = {}, left = {}, right = {}, newRefa = false, repealed = false} = hand;
 		main.failed = true === main.failed;
 
 		if (newRefa) return this.processNewRefa();
@@ -100,9 +98,9 @@ export default class PrefScore {
 		leftPlayer.markRightPlayedRefa(main.failed);
 		rightPlayer.markLeftPlayedRefa(main.failed);
 
-		mainPlayer.addMiddleValue(main.failed ? value : -value, invalidated);
-		leftPlayer.processMyFollowing(_.merge({}, left, {value, mainPosition: "right", invalidated}));
-		leftPlayer.processMyFollowing(_.merge({}, right, {value, mainPosition: "left", invalidated}));
+		mainPlayer.addMiddleValue(main.failed ? value : -value, repealed);
+		leftPlayer.processMyFollowing(_.merge({}, left, {value, mainPosition: "right", repealed}));
+		rightPlayer.processMyFollowing(_.merge({}, right, {value, mainPosition: "left", repealed}));
 
 		mainPlayer.calculateScore(leftPlayer.getRightValue(), rightPlayer.getLeftValue());
 		leftPlayer.calculateScore(rightPlayer.getRightValue(), mainPlayer.getLeftValue());

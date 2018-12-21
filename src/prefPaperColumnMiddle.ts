@@ -2,8 +2,8 @@
 "use strict";
 
 import * as _ from 'lodash';
-import {PrefPaperNumberEntry} from './prefPaperEntry';
-import PrefPaperColumnSide from './prefPaperColumn';
+import PrefPaperEntry, {PrefPaperEntryHat, PrefPaperEntryRefa} from './prefPaperEntry';
+import PrefPaperColumn from './prefPaperColumn';
 import {PrefPaperPosition} from "./prefPaperEnums";
 
 const _even = (n: number): boolean => n % 2 === 0;
@@ -33,12 +33,8 @@ const _shouldAddHatCrossed = (m, vs, v, a) => {
 
 const _isUnplayedRefa = (i: object): boolean => _.get(i, "middle", 22) === 0;
 
-const _checkMiddle = (m, s) => {
-	if (!m) throw new Error(s + ":Cannot mark a refa in a soup column! middle=" + m);
-};
-
 // this.middle je bio FLAG da je u pitanju srednja kolona
-export default class PrefPaperColumnMiddle extends PrefPaperColumnSide {
+export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 
 	constructor(value: number) {
 		super(PrefPaperPosition.MIDDLE);
@@ -50,13 +46,13 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumnSide {
 
 	reset() {
 		super.reset();
-		if (_validValue(this._value)) this._values.push(new PrefPaperNumberEntry(this._value));
+		if (_validValue(this._value)) this._values.push(new PrefPaperEntry(this._value));
 		return this;
 	}
 
-	addValue(value, invalidated = false) {
+	addValue(value, repealed = false) {
 		if (!_validValue(value)) throw new Error("PrefPaperColumnMiddle::addValue:Value is not valid " + value);
-		if (invalidated) this.values.push({invalidated: true, value: this.value + value});
+		if (repealed) this.values.push({repealed: true, value: this.value + value});
 		else this.processNewValue(value);
 		return this;
 	}
@@ -75,7 +71,6 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumnSide {
 	}
 
 	addRefa(): PrefPaperColumnMiddle {
-		_checkMiddle(this.middle, "PrefPaperColumnMiddle::addRefa");
 		this.values.push({
 			left: 0,
 			middle: 0,

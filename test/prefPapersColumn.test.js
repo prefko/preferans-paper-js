@@ -102,8 +102,8 @@ describe("PrefPaperColumn tests", () => {
 				{left: 1, middle: -1, right: 0},
 				{hat: 1},
 				-6,
-				{invalidated: true, value: 4},	// TODO: WTF is "invalidated" for?
-				{hat: -1},						// TODO: hat:-1 mora IZNAD value:4 da stoji!
+				{repealed: true, value: 4},
+				{hat: -1},
 				12,
 				{left: 0, middle: 0, right: 0}
 			]);
