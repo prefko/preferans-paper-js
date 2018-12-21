@@ -2,8 +2,8 @@
 "use strict";
 
 import * as _ from 'lodash';
-import PrefPaperHand from './prefPapersHand';
-import PrefPaper from './prefPapersPaper';
+import PrefPaperHand from './prefScoreHand';
+import PrefPaper from './prefPaper';
 
 const _validTricks = (main, left, right): boolean => {
 	let tricks = _.get(left, "tricks", 0) + _.get(right, "tricks", 0);
@@ -13,7 +13,7 @@ const _invalidFails = (main, left, right) => {
 	return _.get(main, "failed", false) && (_.get(left, "failed", false) || _.get(right, "failed", false));
 };
 
-// TODO: MOVE to PrefEngine
+// TODO: MOVE to PrefScore
 export default class PrefScore {
 	private _p1: PrefPaper;
 	private _p2: PrefPaper;
@@ -94,13 +94,13 @@ export default class PrefScore {
 		let leftPlayer = this.getPlayerByUsername(left.username);
 		let rightPlayer = this.getPlayerByUsername(right.username);
 
-		mainPlayer.markMiddlePlayedRefa(main.failed);
+		mainPlayer.markMePlayedRefa(main.failed);
 		leftPlayer.markRightPlayedRefa(main.failed);
 		rightPlayer.markLeftPlayedRefa(main.failed);
 
 		mainPlayer.addMiddleValue(main.failed ? value : -value, repealed);
-		leftPlayer.processMyFollowing(_.merge({}, left, {value, mainPosition: "right", repealed}));
-		rightPlayer.processMyFollowing(_.merge({}, right, {value, mainPosition: "left", repealed}));
+		leftPlayer.processMeFollowing(_.merge({}, left, {value, mainPosition: "right", repealed}));
+		rightPlayer.processMeFollowing(_.merge({}, right, {value, mainPosition: "left", repealed}));
 
 		mainPlayer.calculateScore(leftPlayer.getRightValue(), rightPlayer.getLeftValue());
 		leftPlayer.calculateScore(rightPlayer.getRightValue(), mainPlayer.getLeftValue());

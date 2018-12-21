@@ -2,12 +2,12 @@
 "use strict";
 
 import * as _ from 'lodash';
-import PrefPaperEntry, {PrefPaperEntryHat, PrefPaperEntryRefa} from './prefPaperEntry';
+import PrefPaperEntry, {PrefPaperEntryHat, PrefPaperEntryNumber, PrefPaperEntryRefa} from './prefPaperEntry';
 import PrefPaperColumn from './prefPaperColumn';
 import {PrefPaperPosition} from "./prefPaperEnums";
 
 const _even = (n: number): boolean => n % 2 === 0;
-const _validValue = (v: number): boolean => _even(v) && v > 0;
+const _validInitialValue = (v: number): boolean => _even(v) && v > 0;
 
 const _lastNonZeroValue = (vals: Array<number>): number | undefined => {
 	let nums = _.filter(vals, (val) => {
@@ -41,60 +41,64 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 
 		this._value = value;
 		this._initialValue = value;
+
+		if (!_validInitialValue(value)) throw new Error("PrefPaperColumnMiddle::addValue:Value is not valid " + value);
+
 		this.reset();
 	}
 
+	// TODO: remove the repealed boolean and add a REPEAL method
+
 	reset() {
 		super.reset();
-		if (_validValue(this._value)) this._values.push(new PrefPaperEntry(this._value));
+		this._values.push(new PrefPaperEntryNumber(this._value));
 		return this;
 	}
 
-	addValue(value, repealed = false) {
-		if (!_validValue(value)) throw new Error("PrefPaperColumnMiddle::addValue:Value is not valid " + value);
-		if (repealed) this.values.push({repealed: true, value: this.value + value});
+	addValue(value: number, repealed = false) {
+		if (repealed) this._values.push(new PrefPaperEntryNumber(this._value + value, true));
 		else this.processNewValue(value);
 		return this;
 	}
 
-	processNewValue(value): PrefPaperColumnMiddle {
+	processNewValue(value: number): PrefPaperColumnMiddle {
 		this.processHatAddition(value);
 		super.processNewValue(value);
-		if (this._value !== 0) this._values.push(this._value);
+		if (this._value !== 0) this._values.push(new PrefPaperEntryNumber(this._value));
 		return this;
 	}
 
-	processHatAddition(value): PrefPaperColumnMiddle {
+	processHatAddition(value: number): PrefPaperColumnMiddle {
 		if (_shouldAddHatNormal(this.middle, this.values, this.value, value)) this.values.push({hat: 1});
 		else if (_shouldAddHatCrossed(this.middle, this.values, this.value, value)) this.values.push({hat: -1});
 		return this;
 	}
 
 	addRefa(): PrefPaperColumnMiddle {
-		this.values.push({
-			left: 0,
-			middle: 0,
-			right: 0
-		});
+		this._values.push(new PrefPaperEntryRefa());
 		return this;
 	}
 
 	getUnplayedRefasCount(): number {
+		// TODO
 		return _.size(_.filter(this._values, _isUnplayedRefa));
 	}
 
-	markPlayedRefa(position, failed = false): PrefPaperColumnMiddle {
+	markPlayedRefa(position: PrefPaperPosition, failed = false): PrefPaperColumnMiddle {
+		// TODO
 		let index = _.findIndex(this.values, (i) => _.get(i, position, 222) === 0);
 		if (index >= 0) _.set(this.values[index], position, (failed ? -1 : 1));
 		return this;
 	}
 
+	// TODO
 	getValue() {
-		return this.value;
+		return this._value;
 	}
 
+	// TODO
 	getJSON() {
-		return this.values;
+		return this._values;
 	}
 
 }

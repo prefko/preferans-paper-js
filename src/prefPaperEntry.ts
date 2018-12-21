@@ -4,36 +4,49 @@
 export default class PrefPaperEntry {
 
 	protected _repealed = false;	// <- Repealed by referee (poništena ruka)
-	protected _value: number;
 
-	constructor(value: number) {
-		this._value = value;
+	protected constructor(repealed: boolean) {
+		this._repealed = repealed;
 	}
 
-	isNumber(): boolean {
-		return true;
-	}
-
-	isRefa(): boolean {
+	get number(): boolean {
 		return false;
 	}
 
-	isHat(): boolean {
+	get refa(): boolean {
+		return false;
+	}
+
+	get hat(): boolean {
 		return false;
 	}
 
 }
 
 // TODO:
+export class PrefPaperEntryNumber extends PrefPaperEntry {
+	protected _value: number;
+
+	constructor(value: number, repealed = false) {
+		super(repealed);
+		this._value = value;
+	}
+
+	get number(): boolean {
+		return true;
+	}
+}
+
+// TODO:
 export class PrefPaperEntryRefa extends PrefPaperEntry {
-	isRefa(): boolean {
+	get refa(): boolean {
 		return true;
 	}
 }
 
 // TODO:
 export class PrefPaperEntryHat extends PrefPaperEntry {
-	isHat(): boolean {
+	get hat(): boolean {
 		return true;
 	}
 }

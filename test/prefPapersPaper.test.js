@@ -4,8 +4,8 @@ const PrefPapersPaper = require("../lib/player");
 let player = new PrefPapersPaper("cope", 30);
 player.addValue("left", 10).newRefa().addValue("left", 50).addValue("right", 100);
 player.addMiddleValue(-10).newRefa().addMiddleValue(-26).newRefa();
-player.markLeftPlayedRefa().markMiddlePlayedRefa(true).markRightPlayedRefa(true);
-player.markLeftPlayedRefa(true).markMiddlePlayedRefa().markRightPlayedRefa();
+player.markLeftPlayedRefa().markMePlayedRefa(true).markRightPlayedRefa(true);
+player.markLeftPlayedRefa(true).markMePlayedRefa().markRightPlayedRefa();
 player.calculateScore(50, 50);
 
 describe("PrefPapersPaper tests", () => {
@@ -22,15 +22,15 @@ describe("PrefPapersPaper tests", () => {
 		});
 	});
 
-	describe("PrefPapersPaper processMyFollowing tests", () => {
-		it("processMyFollowing should throw properly", () => {
-			expect(() => new PrefPapersPaper("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "maybe"})).to.throw();
-			expect(() => new PrefPapersPaper("cope", 30).processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "left"})).to.not.throw();
-			expect(() => new PrefPapersPaper("cope", 30).processMyFollowing()).to.throw();
+	describe("PrefPapersPaper processMeFollowing tests", () => {
+		it("processMeFollowing should throw properly", () => {
+			expect(() => new PrefPapersPaper("cope", 30).processMeFollowing({followed: true, tricks: 3, value: 10, mainPosition: "maybe"})).to.throw();
+			expect(() => new PrefPapersPaper("cope", 30).processMeFollowing({followed: true, tricks: 3, value: 10, mainPosition: "left"})).to.not.throw();
+			expect(() => new PrefPapersPaper("cope", 30).processMeFollowing()).to.throw();
 		});
 		let p1 = new PrefPapersPaper("cope", 60);
-		p1.processMyFollowing({followed: true, tricks: 3, value: 10, mainPosition: "right"}).calculateScore();
-		it("processMyFollowing should return proper value for pass", () => {
+		p1.processMeFollowing({followed: true, tricks: 3, value: 10, mainPosition: "right"}).calculateScore();
+		it("processMeFollowing should return proper value for pass", () => {
 			expect(p1.getMiniJSON()).to.deep.equal({
 				username: "cope",
 				score: -570,
@@ -40,8 +40,8 @@ describe("PrefPapersPaper tests", () => {
 			});
 		});
 		let p2 = new PrefPapersPaper("cope", 30);
-		p2.processMyFollowing({followed: true, tricks: 2, failed: true, value: 8, mainPosition: "left"}).calculateScore();
-		it("processMyFollowing should return proper value for fail", () => {
+		p2.processMeFollowing({followed: true, tricks: 2, failed: true, value: 8, mainPosition: "left"}).calculateScore();
+		it("processMeFollowing should return proper value for fail", () => {
 			expect(p2.getMiniJSON()).to.deep.equal({
 					username: "cope",
 					score: -364,

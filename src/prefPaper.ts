@@ -10,9 +10,9 @@ import PrefPaperFollower from './prefPaperFollower';
 export default class PrefPaper {
 	private _username: string;
 	private _bula: number;
-	private _refe = 0;
+	private _refe = 0;					// 0 means infinity
 	private _left: PrefPaperColumn;
-	private _middle: PrefPaperColumn;
+	private _middle: PrefPaperColumnMiddle;
 	private _right: PrefPaperColumn;
 
 	constructor(username: string, bula: number, refe?: number) {
@@ -25,10 +25,12 @@ export default class PrefPaper {
 		this._right = new PrefPaperColumn(PrefPaperPosition.RIGHT);
 	}
 
-	processMyFollowing(data: PrefPaperFollower): PrefPaper {
-		let {followed, tricks, failed, value, mainPosition, repealed} = data;
+	// TODO: remove the repealed boolean and add a REPEAL method
+
+	processMeFollowing(follower: PrefPaperFollower, mainsPosition: PrefPaperPosition): PrefPaper {
+		let {followed, tricks, failed, value, repealed} = follower;
 		if (followed) {
-			this.addValue(mainPosition, value * tricks, repealed);
+			this.addValue(mainsPosition, value * tricks, repealed);
 			if (failed) this.addMiddleValue(value, repealed);
 		}
 		return this;
@@ -36,33 +38,33 @@ export default class PrefPaper {
 
 	reset(): PrefPaper {
 		// this.score = -this.bula * 10;
-		this.left = new PrefPaperColumn();
-		this.middle = new PrefPaperColumn(this.bula, true);
-		this.right = new PrefPaperColumn();
+		this._left = new PrefPaperColumn(PrefPaperPosition.LEFT);
+		this._middle = new PrefPaperColumnMiddle(bula);
+		this._right = new PrefPaperColumn(PrefPaperPosition.RIGHT);
 		return this;
 	}
 
 	hasUnplayedRefa() {
-		return this.middle.getUnplayedRefasCount() > 0;
+		return this._middle.getUnplayedRefasCount() > 0;
 	}
 
 	markLeftPlayedRefa(failed = false): PrefPaper {
-		this.middle.markPlayedRefa("left", failed);
+		this._middle.markPlayedRefa(PrefPaperPosition.LEFT, failed);
 		return this;
 	}
 
-	markMiddlePlayedRefa(failed = false): PrefPaper {
-		this.middle.markPlayedRefa("middle", failed);
+	markMePlayedRefa(failed = false): PrefPaper {
+		this._middle.markPlayedRefa(PrefPaperPosition.MIDDLE, failed);
 		return this;
 	}
 
 	markRightPlayedRefa(failed = false): PrefPaper {
-		this.middle.markPlayedRefa("right", failed);
+		this._middle.markPlayedRefa(PrefPaperPosition.RIGHT, failed);
 		return this;
 	}
 
 	newRefa(): PrefPaper {
-		this.middle.addRefa();
+		this._middle.addRefa();
 		return this;
 	}
 
