@@ -3,23 +3,23 @@
 
 import {PrefPaperPosition} from './prefPaperEnums';
 
-import PrefPaperColumn from './prefPaperColumn';
+import PrefPaperColumnSide from './prefPaperColumn';
 import PrefPaperFollower from './prefPaperFollower';
 
 export default class PrefPaper {
 	private _username: string;
 	private _bula: number;
-	private _left: PrefPaperColumn;
-	private _middle: PrefPaperColumn;
-	private _right: PrefPaperColumn;
+	private _left: PrefPaperColumnSide;
+	private _middle: PrefPaperColumnSide;
+	private _right: PrefPaperColumnSide;
 
 	constructor(username: string, bula: number) {
 		this._username = username;
 		this._bula = bula;
 
-		this._left = new PrefPaperColumn();
-		this._middle = new PrefPaperColumn(bula, true);
-		this._right = new PrefPaperColumn();
+		this._left = new PrefPaperColumnSide();
+		this._middle = new PrefPaperColumnSide(bula, true);
+		this._right = new PrefPaperColumnSide();
 	}
 
 	processMyFollowing(data: any) {
@@ -33,9 +33,9 @@ export default class PrefPaper {
 
 	reset() {
 		// this.score = -this.bula * 10;
-		this.left = new PrefPaperColumn();
-		this.middle = new PrefPaperColumn(this.bula, true);
-		this.right = new PrefPaperColumn();
+		this.left = new PrefPaperColumnSide();
+		this.middle = new PrefPaperColumnSide(this.bula, true);
+		this.right = new PrefPaperColumnSide();
 		return this;
 	}
 

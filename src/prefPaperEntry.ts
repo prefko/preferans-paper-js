@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-export default abstract class PrefPaperEntry {
+export abstract class PrefPaperEntry {
 
 	isNumber(): boolean {
 		return false;
@@ -13,6 +13,21 @@ export default abstract class PrefPaperEntry {
 
 	isHat(): boolean {
 		return false;
+	}
+
+}
+
+export class PrefPaperNumberEntry extends PrefPaperEntry {
+
+	private _value: number;
+
+	constructor(value: number) {
+		super();
+		this._value = value;
+	}
+
+	isNumber(): boolean {
+		return true;
 	}
 
 }
