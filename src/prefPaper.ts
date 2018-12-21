@@ -8,9 +8,9 @@ import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
 import {PrefPaperPlayerFollower} from "./prefPaperPlayer";
 
 export default class PrefPaper {
-	private _username: string;
-	private _bula: number;
-	private _refas = Infinity;
+	readonly _username: string;
+	readonly _bula: number;
+	readonly _refas = Infinity;
 	private _unusedRefas = Infinity;
 	private _left: PrefPaperColumn;
 	private _middle: PrefPaperColumnMiddle;
