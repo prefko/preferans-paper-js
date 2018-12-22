@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 "use strict";
 
-import {PrefPaperPosition} from './prefPaperEnums';
 import PrefPaperColumn from './prefPaperColumn';
 import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
 import {PrefPaperPlayerFollower} from "./prefPaperPlayer";
+import {PrefPaperPosition} from './prefPaperEnums';
 
 export type PrefPaperObject = { username: string, refas: number, unusedRefas: number, left: number, middle: number, right: number };
 
@@ -114,8 +114,8 @@ export default class PrefPaper {
 			middle: this.middleValue,
 			refas: this._refas,
 			right: this.rightValue,
-			username: this._username,
-			unusedRefas: this._unusedRefas
+			unusedRefas: this._unusedRefas,
+			username: this._username
 		};
 	}
 };

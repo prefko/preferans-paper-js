@@ -2,8 +2,8 @@
 "use strict";
 
 import * as _ from 'lodash';
-import PrefPaperEntry, {PrefPaperEntryNumber, PrefPaperEntryRefa} from './prefPaperEntry';
 import PrefPaperColumn from './prefPaperColumn';
+import PrefPaperEntry, {PrefPaperEntryNumber, PrefPaperEntryRefa} from './prefPaperEntry';
 import {PrefPaperPosition} from "./prefPaperEnums";
 
 const _even = (n: number): boolean => n % 2 === 0;
@@ -99,8 +99,11 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 	}
 
 	public processHatAddition(value: number): PrefPaperColumnMiddle {
-		if (_shouldAddHatNormal(this._values, this._value, value)) this._values.push(new PrefPaperEntryRefa());
-		else if (_shouldAddHatCrossed(this._values, this._value, value)) this._values.push(new PrefPaperEntryRefa(true));
+		if (_shouldAddHatNormal(this._values, this._value, value)) {
+			this._values.push(new PrefPaperEntryRefa());
+		} else if (_shouldAddHatCrossed(this._values, this._value, value)) {
+			this._values.push(new PrefPaperEntryRefa(true));
+		}
 		return this;
 	}
 
@@ -118,11 +121,11 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 	}
 
 	public markPlayedRefa(position: PrefPaperPosition, failed = false): PrefPaperColumnMiddle {
-		let index = _.findIndex(this._values, (i) => _isUnplayedRefaForPostision(i, position));
+		const index = _.findIndex(this._values, (i) => _isUnplayedRefaForPostision(i, position));
 		if (index >= 0) {
-			let refaEntry = this._values[index] as PrefPaperEntryRefa;
-			refaEntry.setPlayed(position, failed);
-			this._values[index] = refaEntry;
+			const r = this._values[index] as PrefPaperEntryRefa;
+			r.setPlayed(position, failed);
+			this._values[index] = r;
 		}
 		return this;
 	}

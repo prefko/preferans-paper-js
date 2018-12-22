@@ -4,7 +4,11 @@
 		"tslint-config-prettier"
 	],
 	"rules": {
-		"interface-over-type-literal": true,
+		"max-classes-per-file": [
+			true,
+			5
+		],
+		"interface-over-type-literal": false,
 		"variable-name": [
 			true,
 			"check-format",
