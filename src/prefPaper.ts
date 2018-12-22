@@ -110,12 +110,12 @@ export default class PrefPaper {
 
 	get json(): PrefPaperObject {
 		return {
-			username: this._username,
-			refas: this._refas,
-			unusedRefas: this._unusedRefas,
 			left: this.leftValue,
 			middle: this.middleValue,
-			right: this.rightValue
+			refas: this._refas,
+			right: this.rightValue,
+			username: this._username,
+			unusedRefas: this._unusedRefas
 		};
 	}
 };

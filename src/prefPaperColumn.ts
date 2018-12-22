@@ -9,36 +9,40 @@ const _even = (n: number): boolean => n % 2 === 0;
 
 export default class PrefPaperColumn {
 	protected _position: PrefPaperPosition;
-	protected _values: Array<PrefPaperEntry>;
+	protected _values: PrefPaperEntry[];
 	protected _value: number;
 	protected _initialValue: number;
 
 	constructor(position: PrefPaperPosition, value = 0) {
 		this._position = position;
 
-		this._values = new Array<PrefPaperEntry>();
+		this._values = [];
 		this._initialValue = this._value = value;
 		this.reset();
 	}
 
 	public reset(): PrefPaperColumn {
-		this._values = new Array<PrefPaperEntry>();
+		this._values = [];
 		this._value = this._initialValue;
 		return this;
 	}
 
 	public addValue(value: number, repealed = false): PrefPaperColumn {
-		if (!_even(value)) throw new Error("PrefPaperColumn::addValue:Value is not even " + value);
+		if (!_even(value)) {
+			throw new Error("PrefPaperColumn::addValue:Value is not even " + value);
+		}
 
-		let newValue = this._value + value;
-		let entry = new PrefPaperEntryNumber(newValue, true);
+		const newValue = this._value + value;
+		const entry = new PrefPaperEntryNumber(newValue, true);
 		if (repealed) {
 			entry.repealed = true;
 			this._values.push(entry);
 
 		} else {
 			this._value += newValue;
-			if (0 !== this._value) this._values.push(entry);
+			if (0 !== this._value) {
+				this._values.push(entry);
+			}
 		}
 
 		return this;
