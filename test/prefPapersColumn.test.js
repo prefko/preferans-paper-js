@@ -2,8 +2,8 @@ const expect = require("chai").expect;
 
 const PrefPaperColumn = require("../lib/column");
 let sredina = new PrefPaperColumn(30, true)
-	.addValue(-10).addRefa()
-	.addValue(-26).addValue(10, true).addValue(18).addRefa()
+	.addValue(-10).addNewRefa()
+	.addValue(-26).addValue(10, true).addValue(18).addNewRefa()
 	.markPlayedRefa("left").markPlayedRefa("middle", true);
 
 let supa = new PrefPaperColumn().addValue(10).addValue(40).addValue(50);
@@ -33,7 +33,7 @@ describe("PrefPaperColumn tests", () => {
 			expect(c1.getValue()).to.be.equal(0);
 			expect(c1.getJSON()).to.deep.equal([]);
 		});
-		let c2 = new PrefPaperColumn(30, true).addValue(-10).addRefa().addValue(-26).reset();
+		let c2 = new PrefPaperColumn(30, true).addValue(-10).addNewRefa().addValue(-26).reset();
 		it("reset should return middle to initial values", () => {
 			expect(c2.getValue()).to.be.equal(30);
 			expect(c2.getJSON()).to.deep.equal([30]);
@@ -56,10 +56,10 @@ describe("PrefPaperColumn tests", () => {
 		});
 	});
 
-	describe("PrefPaperColumn addRefa tests", () => {
-		it("addRefa should throw properly", () => {
-			expect(() => new PrefPaperColumn().addRefa()).to.throw();
-			expect(() => new PrefPaperColumn(30, true).addRefa()).to.not.throw();
+	describe("PrefPaperColumn addNewRefa tests", () => {
+		it("addNewRefa should throw properly", () => {
+			expect(() => new PrefPaperColumn().addNewRefa()).to.throw();
+			expect(() => new PrefPaperColumn(30, true).addNewRefa()).to.not.throw();
 		});
 	});
 
@@ -73,12 +73,12 @@ describe("PrefPaperColumn tests", () => {
 	describe("PrefPaperColumn markPlayedRefa tests", () => {
 		it("markPlayedRefa should throw properly", () => {
 			expect(() => new PrefPaperColumn().markPlayedRefa()).to.throw();
-			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("maybe")).to.throw();
+			expect(() => new PrefPaperColumn(30, true).addNewRefa().markPlayedRefa("maybe")).to.throw();
 			expect(() => new PrefPaperColumn(30, true).markPlayedRefa("left")).to.not.throw();
-			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("left").markPlayedRefa("left")).to.not.throw();
-			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("left")).to.not.throw();
-			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("middle")).to.not.throw();
-			expect(() => new PrefPaperColumn(30, true).addRefa().markPlayedRefa("right")).to.not.throw();
+			expect(() => new PrefPaperColumn(30, true).addNewRefa().markPlayedRefa("left").markPlayedRefa("left")).to.not.throw();
+			expect(() => new PrefPaperColumn(30, true).addNewRefa().markPlayedRefa("left")).to.not.throw();
+			expect(() => new PrefPaperColumn(30, true).addNewRefa().markPlayedRefa("middle")).to.not.throw();
+			expect(() => new PrefPaperColumn(30, true).addNewRefa().markPlayedRefa("right")).to.not.throw();
 		});
 	});
 

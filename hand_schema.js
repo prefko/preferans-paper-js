@@ -158,7 +158,7 @@ let schema = {
 			]
 		},
 		"newRefa": {
-			"$id": "/properties/newRefa",
+			"$id": "/properties/addNewRefa",
 			"type": "boolean",
 			"title": "The Newrefa Schema ",
 			"default": false,

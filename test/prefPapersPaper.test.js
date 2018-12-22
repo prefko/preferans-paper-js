@@ -2,8 +2,8 @@ const expect = require("chai").expect;
 
 const PrefPapersPaper = require("../lib/player");
 let player = new PrefPapersPaper("cope", 30);
-player.addValue("left", 10).newRefa().addValue("left", 50).addValue("right", 100);
-player.addMiddleValue(-10).newRefa().addMiddleValue(-26).newRefa();
+player.addLeftSupa(10).addNewRefa().addLeftSupa(50).addRightSupa(100);
+player.addMiddleValue(-10).addNewRefa().addMiddleValue(-26).addNewRefa();
 player.markLeftPlayedRefa().markMePlayedRefa(true).markRightPlayedRefa(true);
 player.markLeftPlayedRefa(true).markMePlayedRefa().markRightPlayedRefa();
 player.calculateScore(50, 50);
@@ -62,14 +62,14 @@ describe("PrefPapersPaper tests", () => {
 			middle: [30],
 			right: []
 		};
-		let p1 = new PrefPapersPaper("cope", 30).addValue("left", 10).addValue("right", 50).addMiddleValue(-10).newRefa().reset();
+		let p1 = new PrefPapersPaper("cope", 30).addLeftSupa(10).addRightSupa(50).addMiddleValue(-10).addNewRefa().reset();
 		it("reset should return player to initial values", () => {
 			expect(p1.getLeftValue()).to.be.equal(0);
 			expect(p1.getMiddleValue()).to.be.equal(30);
 			expect(p1.getRightValue()).to.be.equal(0);
 			expect(p1.getJSON()).to.deep.equal(base);
 		});
-		let p2 = new PrefPapersPaper("cope", 30).addValue("left", 10).newRefa().addMiddleValue(-26).addValue("right", 20).reset();
+		let p2 = new PrefPapersPaper("cope", 30).addLeftSupa(10).addNewRefa().addMiddleValue(-26).addRightSupa(20).reset();
 		it("reset should return player to initial values", () => {
 			expect(p2.getLeftValue()).to.be.equal(0);
 			expect(p2.getMiddleValue()).to.be.equal(30);

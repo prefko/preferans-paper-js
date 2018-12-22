@@ -3,7 +3,7 @@
 
 import PrefPaperColumn from './prefPaperColumn';
 import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
-import {PrefPaperPlayerFollower} from "./prefPaperPlayer";
+import PrefPaperFollower from "./prefPaperFollower";
 import {PrefPaperPosition} from './prefPaperEnums';
 
 export type PrefPaperObject = { username: string, refas: number, unusedRefas: number, left: number, middle: number, right: number };
@@ -37,21 +37,21 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processFollowing(position: PrefPaperPosition, value: number, follower: PrefPaperPlayerFollower): PrefPaper {
+	public processFollowing(mainPosition: PrefPaperPosition, value: number, follower: PrefPaperFollower, repealed = false): PrefPaper {
 		if (follower.followed) {
-			switch (position) {
+			switch (mainPosition) {
 				case PrefPaperPosition.LEFT:
-					this.addLeft(value * follower.tricks);
+					this.addLeftSupa(value * follower.tricks, repealed);
 					break;
 				case PrefPaperPosition.RIGHT:
-					this.addRight(value * follower.tricks);
+					this.addRightSupa(value * follower.tricks, repealed);
 					break;
 				default:
-					throw new Error("PrefPaper::processFollowing:Invalid position " + position);
+					throw new Error("PrefPaper::processFollowing:Invalid position " + mainPosition);
 			}
 
 			if (follower.failed) {
-				this.addMiddle(value);
+				this.addMiddleValue(value, repealed);
 			}
 		}
 		return this;
@@ -62,7 +62,7 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public addRefa(): PrefPaper {
+	public addNewRefa(): PrefPaper {
 		if (this._unusedRefas > 0) {
 			this._unusedRefas--;
 			this._middle.addRefa();
@@ -70,50 +70,39 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public addValue(position: PrefPaperPosition, value: number): PrefPaper {
-		switch (position) {
-			case PrefPaperPosition.LEFT:
-				return this.addLeft(value);
-			case PrefPaperPosition.MIDDLE:
-				return this.addMiddle(value);
-			case PrefPaperPosition.RIGHT:
-				return this.addRight(value);
-		}
-	}
-
-	private addLeft(value: number): PrefPaper {
-		this._left.addValue(value);
+	public addLeftSupa(value: number, repealed = false): PrefPaper {
+		this._left.addValue(value, repealed);
 		return this;
 	}
 
-	private addMiddle(value: number): PrefPaper {
-		this._middle.addValue(value);
+	public addMiddleValue(value: number, repealed = false): PrefPaper {
+		this._middle.addValue(value, repealed);
 		return this;
 	}
 
-	private addRight(value: number): PrefPaper {
-		this._right.addValue(value);
+	public addRightSupa(value: number, repealed = false): PrefPaper {
+		this._right.addValue(value, repealed);
 		return this;
 	}
 
-	get leftValue(): number {
+	get left(): number {
 		return this._left.value;
 	}
 
-	get middleValue(): number {
+	get middle(): number {
 		return this._middle.value;
 	}
 
-	get rightValue(): number {
+	get right(): number {
 		return this._right.value;
 	}
 
 	get json(): PrefPaperObject {
 		return {
-			left: this.leftValue,
-			middle: this.middleValue,
+			left: this.left,
+			middle: this.middle,
 			refas: this._refas,
-			right: this.rightValue,
+			right: this.right,
 			unusedRefas: this._unusedRefas,
 			username: this._username
 		};
