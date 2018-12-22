@@ -9,18 +9,18 @@ import {PrefPaperPlayerFollower} from "./prefPaperPlayer";
 export type PrefPaperObject = { username: string, refas: number, unusedRefas: number, left: number, middle: number, right: number };
 
 export default class PrefPaper {
-	readonly _username: string;
-	readonly _bula: number;
-	readonly _refas = Infinity;
+	private readonly _username: string;
+	private readonly _bula: number;
+	private readonly _refas = Infinity;
 	private _unusedRefas = Infinity;
 	private _left: PrefPaperColumn;
 	private _middle: PrefPaperColumnMiddle;
 	private _right: PrefPaperColumn;
 
-	constructor(username: string, bula: number, refas = 0) {
+	constructor(username: string, bula: number, refas?: number) {
 		this._username = username;
 		this._bula = bula;
-		if (refas > 0 && refas < Infinity) {
+		if (refas && refas > 0 && refas < Infinity) {
 			this._refas = refas;
 			this._unusedRefas = refas;
 		}
@@ -30,46 +30,39 @@ export default class PrefPaper {
 		this._right = new PrefPaperColumn(PrefPaperPosition.RIGHT);
 	}
 
-	reset(): PrefPaper {
+	public reset(): PrefPaper {
 		this._left = new PrefPaperColumn(PrefPaperPosition.LEFT);
 		this._middle = new PrefPaperColumnMiddle(this._bula);
 		this._right = new PrefPaperColumn(PrefPaperPosition.RIGHT);
 		return this;
 	}
 
-	processFollowing(position: PrefPaperPosition, value: number, follower: PrefPaperPlayerFollower): PrefPaper {
-		switch (position) {
-			case PrefPaperPosition.LEFT:
-				return this.processFollowingLeft(value, follower);
-			case PrefPaperPosition.RIGHT:
-				return this.processFollowingRight(value, follower);
-			default:
-				throw new Error("PrefPaper::processFollowing:Invalid position " + position);
-		}
-	}
-
-	processFollowingLeft(value: number, follower: PrefPaperPlayerFollower, repealed = false): PrefPaper {
+	public processFollowing(position: PrefPaperPosition, value: number, follower: PrefPaperPlayerFollower): PrefPaper {
 		if (follower.followed) {
-			this.addLeft(value * follower.tricks);
-			if (follower.failed) this.addMiddle(value);
+			switch (position) {
+				case PrefPaperPosition.LEFT:
+					this.addLeft(value * follower.tricks);
+					break;
+				case PrefPaperPosition.RIGHT:
+					this.addRight(value * follower.tricks);
+					break;
+				default:
+					throw new Error("PrefPaper::processFollowing:Invalid position " + position);
+			}
+
+			if (follower.failed) {
+				this.addMiddle(value);
+			}
 		}
 		return this;
 	}
 
-	processFollowingRight(value: number, follower: PrefPaperPlayerFollower): PrefPaper {
-		if (follower.followed) {
-			this.addRight(value * follower.tricks);
-			if (follower.failed) this.addMiddle(value);
-		}
-		return this;
-	}
-
-	markPlayedRefa(position: PrefPaperPosition, failed = false): PrefPaper {
+	public markPlayedRefa(position: PrefPaperPosition, failed = false): PrefPaper {
 		this._middle.markPlayedRefa(position, failed);
 		return this;
 	}
 
-	addRefa(): PrefPaper {
+	public addRefa(): PrefPaper {
 		if (this._unusedRefas > 0) {
 			this._unusedRefas--;
 			this._middle.addRefa();
@@ -77,7 +70,7 @@ export default class PrefPaper {
 		return this;
 	}
 
-	addValue(position: PrefPaperPosition, value: number): PrefPaper {
+	public addValue(position: PrefPaperPosition, value: number): PrefPaper {
 		switch (position) {
 			case PrefPaperPosition.LEFT:
 				return this.addLeft(value);
@@ -88,17 +81,17 @@ export default class PrefPaper {
 		}
 	}
 
-	addLeft(value: number): PrefPaper {
+	private addLeft(value: number): PrefPaper {
 		this._left.addValue(value);
 		return this;
 	}
 
-	addMiddle(value: number): PrefPaper {
+	private addMiddle(value: number): PrefPaper {
 		this._middle.addValue(value);
 		return this;
 	}
 
-	addRight(value: number): PrefPaper {
+	private addRight(value: number): PrefPaper {
 		this._right.addValue(value);
 		return this;
 	}

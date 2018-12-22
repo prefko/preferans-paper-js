@@ -21,13 +21,13 @@ export default class PrefPaperColumn {
 		this.reset();
 	}
 
-	reset(): PrefPaperColumn {
+	public reset(): PrefPaperColumn {
 		this._values = new Array<PrefPaperEntry>();
 		this._value = this._initialValue;
 		return this;
 	}
 
-	addValue(value: number, repealed = false): PrefPaperColumn {
+	public addValue(value: number, repealed = false): PrefPaperColumn {
 		if (!_even(value)) throw new Error("PrefPaperColumn::addValue:Value is not even " + value);
 
 		let newValue = this._value + value;
@@ -48,7 +48,7 @@ export default class PrefPaperColumn {
 		return this._value;
 	}
 
-	get json(): Array<any> {
+	get json(): any[] {
 		return _.map(this._values, (val) => val.json);
 	}
 

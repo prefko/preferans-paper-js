@@ -62,13 +62,13 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 		this.reset();
 	}
 
-	reset() {
+	public reset() {
 		super.reset();
 		this._values.push(new PrefPaperEntryNumber(this._value));
 		return this;
 	}
 
-	addValue(value: number, repealed = false): PrefPaperColumn {
+	public addValue(value: number, repealed = false): PrefPaperColumn {
 		if (!_even(value)) throw new Error("PrefPaperColumn::addValue:Value is not even " + value);
 
 		let newValue = this._value + value;
@@ -86,26 +86,26 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 		return this;
 	}
 
-	processHatAddition(value: number): PrefPaperColumnMiddle {
+	public processHatAddition(value: number): PrefPaperColumnMiddle {
 		if (_shouldAddHatNormal(this._values, this._value, value)) this._values.push(new PrefPaperEntryRefa());
 		else if (_shouldAddHatCrossed(this._values, this._value, value)) this._values.push(new PrefPaperEntryRefa(true));
 		return this;
 	}
 
-	addRefa(): PrefPaperColumnMiddle {
+	public addRefa(): PrefPaperColumnMiddle {
 		this._values.push(new PrefPaperEntryRefa());
 		return this;
 	}
 
-	hasUnplayedRefa(): boolean {
+	public hasUnplayedRefa(): boolean {
 		return this.getUnplayedRefasCount() > 0;
 	}
 
-	getUnplayedRefasCount(): number {
+	public getUnplayedRefasCount(): number {
 		return _.size(_.filter(this._values, _isUnplayedRefa));
 	}
 
-	markPlayedRefa(position: PrefPaperPosition, failed = false): PrefPaperColumnMiddle {
+	public markPlayedRefa(position: PrefPaperPosition, failed = false): PrefPaperColumnMiddle {
 		let index = _.findIndex(this._values, (i) => _isUnplayedRefaForPostision(i, position));
 		if (index >= 0) {
 			let refaEntry = this._values[index] as PrefPaperEntryRefa;

@@ -35,7 +35,7 @@ export default abstract class PrefPaperEntry {
 
 // TODO:
 export class PrefPaperEntryNumber extends PrefPaperEntry {
-	readonly _value: number;
+	private readonly _value: number;
 
 	constructor(value: number, repealed = false) {
 		super(repealed);
@@ -66,7 +66,7 @@ export class PrefPaperEntryRefa extends PrefPaperEntry {
 		super(repealed);
 	}
 
-	setPlayed(position: PrefPaperPosition, failed = false): PrefPaperEntry {
+	public setPlayed(position: PrefPaperPosition, failed = false): PrefPaperEntry {
 		switch (position) {
 			case PrefPaperPosition.LEFT:
 				this._left = failed ? -1 : 1;
@@ -106,7 +106,7 @@ export class PrefPaperEntryRefa extends PrefPaperEntry {
 export type PrefPaperEntryHatObject = { hat: number };
 
 export class PrefPaperEntryHat extends PrefPaperEntry {
-	readonly _crossed: boolean;
+	private readonly _crossed: boolean;
 
 	constructor(crossed = false) {
 		super(false);
