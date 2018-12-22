@@ -4,7 +4,7 @@
 import {PrefPaperPosition} from "./prefPaperEnums";
 
 export default abstract class PrefPaperEntry {
-	protected _repealed = false;	// <- Repealed by referee (poništena ruka)
+	protected _repealed: boolean;	// <- Repealed by referee (poništena ruka)
 
 	protected constructor(repealed: boolean) {
 		this._repealed = repealed;
