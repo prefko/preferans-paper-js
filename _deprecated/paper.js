@@ -11,7 +11,7 @@ const _validHand = ajv.compile({
 		type: "object",
 		properties: {
 			newRefa: {type: "boolean", enum: [true]},
-			invalidated: {type: "boolean", default: false},
+			repealed: {type: "boolean", default: false},
 		},
 		required: ["newRefa"],
 		additionalProperties: false
@@ -70,7 +70,7 @@ const _validHand = ajv.compile({
 					additionalProperties: false
 				}]
 			},
-			invalidated: {type: "boolean", default: false},
+			repealed: {type: "boolean", default: false},
 		},
 		required: ["value", "main", "left", "right"],
 		additionalProperties: false
@@ -139,7 +139,7 @@ class PrefPaper {
 	invalidateHand(id) {
 		let index = _.findIndex(this.hands, {id});
 		if (!this.hands[index]) throw new Error("PrefPaper::invalidateHand:Hand not found with id " + id);
-		this.hands[index].invalidated = true;
+		this.hands[index].repealed = true;
 		return this.recalculate();
 	}
 
@@ -154,7 +154,7 @@ class PrefPaper {
 	}
 
 	processHand(hand) {
-		let {value, main = {}, left = {}, right = {}, newRefa = false, invalidated = false} = hand;
+		let {value, main = {}, left = {}, right = {}, newRefa = false, repealed = false} = hand;
 		main.failed = true === main.failed;
 
 		if (newRefa) return this.processNewRefa();
@@ -167,9 +167,9 @@ class PrefPaper {
 		leftPlayer.markRightPlayedRefa(main.failed);
 		rightPlayer.markLeftPlayedRefa(main.failed);
 
-		mainPlayer.addMiddleValue(main.failed ? value : -value, invalidated);
-		leftPlayer.processMyFollowing(_.merge({}, left, {value, mainPosition: "right", invalidated}));
-		leftPlayer.processMyFollowing(_.merge({}, right, {value, mainPosition: "left", invalidated}));
+		mainPlayer.addMiddleValue(main.failed ? value : -value, repealed);
+		leftPlayer.processMyFollowing(_.merge({}, left, {value, mainPosition: "right", repealed}));
+		leftPlayer.processMyFollowing(_.merge({}, right, {value, mainPosition: "left", repealed}));
 
 		mainPlayer.calculateScore(leftPlayer.getRightValue(), rightPlayer.getLeftValue());
 		leftPlayer.calculateScore(rightPlayer.getRightValue(), mainPlayer.getLeftValue());

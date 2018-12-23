@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+"use strict";
+
+import {map} from 'lodash';
+import PrefPaperEntry from "./prefPaperEntry";
+
+export default abstract class PrefPaperColumn {
+
+	protected static isValidValue(v: number): boolean {
+		return PrefPaperEntry.isEven(v) && v > 0;
+	}
+
+	protected _value: number = 0;
+	protected _initialValue: number = 0;
+	protected _values: PrefPaperEntry[] = [];
+
+	public abstract addValue(value: number, repealed?: boolean): PrefPaperColumn;
+
+	public reset(): PrefPaperColumn {
+		this._values = [];
+		this._value = this._initialValue;
+		return this;
+	}
+
+	get value(): number {
+		return this._value;
+	}
+
+	get json(): any[] {
+		return map(this._values, (val) => val.json);
+	}
+
+}
+

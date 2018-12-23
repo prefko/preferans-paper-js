@@ -14,9 +14,9 @@ const _validFollowerData = ajv.compile({
 		tricks: {type: "integer", default: 0, minimum: 0, maximum: 5},
 		value: {type: "integer", default: 0},
 		mainPosition: {type: "string", enum: ["left", "right"]},
-		invalidated: {type: "boolean", default: false}
+		repealed: {type: "boolean", default: false}
 	},
-	required: ["followed", "failed", "tricks", "value", "mainPosition", "invalidated"],
+	required: ["followed", "failed", "tricks", "value", "mainPosition", "repealed"],
 	additionalProperties: false
 });
 
@@ -33,17 +33,17 @@ class PrefPaperPlayer {
 		return this;
 	}
 
-	processFailed(failed, value, invalidated) {
-		if (failed) this.addMiddleValue(value, invalidated);
+	processFailed(failed, value, repealed) {
+		if (failed) this.addMiddleValue(value, repealed);
 	}
 
 	processMyFollowing(data = {}) {
 		if (!_validFollowerData(data)) throw new Error("PrefPaperPlayer::processMyFollowing:Invalid data " + JSON.stringify(data));
 
-		let {followed, tricks, failed, value, mainPosition, invalidated} = data;
+		let {followed, tricks, failed, value, mainPosition, repealed} = data;
 		if (followed) {
-			this.addValue(mainPosition, value * tricks, invalidated);
-			this.processFailed(failed, value, invalidated);
+			this.addValue(mainPosition, value * tricks, repealed);
+			this.processFailed(failed, value, repealed);
 		}
 		return this;
 	}
@@ -80,14 +80,14 @@ class PrefPaperPlayer {
 		return this;
 	}
 
-	addValue(position, value, invalidated = false) {
-		if ("left" === position) this.left.addValue(value, invalidated);
-		if ("right" === position) this.right.addValue(value, invalidated);
+	addValue(position, value, repealed = false) {
+		if ("left" === position) this.left.addValue(value, repealed);
+		if ("right" === position) this.right.addValue(value, repealed);
 		return this;
 	}
 
-	addMiddleValue(value, invalidated = false) {
-		this.middle.addValue(value, invalidated);
+	addMiddleValue(value, repealed = false) {
+		this.middle.addValue(value, repealed);
 		return this;
 	}
 
