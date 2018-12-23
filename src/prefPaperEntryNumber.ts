@@ -7,8 +7,8 @@ export type PrefPaperEntryNumberRepealedObject = { value: number, repealed: bool
 
 export default class PrefPaperEntryNumber extends PrefPaperEntry {
 
-	private readonly _value: number;
 	protected _repealed: boolean;	// <- Repealed by referee (poništena ruka)
+	private readonly _value: number;
 
 	constructor(value: number, repealed = false) {
 		super();

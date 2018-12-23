@@ -5,7 +5,7 @@ import PrefPaper from "../src/prefPaper";
 describe("PrefPaper tests", () => {
 
 	describe("PrefPaper classes constructors tests", () => {
-		let rand = Math.ceil((Math.random() * 1000)) * 2;
+		const rand = Math.ceil((Math.random() * 1000)) * 2;
 		it("constructors should work", () => {
 			expect(() => new PrefPaper("cope", rand + 1)).to.throw();
 			expect(() => new PrefPaper("cope", rand)).to.not.throw();

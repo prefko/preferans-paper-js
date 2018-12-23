@@ -4,6 +4,7 @@ import {PrefPaperPosition} from "../src/prefPaperEnums";
 
 describe("PrefPaper enums tests", () => {
 
+	/* tslint:disable:no-unused-expression */
 	describe("PrefPaperPosition tests", () => {
 		it("PrefPaperPositions exist", () => {
 			expect(PrefPaperPosition.LEFT).to.exist;
@@ -11,5 +12,6 @@ describe("PrefPaper enums tests", () => {
 			expect(PrefPaperPosition.RIGHT).to.exist;
 		});
 	});
+	/* tslint:enable:no-unused-expression */
 
 });

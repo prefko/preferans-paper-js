@@ -13,7 +13,7 @@ describe("PrefPaperEntryHat tests", () => {
 	});
 
 	describe("PrefPaperEntryHat methods tests", () => {
-		let eHat = new PrefPaperEntryHat();
+		const eHat = new PrefPaperEntryHat();
 		it("PrefPaperEntryHat methods should return proper values", () => {
 			expect(eHat.number).to.be.equal(false);
 			expect(eHat.refa).to.be.equal(false);
@@ -22,7 +22,7 @@ describe("PrefPaperEntryHat tests", () => {
 			expect(eHat.json).to.deep.equal({hat: 1});
 		});
 
-		let eHatCrossed = new PrefPaperEntryHat(true);
+		const eHatCrossed = new PrefPaperEntryHat(true);
 		it("PrefPaperEntryHat crossed methods should return proper values", () => {
 			expect(eHatCrossed.number).to.be.equal(false);
 			expect(eHatCrossed.refa).to.be.equal(false);

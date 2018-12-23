@@ -15,7 +15,7 @@ describe("PrefPaperFollower tests", () => {
 	});
 
 	describe("PrefPaperFollower methods tests", () => {
-		let follower1 = new PrefPaperFollower("cope", true, 3);
+		const follower1 = new PrefPaperFollower("cope", true, 3);
 		it("PrefPaperFollower methods should return proper values", () => {
 			expect(follower1.username).to.be.equal("cope");
 			expect(follower1.followed).to.be.equal(true);
@@ -23,7 +23,7 @@ describe("PrefPaperFollower tests", () => {
 			expect(follower1.failed).to.be.equal(false);
 		});
 
-		let follower2 = new PrefPaperFollower("cope", true, 1, true);
+		const follower2 = new PrefPaperFollower("cope", true, 1, true);
 		it("PrefPaperFollower methods for failed should return proper values", () => {
 			expect(follower2.username).to.be.equal("cope");
 			expect(follower2.followed).to.be.equal(true);
@@ -31,7 +31,7 @@ describe("PrefPaperFollower tests", () => {
 			expect(follower2.failed).to.be.equal(true);
 		});
 
-		let follower3 = new PrefPaperFollower("cope", false, 0);
+		const follower3 = new PrefPaperFollower("cope", false, 0);
 		it("PrefPaperFollower methods for not followed should return proper values", () => {
 			expect(follower3.username).to.be.equal("cope");
 			expect(follower3.followed).to.be.equal(false);
@@ -39,7 +39,7 @@ describe("PrefPaperFollower tests", () => {
 			expect(follower3.failed).to.be.equal(false);
 		});
 
-		let follower4 = new PrefPaperFollower("cope", false, 0, true);
+		const follower4 = new PrefPaperFollower("cope", false, 0, true);
 		it("PrefPaperFollower methods for not followed and failed should return proper values", () => {
 			expect(follower4.username).to.be.equal("cope");
 			expect(follower4.followed).to.be.equal(false);

@@ -16,7 +16,7 @@ describe("PrefPaperEntryNumber tests", () => {
 	});
 
 	describe("PrefPaperEntryNumber isEven tests", () => {
-		let rand = Math.ceil((Math.random() * 1000)) * 2;
+		const rand = Math.ceil((Math.random() * 1000)) * 2;
 		it("isEven should work", () => {
 			expect(PrefPaperEntry.isEven(rand + 1)).to.be.equal(false);
 			expect(PrefPaperEntry.isEven(rand)).to.be.equal(true);
@@ -24,7 +24,7 @@ describe("PrefPaperEntryNumber tests", () => {
 	});
 
 	describe("PrefPaperEntryNumber methods tests", () => {
-		let eNumber = new PrefPaperEntryNumber(60);
+		const eNumber = new PrefPaperEntryNumber(60);
 		it("PrefPaperEntryNumber methods should return proper values", () => {
 			expect(eNumber.number).to.be.equal(true);
 			expect(eNumber.refa).to.be.equal(false);
@@ -35,7 +35,7 @@ describe("PrefPaperEntryNumber tests", () => {
 
 		});
 
-		let eNumberRepealed = new PrefPaperEntryNumber(60, true);
+		const eNumberRepealed = new PrefPaperEntryNumber(60, true);
 		it("PrefPaperEntryNumber repealed methods should return proper values", () => {
 			expect(eNumberRepealed.number).to.be.equal(true);
 			expect(eNumberRepealed.refa).to.be.equal(false);
@@ -47,7 +47,7 @@ describe("PrefPaperEntryNumber tests", () => {
 	});
 
 	describe("PrefPaperEntryNumber repealed tests", () => {
-		let eNumberRepealed = new PrefPaperEntryNumber(60);
+		const eNumberRepealed = new PrefPaperEntryNumber(60);
 		eNumberRepealed.repealed = true;
 		it("PrefPaperEntryNumber repealed methods should return proper values", () => {
 			expect(eNumberRepealed.number).to.be.equal(true);

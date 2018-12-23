@@ -14,7 +14,7 @@ describe("PrefPaperEntryRefa tests", () => {
 	});
 
 	describe("PrefPaperEntryRefa methods tests", () => {
-		let eRefa = new PrefPaperEntryRefa();
+		const eRefa = new PrefPaperEntryRefa();
 		it("PrefPaperEntryRefa methods should return proper values", () => {
 			expect(eRefa.number).to.be.equal(false);
 			expect(eRefa.refa).to.be.equal(true);
@@ -47,7 +47,7 @@ describe("PrefPaperEntryRefa tests", () => {
 			expect(() => new PrefPaperEntryRefa().setPlayed(PrefPaperPosition.RIGHT, false).setPlayed(PrefPaperPosition.RIGHT, false)).to.throw();
 		});
 
-		let combos = [
+		const combos = [
 			{t: [], r: [false, false, false], j: {left: 0, middle: 0, right: 0}},
 			{t: [1], r: [true, false, false], j: {left: 1, middle: 0, right: 0}},
 			{t: [-1], r: [true, false, false], j: {left: -1, middle: 0, right: 0}},
@@ -139,7 +139,7 @@ describe("PrefPaperEntryRefa tests", () => {
 		];
 
 		_.each(combos, (c) => {
-			let r = new PrefPaperEntryRefa();
+			const r = new PrefPaperEntryRefa();
 			_.each(c.t, (t) => {
 				if (1 === Math.abs(t)) {
 					r.setPlayed(PrefPaperPosition.LEFT, t > 0);
