@@ -2,44 +2,23 @@
 "use strict";
 
 import * as _ from 'lodash';
-import PrefPaperEntry, {PrefPaperEntryNumber} from "./prefPaperEntry";
-import {PrefPaperPosition} from './prefPaperEnums';
+import PrefPaperEntry from "./prefPaperEntry";
 
-export default class PrefPaperColumn {
+export default abstract class PrefPaperColumn {
 
-	protected _position: PrefPaperPosition;
-	protected _values: PrefPaperEntry[];
-	protected _value: number;
-	protected _initialValue: number;
-
-	constructor(position: PrefPaperPosition, value = 0) {
-		this._position = position;
-
-		this._values = [];
-		this._initialValue = this._value = value;
-		this.reset();
+	protected static isValidValue(v: number): boolean {
+		return PrefPaperEntry.isEven(v) && v > 0;
 	}
+
+	protected _value: number = 0;
+	protected _initialValue: number = 0;
+	protected _values: PrefPaperEntry[] = [];
+
+	public abstract addValue(value: number, repealed?: boolean): PrefPaperColumn;
 
 	public reset(): PrefPaperColumn {
 		this._values = [];
 		this._value = this._initialValue;
-		return this;
-	}
-
-	public addValue(value: number, repealed = false): PrefPaperColumn {
-		const newValue = this._value + value;
-		const entry = new PrefPaperEntryNumber(newValue, true);
-		if (repealed) {
-			entry.repealed = true;
-			this._values.push(entry);
-
-		} else {
-			this._value += newValue;
-			if (0 !== this._value) {
-				this._values.push(entry);
-			}
-		}
-
 		return this;
 	}
 
@@ -52,3 +31,4 @@ export default class PrefPaperColumn {
 	}
 
 }
+

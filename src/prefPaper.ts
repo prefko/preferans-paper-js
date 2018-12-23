@@ -5,6 +5,7 @@ import PrefPaperColumn from './prefPaperColumn';
 import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
 import PrefPaperFollower from "./prefPaperFollower";
 import {PrefPaperPosition} from './prefPaperEnums';
+import PrefPaperColumnSide from "./prefPaperColumnSide";
 
 export type PrefPaperObject = { username: string, refas: number, unusedRefas: number, left: number, middle: number, right: number };
 
@@ -13,9 +14,9 @@ export default class PrefPaper {
 	private readonly _bula: number;
 	private readonly _refas = Infinity;
 	private _unusedRefas = Infinity;
-	private _left: PrefPaperColumn;
+	private _left: PrefPaperColumnSide;
 	private _middle: PrefPaperColumnMiddle;
-	private _right: PrefPaperColumn;
+	private _right: PrefPaperColumnSide;
 
 	constructor(username: string, bula: number, refas?: number) {
 		this._username = username;
@@ -25,15 +26,15 @@ export default class PrefPaper {
 			this._unusedRefas = refas;
 		}
 
-		this._left = new PrefPaperColumn(PrefPaperPosition.LEFT);
+		this._left = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 		this._middle = new PrefPaperColumnMiddle(this._bula);
-		this._right = new PrefPaperColumn(PrefPaperPosition.RIGHT);
+		this._right = new PrefPaperColumnSide(PrefPaperPosition.RIGHT);
 	}
 
 	public reset(): PrefPaper {
-		this._left = new PrefPaperColumn(PrefPaperPosition.LEFT);
+		this._left = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 		this._middle = new PrefPaperColumnMiddle(this._bula);
-		this._right = new PrefPaperColumn(PrefPaperPosition.RIGHT);
+		this._right = new PrefPaperColumnSide(PrefPaperPosition.RIGHT);
 		return this;
 	}
 
@@ -57,8 +58,8 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public markPlayedRefa(position: PrefPaperPosition, failed = false): PrefPaper {
-		this._middle.markPlayedRefa(position, failed);
+	public markPlayedRefa(position: PrefPaperPosition, passed: boolean): PrefPaper {
+		this._middle.markPlayedRefa(position, passed);
 		return this;
 	}
 

@@ -1,21 +1,10 @@
 #!/usr/bin/env node
 "use strict";
 
-import {PrefPaperPosition} from "./prefPaperEnums";
-
 export default abstract class PrefPaperEntry {
-	protected _repealed: boolean;	// <- Repealed by referee (poništena ruka)
 
-	protected constructor(repealed: boolean) {
-		this._repealed = repealed;
-	}
-
-	get repealed() {
-		return this._repealed;
-	}
-
-	set repealed(repealed: boolean) {
-		this._repealed = repealed;
+	public static isEven(n: number): boolean {
+		return n % 2 === 0;
 	}
 
 	get number(): boolean {
@@ -32,104 +21,3 @@ export default abstract class PrefPaperEntry {
 
 	abstract get json(): any;
 };
-
-export class PrefPaperEntryNumber extends PrefPaperEntry {
-
-	protected static isEven(n: number): boolean {
-		return n % 2 === 0;
-	}
-
-	private readonly _value: number;
-
-	constructor(value: number, repealed = false) {
-		super(repealed);
-		if (!PrefPaperEntryNumber.isEven(value)) {
-			throw new Error("PrefPaperEntryNumber::constructor:Value is not even " + value);
-		}
-
-		this._value = value;
-	}
-
-	get number(): boolean {
-		return true;
-	}
-
-	get value(): number {
-		return this._value;
-	}
-
-	get json(): number {
-		return this._value;
-	}
-}
-
-export type PrefPaperEntryRefaObject = { left: number, middle: number, right: number };
-
-export class PrefPaperEntryRefa extends PrefPaperEntry {
-	private _left = 0;
-	private _middle = 0;
-	private _right = 0;
-
-	constructor(repealed = false) {
-		super(repealed);
-	}
-
-	public setPlayed(position: PrefPaperPosition, failed = false): PrefPaperEntry {
-		switch (position) {
-			case PrefPaperPosition.LEFT:
-				this._left = failed ? -1 : 1;
-			case PrefPaperPosition.MIDDLE:
-				this._middle = failed ? -1 : 1;
-			case PrefPaperPosition.RIGHT:
-				this._right = failed ? -1 : 1;
-		}
-		return this;
-	}
-
-	get refa(): boolean {
-		return true;
-	}
-
-	get left(): number {
-		return this._left;
-	}
-
-	get middle(): number {
-		return this._middle;
-	}
-
-	get right(): number {
-		return this._right;
-	}
-
-	get json(): PrefPaperEntryRefaObject {
-		return {
-			left: this.left,
-			middle: this.middle,
-			right: this.right
-		};
-	}
-}
-
-export type PrefPaperEntryHatObject = { hat: number };
-
-export class PrefPaperEntryHat extends PrefPaperEntry {
-	private readonly _crossed: boolean;
-
-	constructor(crossed = false) {
-		super(false);
-		this._crossed = crossed;
-	}
-
-	get crossed(): boolean {
-		return this._crossed;
-	}
-
-	get hat(): boolean {
-		return true;
-	}
-
-	get json(): PrefPaperEntryHatObject {
-		return {hat: this._crossed ? -1 : 1};
-	}
-}
