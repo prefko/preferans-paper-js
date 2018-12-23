@@ -1,6 +1,8 @@
-import * as _ from 'lodash';
-import {expect} from 'chai';
+#!/usr/bin/env node
+"use strict";
 
+import {each} from 'lodash';
+import {expect} from 'chai';
 import PrefPaperEntryRefa from "../src/prefPaperEntryRefa";
 import {PrefPaperPosition} from "../src/prefPaperEnums";
 
@@ -138,9 +140,9 @@ describe("PrefPaperEntryRefa tests", () => {
 			{t: [-3, -2, -1], r: [true, true, true], j: {left: -1, middle: -1, right: -1}}
 		];
 
-		_.each(combos, (c) => {
+		each(combos, (c) => {
 			const r = new PrefPaperEntryRefa();
-			_.each(c.t, (t) => {
+			each(c.t, (t) => {
 				if (1 === Math.abs(t)) {
 					r.setPlayed(PrefPaperPosition.LEFT, t > 0);
 				} else if (2 === Math.abs(t)) {

@@ -1,6 +1,7 @@
-import * as _ from 'lodash';
-import {expect} from 'chai';
+#!/usr/bin/env node
+"use strict";
 
+import {expect} from 'chai';
 import PrefPaperFollower from "../src/prefPaperFollower";
 
 describe("PrefPaperFollower tests", () => {

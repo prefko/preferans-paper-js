@@ -1,5 +1,7 @@
-import {expect} from 'chai';
+#!/usr/bin/env node
+"use strict";
 
+import {expect} from 'chai';
 import PrefPaperEntryHat from "../src/prefPaperEntryHat";
 
 describe("PrefPaperEntryHat tests", () => {

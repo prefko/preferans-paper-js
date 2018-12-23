@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-import PrefPaperColumn from './prefPaperColumn';
+import {isNumber} from 'lodash';
 import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
 import PrefPaperFollower from "./prefPaperFollower";
 import {PrefPaperPosition} from './prefPaperEnums';
@@ -21,7 +21,7 @@ export default class PrefPaper {
 	constructor(username: string, bula: number, refas?: number) {
 		this._username = username;
 		this._bula = bula;
-		if (refas && refas > 0 && refas < Infinity) {
+		if (isNumber(refas) && refas >= 0 && refas < Infinity) {
 			this._refas = refas;
 			this._unusedRefas = refas;
 		}

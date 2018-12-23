@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+"use strict";
+
 import {expect} from 'chai';
 import {PrefPaperPosition} from "../src/prefPaperEnums";
 import PrefPaperColumnSide from "../src/prefPaperColumnSide";

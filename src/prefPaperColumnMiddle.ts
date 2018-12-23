@@ -106,7 +106,6 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 
 	public markPlayedRefa(position: PrefPaperPosition, passed: boolean): PrefPaperColumnMiddle {
 		const index = _.findIndex(this._values, (i) => isUnplayedRefaForPosition(i, position));
-		console.log(position, index);
 		if (index < 0) {
 			throw new Error("PrefPaperColumnMiddle::markPlayedRefa:There are no open refas for that position: " + position);
 		}

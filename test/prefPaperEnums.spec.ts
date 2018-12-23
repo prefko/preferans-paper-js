@@ -1,5 +1,7 @@
-import {expect} from 'chai';
+#!/usr/bin/env node
+"use strict";
 
+import {expect} from 'chai';
 import {PrefPaperPosition} from "../src/prefPaperEnums";
 
 describe("PrefPaper enums tests", () => {

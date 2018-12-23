@@ -1,5 +1,7 @@
-import {expect} from 'chai';
+#!/usr/bin/env node
+"use strict";
 
+import {expect} from 'chai';
 import PrefPaperEntryNumber from "../src/prefPaperEntryNumber";
 import PrefPaperEntry from "../src/prefPaperEntry";
 

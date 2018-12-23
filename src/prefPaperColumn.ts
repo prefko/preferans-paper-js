@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-import * as _ from 'lodash';
+import {map} from 'lodash';
 import PrefPaperEntry from "./prefPaperEntry";
 
 export default abstract class PrefPaperColumn {
@@ -27,7 +27,7 @@ export default abstract class PrefPaperColumn {
 	}
 
 	get json(): any[] {
-		return _.map(this._values, (val) => val.json);
+		return map(this._values, (val) => val.json);
 	}
 
 }
