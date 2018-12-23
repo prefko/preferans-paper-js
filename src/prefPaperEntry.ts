@@ -33,7 +33,6 @@ export default abstract class PrefPaperEntry {
 	abstract get json(): any;
 };
 
-// TODO:
 export class PrefPaperEntryNumber extends PrefPaperEntry {
 	private readonly _value: number;
 

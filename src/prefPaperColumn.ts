@@ -6,14 +6,15 @@ import PrefPaperEntry, {PrefPaperEntryNumber} from "./prefPaperEntry";
 import {PrefPaperPosition} from './prefPaperEnums';
 
 export default class PrefPaperColumn {
-	protected _position: PrefPaperPosition;
-	protected _values: PrefPaperEntry[];
-	protected _value: number;
-	protected _initialValue: number;
 
 	protected static isEven(n: number): boolean {
 		return n % 2 === 0;
 	}
+
+	protected _position: PrefPaperPosition;
+	protected _values: PrefPaperEntry[];
+	protected _value: number;
+	protected _initialValue: number;
 
 	constructor(position: PrefPaperPosition, value = 0) {
 		this._position = position;
