@@ -1,6 +1,6 @@
 {
 	"name": "preferans-paper-js",
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"description": "nodejs paper for preferans",
 	"engines": {
 		"node": ">=8.9"
@@ -14,7 +14,9 @@
 		"docs": "typedoc --out docs src",
 		"test": "nyc mocha -r ts-node/register test/**/*.spec.ts",
 		"coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
-		"sonar": "sonarjs -e .sonarlint/**,node_modules/**,coverage/**,.nyc_output/**"
+		"sonar": "sonarjs -e .sonarlint/**,node_modules/**,coverage/**,.nyc_output/**",
+		"latest-interactive": "yarn upgrade-interactive --latest",
+		"latest": "yarn upgrade --latest"
 	},
 	"nyc": {
 		"include": [
@@ -53,16 +55,16 @@
 	"homepage": "https://github.com/cope/preferans-paper-js#readme",
 	"dependencies": {
 		"@types/lodash": "^4.14.119",
-		"lodash": "^4.17.10",
-		"mathjs": "^5.0.4"
+		"lodash": "^4.17.11",
+		"mathjs": "^5.4.0"
 	},
 	"devDependencies": {
 		"@types/chai": "^4.1.7",
 		"@types/mocha": "^5.2.5",
-		"chai": "^4.1.2",
+		"chai": "^4.2.0",
 		"coveralls": "^3.0.2",
 		"mocha": "^5.2.0",
-		"nyc": "^12.0.2",
+		"nyc": "^13.1.0",
 		"prettier": "^1.15.3",
 		"sonarjs": "^1.0.0",
 		"source-map-support": "^0.5.9",
