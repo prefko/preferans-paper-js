@@ -18,7 +18,7 @@ describe("PrefPaperColumnMiddle tests", () => {
 
 	describe("PrefPaperColumnMiddle method tests", () => {
 		const column1 = new PrefPaperColumnMiddle(60);
-		it("PrefPaperColumnMiddle methods should should work properly", () => {
+		it("PrefPaperColumnMiddle methods should work properly", () => {
 			expect(column1.value).to.be.equal(60);
 			expect(column1.json).to.deep.equal([60]);
 			expect(column1.hasUnplayedRefa()).to.equal(false);
@@ -71,7 +71,7 @@ describe("PrefPaperColumnMiddle tests", () => {
 
 	describe("PrefPaperColumnMiddle addRefa tests", () => {
 		const column1 = new PrefPaperColumnMiddle(60).addRefa();
-		it("PrefPaperColumnMiddle addRefa should should work properly", () => {
+		it("PrefPaperColumnMiddle addRefa should work properly", () => {
 			expect(column1.value).to.be.equal(60);
 			expect(column1.json).to.deep.equal([60, {left: 0, middle: 0, right: 0}]);
 			expect(column1.hasUnplayedRefa()).to.equal(true);
@@ -89,7 +89,7 @@ describe("PrefPaperColumnMiddle tests", () => {
 		const column3 = new PrefPaperColumnMiddle(60).addValue(10).addValue(10).addValue(10)
 			.addRefa().addValue(10)
 			.markPlayedRefa(PrefPaperPosition.RIGHT, false);
-		it("PrefPaperColumnMiddle markPlayedRefa should should work properly", () => {
+		it("PrefPaperColumnMiddle markPlayedRefa should work properly", () => {
 			expect(() => new PrefPaperColumnMiddle(60).markPlayedRefa(PrefPaperPosition.LEFT, true)).to.throw();
 
 			expect(column1.value).to.be.equal(90);
@@ -111,7 +111,7 @@ describe("PrefPaperColumnMiddle tests", () => {
 
 	describe("PrefPaperColumnMiddle reset tests", () => {
 		const column1 = new PrefPaperColumnMiddle(60).addRefa().reset();
-		it("PrefPaperColumnMiddle reset should should work properly", () => {
+		it("PrefPaperColumnMiddle reset should work properly", () => {
 			expect(column1.value).to.be.equal(60);
 			expect(column1.json).to.deep.equal([60]);
 		});

@@ -10,7 +10,7 @@ export default class PrefPaperEntryNumber extends PrefPaperEntry {
 	protected _repealed: boolean;	// <- Repealed by referee (poništena ruka)
 	private readonly _value: number;
 
-	constructor(value: number, repealed = false) {
+	constructor(value: number, repealed: boolean = false) {
 		super();
 		if (!PrefPaperEntry.isEven(value)) {
 			throw new Error("PrefPaperEntryNumber::constructor:Value is not even " + value);

@@ -70,7 +70,7 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 		return this;
 	}
 
-	public addValue(value: number, repealed = false): PrefPaperColumnMiddle {
+	public addValue(value: number, repealed: boolean = false): PrefPaperColumnMiddle {
 		if (!PrefPaperEntry.isEven(value)) throw new Error("PrefPaperColumnMiddle::addValue:Value is not valid: " + value + ". Value must be larger than 0 and even.");
 
 		const newValue = this._value + value;

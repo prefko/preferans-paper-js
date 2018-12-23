@@ -38,7 +38,15 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processFollowing(mainPosition: PrefPaperPosition, value: number, follower: PrefPaperFollower, repealed = false): PrefPaper {
+	public addMiddleValue(value: number, repealed: boolean = false): PrefPaper {
+		if (!repealed && this._middle.hasUnplayedRefa()) {
+			this._middle.markPlayedRefa(PrefPaperPosition.MIDDLE, value > 0);
+		}
+		this._middle.addValue(value, repealed);
+		return this;
+	}
+
+	public processFollowing(mainPosition: PrefPaperPosition, value: number, follower: PrefPaperFollower, repealed: boolean = false): PrefPaper {
 		if (follower.followed) {
 			switch (mainPosition) {
 				case PrefPaperPosition.LEFT:
@@ -58,30 +66,25 @@ export default class PrefPaper {
 		return this;
 	}
 
+	public addNewRefa(): PrefPaper {
+		if (this._unusedRefas <= 0) throw new Error("PrefPaper::addNewRefa:Cannot add any more refas! Unused refas cound: " + this._unusedRefas);
+
+		this._unusedRefas--;
+		this._middle.addRefa();
+		return this;
+	}
+
 	public markPlayedRefa(position: PrefPaperPosition, passed: boolean): PrefPaper {
 		this._middle.markPlayedRefa(position, passed);
 		return this;
 	}
 
-	public addNewRefa(): PrefPaper {
-		if (this._unusedRefas > 0) {
-			this._unusedRefas--;
-			this._middle.addRefa();
-		}
-		return this;
-	}
-
-	public addLeftSupa(value: number, repealed = false): PrefPaper {
+	private addLeftSupa(value: number, repealed: boolean): PrefPaper {
 		this._left.addValue(value, repealed);
 		return this;
 	}
 
-	public addMiddleValue(value: number, repealed = false): PrefPaper {
-		this._middle.addValue(value, repealed);
-		return this;
-	}
-
-	public addRightSupa(value: number, repealed = false): PrefPaper {
+	private addRightSupa(value: number, repealed: boolean): PrefPaper {
 		this._right.addValue(value, repealed);
 		return this;
 	}
@@ -98,12 +101,23 @@ export default class PrefPaper {
 		return this._right.value;
 	}
 
-	get json(): PrefPaperObject {
+	get mini(): PrefPaperObject {
 		return {
 			left: this.left,
 			middle: this.middle,
-			refas: this._refas,
 			right: this.right,
+			refas: this._refas,
+			unusedRefas: this._unusedRefas,
+			username: this._username
+		};
+	}
+
+	get json(): object {
+		return {
+			left: this._left.json,
+			middle: this._middle.json,
+			right: this._right.json,
+			refas: this._refas,
 			unusedRefas: this._unusedRefas,
 			username: this._username
 		};
