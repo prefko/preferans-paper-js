@@ -7,10 +7,6 @@ import {PrefPaperPosition} from './prefPaperEnums';
 
 export default class PrefPaperColumn {
 
-	protected static isEven(n: number): boolean {
-		return n % 2 === 0;
-	}
-
 	protected _position: PrefPaperPosition;
 	protected _values: PrefPaperEntry[];
 	protected _value: number;
@@ -31,10 +27,6 @@ export default class PrefPaperColumn {
 	}
 
 	public addValue(value: number, repealed = false): PrefPaperColumn {
-		if (!PrefPaperColumn.isEven(value)) {
-			throw new Error("PrefPaperColumn::addValue:Value is not even " + value);
-		}
-
 		const newValue = this._value + value;
 		const entry = new PrefPaperEntryNumber(newValue, true);
 		if (repealed) {

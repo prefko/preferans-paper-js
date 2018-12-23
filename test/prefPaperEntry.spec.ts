@@ -4,67 +4,70 @@ import 'mocha';
 
 import {PrefPaperEntryHat, PrefPaperEntryNumber, PrefPaperEntryRefa} from "../src/prefPaperEntry";
 
-var eNumber = new PrefPaperEntryNumber(2);
-var eRefa = new PrefPaperEntryRefa();
-var eHat = new PrefPaperEntryHat();
+// let eNumber = new PrefPaperEntryNumber(2);
+// let eRefa = new PrefPaperEntryRefa();
+// let eHat = new PrefPaperEntryHat();
 
 describe.only("PrefPaperEntry tests", () => {
-	it("PrefPaperEntry classes should exist", () => {
-		expect(PrefPaperEntryNumber).to.exist;
-		expect(PrefPaperEntryRefa).to.exist;
-		expect(PrefPaperEntryHat).to.exist;
+
+	describe("PrefPaperEntry classes constructors tests", () => {
+		it("constructors should work", () => {
+			expect(() => new PrefPaperEntryNumber(3)).to.throw();
+			expect(() => new PrefPaperEntryNumber(3, true)).to.throw();
+			expect(() => new PrefPaperEntryNumber(2)).to.not.throw();
+			expect(() => new PrefPaperEntryNumber(2, true)).to.not.throw();
+			expect(new PrefPaperEntryNumber(60)).to.be.an("object");
+			expect(() => new PrefPaperEntryRefa()).to.not.throw();
+			expect(() => new PrefPaperEntryRefa(true)).to.not.throw();
+			expect(new PrefPaperEntryRefa()).to.be.an("object");
+			expect(() => new PrefPaperEntryHat()).to.not.throw();
+			expect(() => new PrefPaperEntryHat(true)).to.not.throw();
+			expect(new PrefPaperEntryHat()).to.be.an("object");
+		});
 	});
 
-	// describe("PrefPapers constructor tests", () => {
-	// 	it("contructor should create object", () => {
-	// 		expect(() => new PrefPapers()).to.throw();
-	// 		expect(() => new PrefPapers(60)).to.not.throw();
-	// 		expect(new PrefPapers(60)).to.be.an("object");
-	// 	});
-	// });
-	//
-	// describe("PrefPapers getHandCount tests", () => {
+	// describe("PrefPaperEntry getHandCount tests", () => {
 	// 	it("getHandCount should return proper values", () => {
 	// 		expect(paper.getHandCount()).to.be.equal(7);
-	// 		expect(new PrefPapers(30).getHandCount()).to.be.equal(0);
+	// 		expect(new PrefPaperEntry(30).getHandCount()).to.be.equal(0);
 	// 	});
 	// });
 	//
-	// describe("PrefPapers getPlayerByUsername tests", () => {
+	// describe("PrefPaperEntry getPlayerByUsername tests", () => {
 	// 	it("getPlayerByUsername should throw properly", () => {
-	// 		expect(() => new PrefPapers(30).getPlayerByUsername("maybe")).to.throw();
-	// 		expect(() => new PrefPapers(30).getPlayerByUsername("p1")).to.not.throw();
+	// 		expect(() => new PrefPaperEntry(30).getPlayerByUsername("maybe")).to.throw();
+	// 		expect(() => new PrefPaperEntry(30).getPlayerByUsername("p1")).to.not.throw();
 	// 	});
 	// 	it("getPlayerByUsername should return proper values", () => {
-	// 		expect(new PrefPapers(30).getPlayerByUsername("p1").username).to.be.equal("p1");
+	// 		expect(new PrefPaperEntry(30).getPlayerByUsername("p1").username).to.be.equal("p1");
 	// 	});
 	// });
 	//
-	// describe("PrefPapers isValidHand exception tests", () => {
+	// describe("PrefPaperEntry isValidHand exception tests", () => {
 	// 	it("isValidHand should return proper value for objects", () => {
-	// 		expect(PrefPapers.isValidHand()).to.be.equal(false);
-	// 		expect(PrefPapers.isValidHand({})).to.be.equal(false);
-	// 		expect(PrefPapers.isValidHand({value: 10})).to.be.equal(false);
-	// 		expect(PrefPapers.isValidHand({value: 10, main: {}})).to.be.equal(false);
-	// 		expect(PrefPapers.isValidHand({value: 10, main: {}, left: {}})).to.be.equal(false);
-	// 		expect(PrefPapers.isValidHand({newRefa: true})).to.be.equal(true);
+	// 		expect(PrefPaperEntry.isValidHand()).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({})).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({value: 10})).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({value: 10, main: {}})).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({value: 10, main: {}, left: {}})).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({newRefa: true})).to.be.equal(true);
 	// 	});
 	// 	it("isValidHand should return proper value for usernames", () => {
-	// 		expect(PrefPapers.isValidHand({value: 10, main: {}, left: {}, right: {}})).to.be.equal(false);
-	// 		expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {}, right: {}})).to.be.equal(false);
-	// 		expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {}})).to.be.equal(false);
-	// 		expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}})).to.be.equal(true);
+	// 		expect(PrefPaperEntry.isValidHand({value: 10, main: {}, left: {}, right: {}})).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({value: 10, main: {username: "p1"}, left: {}, right: {}})).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {}})).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}})).to.be.equal(true);
 	// 	});
 	// 	it("isValidHand should return proper value for child attributes", () => {
-	// 		expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}, newRefa: "yes"})).to.be.equal(false);
-	// 		expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}, repealed: "yes"})).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}, newRefa: "yes"})).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}, repealed: "yes"})).to.be.equal(false);
 	//
-	// 		expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3", followed: true}, right: {username: "p2"}})).to.be.equal(false);
-	// 		expect(PrefPapers.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2", followed: true}})).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3", followed: true}, right: {username: "p2"}})).to.be.equal(false);
+	// 		expect(PrefPaperEntry.isValidHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2", followed: true}})).to.be.equal(false);
 	// 	});
 	// 	it("isValidHand should return proper value for tricks", () => {
 	// 		expect(
-	// 			PrefPapers.isValidHand({
+	// 			PrefPaperEntry.isValidHand({
 	// 				value: 10,
 	// 				main: {username: "p1"},
 	// 				left: {username: "p3", followed: true, tricks: 3},
@@ -72,7 +75,7 @@ describe.only("PrefPaperEntry tests", () => {
 	// 			})
 	// 		).to.be.equal(true);
 	// 		expect(
-	// 			PrefPapers.isValidHand({
+	// 			PrefPaperEntry.isValidHand({
 	// 				value: 10,
 	// 				main: {username: "p1"},
 	// 				left: {username: "p3"},
@@ -80,7 +83,7 @@ describe.only("PrefPaperEntry tests", () => {
 	// 			})
 	// 		).to.be.equal(true);
 	// 		expect(
-	// 			PrefPapers.isValidHand({
+	// 			PrefPaperEntry.isValidHand({
 	// 				value: 10,
 	// 				main: {username: "p1"},
 	// 				left: {username: "p3", followed: true, tricks: 3},
@@ -90,7 +93,7 @@ describe.only("PrefPaperEntry tests", () => {
 	// 	});
 	// 	it("isValidHand should return proper value for fails", () => {
 	// 		expect(
-	// 			PrefPapers.isValidHand({
+	// 			PrefPaperEntry.isValidHand({
 	// 				value: 10,
 	// 				main: {username: "p1", failed: true},
 	// 				left: {username: "p3", followed: true, tricks: 3},
@@ -98,7 +101,7 @@ describe.only("PrefPaperEntry tests", () => {
 	// 			})
 	// 		).to.be.equal(true);
 	// 		expect(
-	// 			PrefPapers.isValidHand({
+	// 			PrefPaperEntry.isValidHand({
 	// 				value: 10,
 	// 				main: {username: "p1", failed: true},
 	// 				left: {username: "p3", followed: true, tricks: 3},
@@ -106,7 +109,7 @@ describe.only("PrefPaperEntry tests", () => {
 	// 			})
 	// 		).to.be.equal(false);
 	// 		expect(
-	// 			PrefPapers.isValidHand({
+	// 			PrefPaperEntry.isValidHand({
 	// 				value: 10,
 	// 				main: {username: "p1"},
 	// 				left: {username: "p3", followed: true, tricks: 1, failed: true},
@@ -114,7 +117,7 @@ describe.only("PrefPaperEntry tests", () => {
 	// 			})
 	// 		).to.be.equal(true);
 	// 		expect(
-	// 			PrefPapers.isValidHand({
+	// 			PrefPaperEntry.isValidHand({
 	// 				value: 10,
 	// 				main: {username: "p1", failed: true},
 	// 				left: {username: "p3", followed: true, tricks: 2},
@@ -124,43 +127,43 @@ describe.only("PrefPaperEntry tests", () => {
 	// 	});
 	// });
 	//
-	// describe("PrefPapers addHand tests", () => {
+	// describe("PrefPaperEntry addHand tests", () => {
 	// 	it("addHand should throw properly", () => {
-	// 		expect(() => new PrefPapers(30).addHand({})).to.throw();
-	// 		expect(() => new PrefPapers(30).addHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}})).to.not.throw();
+	// 		expect(() => new PrefPaperEntry(30).addHand({})).to.throw();
+	// 		expect(() => new PrefPaperEntry(30).addHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}})).to.not.throw();
 	// 	});
 	// 	it("getPlayerByUsername should return proper values", () => {
 	// 		expect(
-	// 			new PrefPapers(30)
+	// 			new PrefPaperEntry(30)
 	// 				.addHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}})
 	// 				.getHandCount()
 	// 		).to.be.equal(1);
 	// 	});
 	// });
 	//
-	// describe("PrefPapers changeHand tests", () => {
+	// describe("PrefPaperEntry changeHand tests", () => {
 	// 	it("changeHand should throw properly", () => {
-	// 		expect(() => new PrefPapers(30).changeHand()).to.throw();
-	// 		expect(() => new PrefPapers(30).changeHand(1)).to.throw();
-	// 		expect(() => new PrefPapers(30)
+	// 		expect(() => new PrefPaperEntry(30).changeHand()).to.throw();
+	// 		expect(() => new PrefPaperEntry(30).changeHand(1)).to.throw();
+	// 		expect(() => new PrefPaperEntry(30)
 	// 			.addHand({newRefa: true})
 	// 			.changeHand(1)
 	// 		).to.throw();
-	// 		expect(() => new PrefPapers(30)
+	// 		expect(() => new PrefPaperEntry(30)
 	// 			.addHand({newRefa: true})
 	// 			.changeHand(2)
 	// 		).to.throw();
-	// 		expect(() => new PrefPapers(30)
+	// 		expect(() => new PrefPaperEntry(30)
 	// 			.addHand({newRefa: true})
 	// 			.changeHand(1, {value: 10, main: {username: "p1", failed: true}, left: {username: "p3"}, right: {username: "p2"}})
 	// 		).to.throw();
-	// 		expect(() => new PrefPapers(30)
+	// 		expect(() => new PrefPaperEntry(30)
 	// 			.addHand({newRefa: true})
 	// 			.changeHand(1, {value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}})
 	// 		).to.not.throw();
 	// 	});
 	// 	it("changeHand should return proper values", () => {
-	// 		expect(new PrefPapers(30)
+	// 		expect(new PrefPaperEntry(30)
 	// 			.addHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}})
 	// 			.changeHand(1, {newRefa: true})
 	// 			.getJSON()
@@ -172,21 +175,21 @@ describe.only("PrefPaperEntry tests", () => {
 	// 	});
 	// });
 	//
-	// describe("PrefPapers invalidateHand tests", () => {
+	// describe("PrefPaperEntry invalidateHand tests", () => {
 	// 	it("invalidateHand should throw properly", () => {
-	// 		expect(() => new PrefPapers(30).invalidateHand()).to.throw();
-	// 		expect(() => new PrefPapers(30).invalidateHand(1)).to.throw();
-	// 		expect(() => new PrefPapers(30)
+	// 		expect(() => new PrefPaperEntry(30).invalidateHand()).to.throw();
+	// 		expect(() => new PrefPaperEntry(30).invalidateHand(1)).to.throw();
+	// 		expect(() => new PrefPaperEntry(30)
 	// 			.addHand({newRefa: true})
 	// 			.invalidateHand(2)
 	// 		).to.throw();
-	// 		expect(() => new PrefPapers(30)
+	// 		expect(() => new PrefPaperEntry(30)
 	// 			.addHand({newRefa: true})
 	// 			.invalidateHand(1)
 	// 		).to.not.throw();
 	// 	});
 	// 	it("invalidateHand should return proper values", () => {
-	// 		expect(new PrefPapers(30)
+	// 		expect(new PrefPaperEntry(30)
 	// 			.addHand({value: 10, main: {username: "p1"}, left: {username: "p3"}, right: {username: "p2"}})
 	// 			.invalidateHand(1)
 	// 			.getJSON()
@@ -198,18 +201,18 @@ describe.only("PrefPaperEntry tests", () => {
 	// 	});
 	// });
 	//
-	// describe("PrefPapers processNewRefa tests", () => {
+	// describe("PrefPaperEntry processNewRefa tests", () => {
 	// 	it("processNewRefa should throw properly", () => {
 	// 		expect(() => paper.addHand({newRefa: true})).to.throw();
 	// 		expect(() => paper.processNewRefa()).to.throw();
-	// 		expect(() => new PrefPapers(30).addHand({newRefa: true})).to.not.throw();
-	// 		expect(() => new PrefPapers(30).processNewRefa()).to.not.throw();
+	// 		expect(() => new PrefPaperEntry(30).addHand({newRefa: true})).to.not.throw();
+	// 		expect(() => new PrefPaperEntry(30).processNewRefa()).to.not.throw();
 	// 	});
 	// });
 	//
-	// describe("PrefPapers getJSON tests", () => {
+	// describe("PrefPaperEntry getJSON tests", () => {
 	// 	it("getJSON should return proper value for empty paper", () => {
-	// 		expect(new PrefPapers(30).getJSON()).to.deep.equal({
+	// 		expect(new PrefPaperEntry(30).getJSON()).to.deep.equal({
 	// 			p1: {username: "p1", score: -300, refe: 0, left: [], middle: [30], right: []},
 	// 			p2: {username: "p2", score: -300, refe: 0, left: [], middle: [30], right: []},
 	// 			p3: {username: "p3", score: -300, refe: 0, left: [], middle: [30], right: []}

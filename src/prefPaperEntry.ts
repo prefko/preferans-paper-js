@@ -34,10 +34,19 @@ export default abstract class PrefPaperEntry {
 };
 
 export class PrefPaperEntryNumber extends PrefPaperEntry {
+
+	protected static isEven(n: number): boolean {
+		return n % 2 === 0;
+	}
+
 	private readonly _value: number;
 
 	constructor(value: number, repealed = false) {
 		super(repealed);
+		if (!PrefPaperEntryNumber.isEven(value)) {
+			throw new Error("PrefPaperEntryNumber::constructor:Value is not even " + value);
+		}
+
 		this._value = value;
 	}
 
@@ -52,7 +61,7 @@ export class PrefPaperEntryNumber extends PrefPaperEntry {
 	get json(): number {
 		return this._value;
 	}
-};
+}
 
 export type PrefPaperEntryRefaObject = { left: number, middle: number, right: number };
 
@@ -100,7 +109,7 @@ export class PrefPaperEntryRefa extends PrefPaperEntry {
 			right: this.right
 		};
 	}
-};
+}
 
 export type PrefPaperEntryHatObject = { hat: number };
 
@@ -123,4 +132,4 @@ export class PrefPaperEntryHat extends PrefPaperEntry {
 	get json(): PrefPaperEntryHatObject {
 		return {hat: this._crossed ? -1 : 1};
 	}
-};
+}
