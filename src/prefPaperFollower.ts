@@ -2,10 +2,10 @@
 "use strict";
 
 export default class PrefPaperFollower {
-	protected readonly _username: string;
-	protected readonly _failed: boolean;
+	private readonly _username: string;
 	private readonly _followed: boolean;
 	private readonly _tricks: number;
+	private readonly _failed: boolean;
 
 	constructor(username: string, followed: boolean, tricks: number, failed = false) {
 		this._username = username;
@@ -18,10 +18,6 @@ export default class PrefPaperFollower {
 		return this._username;
 	}
 
-	get failed() {
-		return this._failed;
-	}
-
 	get followed() {
 		return this._followed;
 	}
@@ -29,4 +25,9 @@ export default class PrefPaperFollower {
 	get tricks() {
 		return this._tricks;
 	}
+
+	get failed() {
+		return this._failed;
+	}
+
 }

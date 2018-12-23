@@ -3,11 +3,8 @@
 
 import * as _ from 'lodash';
 import PrefPaperColumn from './prefPaperColumn';
-import PrefPaperEntry, {PrefPaperEntryNumber, PrefPaperEntryRefa} from './prefPaperEntry';
+import PrefPaperEntry, {PrefPaperEntryHat, PrefPaperEntryNumber, PrefPaperEntryRefa} from './prefPaperEntry';
 import {PrefPaperPosition} from "./prefPaperEnums";
-
-const _even = (n: number): boolean => n % 2 === 0;
-const _validInitialValue = (v: number): boolean => _even(v) && v > 0;
 
 const _lastNonZeroValue = (vals: PrefPaperEntry[]): number => {
 	const nums = _.filter(vals, (v) => {
@@ -41,11 +38,7 @@ const _shouldAddHatCrossed = (vals: PrefPaperEntry[], last: number, val: number)
 	return _validAddHatCrossed(last, val);
 };
 
-const _isUnplayedRefa = (v: PrefPaperEntry): boolean => {
-	return _isUnplayedRefaForPostision(v, PrefPaperPosition.MIDDLE);
-};
-
-const _isUnplayedRefaForPostision = (v: PrefPaperEntry, position: PrefPaperPosition): boolean => {
+const _isUnplayedRefaForPosition = (v: PrefPaperEntry, position: PrefPaperPosition): boolean => {
 	if (true === v.refa) {
 		const r = v as PrefPaperEntryRefa;
 		switch (position) {
@@ -60,10 +53,18 @@ const _isUnplayedRefaForPostision = (v: PrefPaperEntry, position: PrefPaperPosit
 	return false;
 };
 
+const _isUnplayedRefa = (v: PrefPaperEntry): boolean => {
+	return _isUnplayedRefaForPosition(v, PrefPaperPosition.MIDDLE);
+};
+
 export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 
+	private static isValidInitialValue(v: number): boolean {
+		return PrefPaperColumnMiddle.isEven(v) && v > 0;
+	}
+
 	constructor(value: number) {
-		if (!_validInitialValue(value)) {
+		if (!PrefPaperColumnMiddle.isValidInitialValue(value)) {
 			throw new Error("PrefPaperColumnMiddle::constructor:Value is not valid " + value);
 		}
 		super(PrefPaperPosition.MIDDLE, value);
@@ -77,7 +78,7 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 	}
 
 	public addValue(value: number, repealed = false): PrefPaperColumn {
-		if (!_even(value)) {
+		if (!PrefPaperColumnMiddle.isEven(value)) {
 			throw new Error("PrefPaperColumn::addValue:Value is not even " + value);
 		}
 
@@ -100,9 +101,9 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 
 	public processHatAddition(value: number): PrefPaperColumnMiddle {
 		if (_shouldAddHatNormal(this._values, this._value, value)) {
-			this._values.push(new PrefPaperEntryRefa());
+			this._values.push(new PrefPaperEntryHat());
 		} else if (_shouldAddHatCrossed(this._values, this._value, value)) {
-			this._values.push(new PrefPaperEntryRefa(true));
+			this._values.push(new PrefPaperEntryHat(true));
 		}
 		return this;
 	}
@@ -121,7 +122,7 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 	}
 
 	public markPlayedRefa(position: PrefPaperPosition, failed = false): PrefPaperColumnMiddle {
-		const index = _.findIndex(this._values, (i) => _isUnplayedRefaForPostision(i, position));
+		const index = _.findIndex(this._values, (i) => _isUnplayedRefaForPosition(i, position));
 		if (index >= 0) {
 			const r = this._values[index] as PrefPaperEntryRefa;
 			r.setPlayed(position, failed);

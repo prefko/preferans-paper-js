@@ -5,13 +5,15 @@ import * as _ from 'lodash';
 import PrefPaperEntry, {PrefPaperEntryNumber} from "./prefPaperEntry";
 import {PrefPaperPosition} from './prefPaperEnums';
 
-const _even = (n: number): boolean => n % 2 === 0;
-
 export default class PrefPaperColumn {
 	protected _position: PrefPaperPosition;
 	protected _values: PrefPaperEntry[];
 	protected _value: number;
 	protected _initialValue: number;
+
+	protected static isEven(n: number): boolean {
+		return n % 2 === 0;
+	}
 
 	constructor(position: PrefPaperPosition, value = 0) {
 		this._position = position;
@@ -28,7 +30,7 @@ export default class PrefPaperColumn {
 	}
 
 	public addValue(value: number, repealed = false): PrefPaperColumn {
-		if (!_even(value)) {
+		if (!PrefPaperColumn.isEven(value)) {
 			throw new Error("PrefPaperColumn::addValue:Value is not even " + value);
 		}
 
