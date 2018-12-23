@@ -26,7 +26,7 @@ export default abstract class PrefPaperColumn {
 		return this._value;
 	}
 
-	get json(): any[] {
+	get json(): object[] {
 		return map(this._values, (val) => val.json);
 	}
 
