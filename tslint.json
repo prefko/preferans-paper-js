@@ -23,6 +23,7 @@
 			{
 				"named-imports-order": "any"
 			}
-		]
+		],
+		"object-literal-sort-keys": false
 	}
 }
