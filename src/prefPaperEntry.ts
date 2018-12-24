@@ -19,5 +19,5 @@ export default abstract class PrefPaperEntry {
 		return false;
 	}
 
-	abstract get json(): object;
+	abstract get json(): any;
 };
