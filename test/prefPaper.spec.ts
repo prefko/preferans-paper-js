@@ -14,9 +14,11 @@ describe("PrefPaper tests", () => {
 			expect(() => new PrefPaper("cope", rand + 1)).to.throw();
 			expect(() => new PrefPaper("cope", rand)).to.not.throw();
 			expect(new PrefPaper("cope", rand)).to.be.an("object");
+			expect(new PrefPaper("cope", rand).username).to.be.equal("cope");
 			expect(() => new PrefPaper("cope", rand + 1, 2)).to.throw();
 			expect(() => new PrefPaper("cope", rand, 2)).to.not.throw();
 			expect(new PrefPaper("cope", rand, 2)).to.be.an("object");
+			expect(new PrefPaper("cope", rand, 2).username).to.be.equal("cope");
 		});
 	});
 
@@ -24,6 +26,7 @@ describe("PrefPaper tests", () => {
 		const mini1 = {username: "cope", left: 0, middle: 60, right: 0, refas: Infinity, unusedRefas: Infinity};
 		const paper1 = new PrefPaper("cope", 60);
 		it("PrefPaper infinite refas methods should work properly", () => {
+			expect(paper1.left).to.be.equal(0);
 			expect(paper1.left).to.be.equal(0);
 			expect(paper1.middle).to.deep.equal(60);
 			expect(paper1.right).to.equal(0);

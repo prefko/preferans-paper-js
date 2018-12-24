@@ -89,6 +89,10 @@ export default class PrefPaper {
 		return this;
 	}
 
+	get username(): string {
+		return this._username;
+	}
+
 	get left(): number {
 		return this._left.value;
 	}
