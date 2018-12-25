@@ -54,17 +54,6 @@ export default class PrefPaper {
 		return this.addMiddleValue(value, !main.failed, repealed);
 	}
 
-	private addMiddleValue(value: number, passed: boolean, repealed: boolean): PrefPaper {
-		if (!repealed) this.markFollowerPlayedRefa(PrefPaperPosition.MIDDLE, passed);
-		this._middle.addValue(passed ? -value : value, repealed);
-		return this;
-	}
-
-	private addFollowerFailedMiddleValue(value: number, repealed: boolean): PrefPaper {
-		this._middle.addValue(value, repealed);
-		return this;
-	}
-
 	public processFollowing(follower: PrefPaperFollower, value: number, mainPassed: boolean, mainsPosition: PrefPaperPosition, repealed: boolean = false): PrefPaper {
 		if (follower.followed) {
 			this._scoreCalculated = false;
@@ -92,6 +81,25 @@ export default class PrefPaper {
 
 		this._unusedRefas--;
 		this._middle.addRefa();
+		return this;
+	}
+
+	public hasUnusedRefas(): boolean {
+		return this._unusedRefas > 0;
+	}
+
+	public hasUnplayedRefa(position: PrefPaperPosition = PrefPaperPosition.MIDDLE): boolean {
+		return this._middle.hasUnplayedRefa(position);
+	}
+
+	private addMiddleValue(value: number, passed: boolean, repealed: boolean): PrefPaper {
+		if (!repealed) this.markFollowerPlayedRefa(PrefPaperPosition.MIDDLE, passed);
+		this._middle.addValue(passed ? -value : value, repealed);
+		return this;
+	}
+
+	private addFollowerFailedMiddleValue(value: number, repealed: boolean): PrefPaper {
+		this._middle.addValue(value, repealed);
 		return this;
 	}
 
@@ -124,14 +132,6 @@ export default class PrefPaper {
 
 	get right(): number {
 		return this._right.value;
-	}
-
-	public hasUnusedRefas(): boolean {
-		return this._unusedRefas > 0;
-	}
-
-	public hasUnplayedRefa(position: PrefPaperPosition = PrefPaperPosition.MIDDLE): boolean {
-		return this._middle.hasUnplayedRefa(position);
 	}
 
 	get mini(): PrefPaperObject {
