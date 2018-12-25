@@ -5,6 +5,7 @@ import {expect} from 'chai';
 import PrefPaper from "../src/prefPaper";
 import {PrefPaperPosition} from "../src/prefPaperEnums";
 import PrefPaperFollower from "../src/prefPaperFollower";
+import PrefPaperMain from "../src/prefPaperMain";
 
 describe("PrefPaper tests", () => {
 
@@ -23,7 +24,7 @@ describe("PrefPaper tests", () => {
 	});
 
 	describe("PrefPaper method tests", () => {
-		const mini1 = {username: "cope", left: 0, middle: 60, right: 0, refas: Infinity, unusedRefas: Infinity};
+		const mini1 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: Infinity, unusedRefas: Infinity};
 		const paper1 = new PrefPaper("cope", 60);
 		it("PrefPaper infinite refas methods should work properly", () => {
 			expect(paper1.left).to.be.equal(0);
@@ -41,7 +42,7 @@ describe("PrefPaper tests", () => {
 			expect(paper1b.mini).to.deep.equal(mini1);
 		});
 
-		const mini2 = {username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
+		const mini2 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
 		const paper2 = new PrefPaper("cope", 60, 2);
 		it("PrefPaper methods should work properly", () => {
 			expect(paper2.left).to.be.equal(0);
@@ -58,7 +59,7 @@ describe("PrefPaper tests", () => {
 			expect(paper2b.mini).to.deep.equal(mini2);
 		});
 
-		const mini3 = {username: "cope", left: 0, middle: 60, right: 0, refas: 0, unusedRefas: 0};
+		const mini3 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 0, unusedRefas: 0};
 		const paper3 = new PrefPaper("cope", 60, 0);
 		it("PrefPaper methods should work properly", () => {
 			expect(paper3.left).to.be.equal(0);
@@ -77,13 +78,13 @@ describe("PrefPaper tests", () => {
 	});
 
 	describe("PrefPaper addNewRefa tests", () => {
-		const mini1 = {username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 1};
+		const mini1 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 1};
 		const paper1 = new PrefPaper("cope", 60, 2).addNewRefa();
 		it("PrefPaper addNewRefa 1 should work properly", () => {
 			expect(paper1.mini).to.deep.equal(mini1);
 		});
 
-		const mini2 = {username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 0};
+		const mini2 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 0};
 		const paper2 = new PrefPaper("cope", 60, 2).addNewRefa().addNewRefa();
 		it("PrefPaper addNewRefa 2 should work properly", () => {
 			expect(paper2.mini).to.deep.equal(mini2);
@@ -95,7 +96,7 @@ describe("PrefPaper tests", () => {
 	});
 
 	describe("PrefPaper markPlayedRefa tests", () => {
-		const mini = {username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 1};
+		const mini = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 1};
 		const paper = new PrefPaper("cope", 60, 2)
 			.addNewRefa()
 			.markPlayedRefa(PrefPaperPosition.LEFT, true);
@@ -105,26 +106,39 @@ describe("PrefPaper tests", () => {
 	});
 
 	describe("PrefPaper add values tests", () => {
+		const main = new PrefPaperMain("cope", 3);
 		const rand = Math.ceil((Math.random() * 1000)) * 2;
-		it("PrefPaper addLeftSupa should throw", () => {
-			expect(() => new PrefPaper("cope", 60).addMiddleValue(rand + 1)).to.throw();
+		it("PrefPaper processMain should throw because of odd value", () => {
+			expect(() => new PrefPaper("cope", 60).processMain(main, rand + 1)).to.throw();
+		});
+		it("PrefPaper processMain should throw because of username", () => {
+			expect(() => new PrefPaper("mitko", 60).processMain(main, 10)).to.throw();
 		});
 	});
 
-	describe("PrefPaper processFollowing tests", () => {
+	describe("PrefPaper mini tests", () => {
 		const follower1 = new PrefPaperFollower("mitko", true, 3);
-		const mini1 = {username: "cope", left: 30, middle: 60, right: 0, refas: 2, unusedRefas: 2};
+		it("PrefPaper json should throw", () => {
+			expect(() => new PrefPaper("cope", 60)
+				.processFollowing(PrefPaperPosition.RIGHT, 10, follower1)
+				.mini
+			).to.throw();
+		});
+
+		const mini1 = {score: -570, username: "cope", left: 30, middle: 60, right: 0, refas: 2, unusedRefas: 2};
 		const paper1 = new PrefPaper("cope", 60, 2)
-			.processFollowing(PrefPaperPosition.LEFT, 10, follower1);
-		it("PrefPaper addNewRefa 1 should work properly", () => {
+			.processFollowing(PrefPaperPosition.LEFT, 10, follower1)
+			.calculateScore(0, 0);
+		it("PrefPaper processFollowing 1 should work properly", () => {
 			expect(paper1.mini).to.deep.equal(mini1);
 		});
 
 		const follower2 = new PrefPaperFollower("mitko", true, 3);
-		const mini2 = {username: "cope", left: 0, middle: 60, right: 30, refas: 2, unusedRefas: 2};
+		const mini2 = {score: -570, username: "cope", left: 0, middle: 60, right: 30, refas: 2, unusedRefas: 2};
 		const paper2 = new PrefPaper("cope", 60, 2)
-			.processFollowing(PrefPaperPosition.RIGHT, 10, follower2);
-		it("PrefPaper addNewRefa 1 should work properly", () => {
+			.processFollowing(PrefPaperPosition.RIGHT, 10, follower2)
+			.calculateScore(0, 0);
+		it("PrefPaper processFollowing 2 should work properly", () => {
 			expect(paper2.mini).to.deep.equal(mini2);
 		});
 
@@ -134,73 +148,91 @@ describe("PrefPaper tests", () => {
 		});
 
 		const follower3 = new PrefPaperFollower("mitko", true, 3, true);
-		const mini3 = {username: "cope", left: 30, middle: 70, right: 0, refas: 2, unusedRefas: 2};
+		const mini3 = {score: -670, username: "cope", left: 30, middle: 70, right: 0, refas: 2, unusedRefas: 2};
 		const paper3 = new PrefPaper("cope", 60, 2)
-			.processFollowing(PrefPaperPosition.LEFT, 10, follower3);
-		it("PrefPaper addNewRefa 1 should work properly", () => {
+			.processFollowing(PrefPaperPosition.LEFT, 10, follower3)
+			.calculateScore(0, 0);
+		it("PrefPaper processFollowing 3 should work properly", () => {
 			expect(paper3.mini).to.deep.equal(mini3);
 		});
 
 		const follower4 = new PrefPaperFollower("mitko", true, 3, true);
-		const mini4 = {username: "cope", left: 0, middle: 70, right: 30, refas: 2, unusedRefas: 2};
+		const mini4 = {score: -670, username: "cope", left: 0, middle: 70, right: 30, refas: 2, unusedRefas: 2};
 		const paper4 = new PrefPaper("cope", 60, 2)
-			.processFollowing(PrefPaperPosition.RIGHT, 10, follower4);
-		it("PrefPaper addNewRefa 1 should work properly", () => {
+			.processFollowing(PrefPaperPosition.RIGHT, 10, follower4)
+			.calculateScore(0, 0);
+		it("PrefPaper processFollowing 4 should work properly", () => {
 			expect(paper4.mini).to.deep.equal(mini4);
 		});
 
 		const follower5 = new PrefPaperFollower("mitko", false, 3);
-		const mini5 = {username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
+		const mini5 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
 		const paper5 = new PrefPaper("cope", 60, 2)
-			.processFollowing(PrefPaperPosition.LEFT, 10, follower5);
-		it("PrefPaper addNewRefa 1 should work properly", () => {
+			.processFollowing(PrefPaperPosition.LEFT, 10, follower5)
+			.calculateScore(0, 0);
+		it("PrefPaper processFollowing 5 should work properly", () => {
 			expect(paper5.mini).to.deep.equal(mini5);
 		});
 
 		const follower6 = new PrefPaperFollower("mitko", true, 3, true);
-		const mini6 = {username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
+		const mini6 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
 		const paper6 = new PrefPaper("cope", 60, 2)
-			.processFollowing(PrefPaperPosition.LEFT, 10, follower6, true);
-		it("PrefPaper addNewRefa 1 should work properly", () => {
+			.processFollowing(PrefPaperPosition.LEFT, 10, follower6, true)
+			.calculateScore(0, 0);
+		it("PrefPaper processFollowing 6 should work properly", () => {
 			expect(paper6.mini).to.deep.equal(mini6);
 		});
 
 		const follower7 = new PrefPaperFollower("mitko", true, 3);
-		const mini7 = {username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
+		const mini7 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
 		const paper7 = new PrefPaper("cope", 60, 2)
-			.processFollowing(PrefPaperPosition.RIGHT, 10, follower7, true);
-		it("PrefPaper addNewRefa 1 should work properly", () => {
+			.processFollowing(PrefPaperPosition.RIGHT, 10, follower7, true)
+			.calculateScore(0, 0);
+		it("PrefPaper processFollowing 7 should work properly", () => {
 			expect(paper7.mini).to.deep.equal(mini7);
 		});
 
 	});
 
-	describe("PrefPaper markPlayedRefa tests", () => {
+	describe("PrefPaper json tests", () => {
 		const follower = new PrefPaperFollower("mitko", true, 3);
-		const failer = new PrefPaperFollower("mitko", true, 1, true);
+		it("PrefPaper json should throw", () => {
+			expect(() => new PrefPaper("cope", 60)
+				.processFollowing(PrefPaperPosition.RIGHT, 10, follower)
+				.json
+			).to.throw();
+		});
+
+		const main = new PrefPaperMain("cope", 6);
+		const mainFailed = new PrefPaperMain("cope", 6, true);
+		const failer = new PrefPaperFollower("milja", true, 1, true);
+		const paper = new PrefPaper("cope", 60, 5)
+			.addNewRefa()
+			.processMain(main, 10)
+			.processMain(mainFailed, 10)
+			.processFollowing(PrefPaperPosition.RIGHT, 10, follower)
+			.processMain(main, 12, true)
+			.processFollowing(PrefPaperPosition.LEFT, 10, failer)
+			.calculateScore(0, 0)
+			.markPlayedRefa(PrefPaperPosition.LEFT, true);
 		const json =
 			{
+				score: -660,
 				left: [10],
 				middle:
 					[
 						60,
 						{left: 1, middle: -1, right: 0},
 						50,
-						{value: 38, repealed: true},
-						60
+						60,
+						{value: 48, repealed: true},
+						70
 					],
 				right: [30],
 				refas: 5,
 				unusedRefas: 4,
 				username: 'cope'
 			};
-		const paper = new PrefPaper("cope", 60, 5)
-			.addNewRefa()
-			.addMiddleValue(-10)
-			.processFollowing(PrefPaperPosition.RIGHT, 10, follower)
-			.addMiddleValue(-12, true)
-			.processFollowing(PrefPaperPosition.LEFT, 10, failer)
-			.markPlayedRefa(PrefPaperPosition.LEFT, true);
 		it("PrefPaper addNewRefa 1 should work properly", () => {
 			expect(paper.json).to.deep.equal(json);
 		});

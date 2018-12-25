@@ -6,8 +6,9 @@ import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
 import PrefPaperFollower from "./prefPaperFollower";
 import {PrefPaperPosition} from './prefPaperEnums';
 import PrefPaperColumnSide from "./prefPaperColumnSide";
+import PrefPaperMain from "./prefPaperMain";
 
-export type PrefPaperObject = { username: string, refas: number, unusedRefas: number, left: number, middle: number, right: number };
+export type PrefPaperObject = { score: number, username: string, refas: number, unusedRefas: number, left: number, middle: number, right: number };
 
 export default class PrefPaper {
 	private readonly _username: string;
@@ -17,11 +18,13 @@ export default class PrefPaper {
 	private _left: PrefPaperColumnSide;
 	private _middle: PrefPaperColumnMiddle;
 	private _right: PrefPaperColumnSide;
+	private _score: number;
+	private _scoreCalculated: boolean = true;
 
-	constructor(username: string, bula: number, refas?: number) {
+	constructor(username: string, bula: number, refas: number = Infinity) {
 		this._username = username;
 		this._bula = bula;
-		if (isNumber(refas) && refas >= 0 && refas < Infinity) {
+		if (refas >= 0 && refas < Infinity) {
 			this._refas = refas;
 			this._unusedRefas = refas;
 		}
@@ -29,6 +32,7 @@ export default class PrefPaper {
 		this._left = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 		this._middle = new PrefPaperColumnMiddle(this._bula);
 		this._right = new PrefPaperColumnSide(PrefPaperPosition.RIGHT);
+		this._score = -this._bula * 10;
 	}
 
 	public reset(): PrefPaper {
@@ -38,7 +42,19 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public addMiddleValue(value: number, repealed: boolean = false): PrefPaper {
+	public calculateScore(leftValue: number, rightValue: number): PrefPaper {
+		this._score = this.left + this.right - (this.middle * 10) - leftValue - rightValue;
+		this._scoreCalculated = true;
+		return this;
+	}
+
+	public processMain(main: PrefPaperMain, value: number, repealed: boolean = false) {
+		if (main.username !== this.username) throw new Error("PrefPaper::processMain:Usernames do not match. " + this.username + "!=" + main.username);
+		this._scoreCalculated = false;
+		return this.addMiddleValue(main.failed ? value : -value, repealed);
+	}
+
+	private addMiddleValue(value: number, repealed: boolean): PrefPaper {
 		if (!repealed && this._middle.hasUnplayedRefa()) {
 			this._middle.markPlayedRefa(PrefPaperPosition.MIDDLE, value > 0);
 		}
@@ -48,6 +64,8 @@ export default class PrefPaper {
 
 	public processFollowing(mainPosition: PrefPaperPosition, value: number, follower: PrefPaperFollower, repealed: boolean = false): PrefPaper {
 		if (follower.followed) {
+			this._scoreCalculated = false;
+
 			switch (mainPosition) {
 				case PrefPaperPosition.LEFT:
 					this.addLeftSupa(value * follower.tricks, repealed);
@@ -59,15 +77,13 @@ export default class PrefPaper {
 					throw new Error("PrefPaper::processFollowing:Invalid position " + mainPosition);
 			}
 
-			if (follower.failed) {
-				this.addMiddleValue(value, repealed);
-			}
+			if (follower.failed) this.addMiddleValue(value, repealed);
 		}
 		return this;
 	}
 
 	public addNewRefa(): PrefPaper {
-		if (this._unusedRefas <= 0) throw new Error("PrefPaper::addNewRefa:Cannot add any more refas! Unused refas cound: " + this._unusedRefas);
+		if (this._unusedRefas <= 0) throw new Error("PrefPaper::addNewRefa:Cannot add any more refas! Unused refas count: " + this._unusedRefas);
 
 		this._unusedRefas--;
 		this._middle.addRefa();
@@ -106,7 +122,10 @@ export default class PrefPaper {
 	}
 
 	get mini(): PrefPaperObject {
+		if (!this._scoreCalculated) throw new Error("PrefPaper::mini:Score is invalid. Entries were made without score recalculation.");
+
 		return {
+			score: this._score,
 			left: this.left,
 			middle: this.middle,
 			right: this.right,
@@ -117,7 +136,10 @@ export default class PrefPaper {
 	}
 
 	get json(): object {
+		if (!this._scoreCalculated) throw new Error("PrefPaper::mini:Score is invalid. Entries were made without score recalculation.");
+
 		return {
+			score: this._score,
 			left: this._left.json,
 			middle: this._middle.json,
 			right: this._right.json,
