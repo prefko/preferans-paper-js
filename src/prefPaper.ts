@@ -62,11 +62,11 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processFollowing(mainPosition: PrefPaperPosition, value: number, follower: PrefPaperFollower, repealed: boolean = false): PrefPaper {
+	public processFollowing(follower: PrefPaperFollower, value: number, mainsPosition: PrefPaperPosition, repealed: boolean = false): PrefPaper {
 		if (follower.followed) {
 			this._scoreCalculated = false;
 
-			switch (mainPosition) {
+			switch (mainsPosition) {
 				case PrefPaperPosition.LEFT:
 					this.addLeftSupa(value * follower.tricks, repealed);
 					break;
@@ -74,7 +74,7 @@ export default class PrefPaper {
 					this.addRightSupa(value * follower.tricks, repealed);
 					break;
 				default:
-					throw new Error("PrefPaper::processFollowing:Invalid position " + mainPosition);
+					throw new Error("PrefPaper::processFollowing:Invalid position " + mainsPosition);
 			}
 
 			if (follower.failed) this.addMiddleValue(value, repealed);
