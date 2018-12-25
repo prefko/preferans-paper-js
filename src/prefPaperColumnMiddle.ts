@@ -49,10 +49,6 @@ const isUnplayedRefaForPosition = (v: PrefPaperEntry, position: PrefPaperPositio
 	return false;
 };
 
-const isUnplayedRefa = (v: PrefPaperEntry): boolean => {
-	return isUnplayedRefaForPosition(v, PrefPaperPosition.MIDDLE);
-};
-
 export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 
 	constructor(value: number) {
@@ -116,12 +112,12 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 		return this;
 	}
 
-	public hasUnplayedRefa(): boolean {
-		return this.unplayedRefasCount > 0;
+	public hasUnplayedRefa(position: PrefPaperPosition = PrefPaperPosition.MIDDLE): boolean {
+		return this.getUnplayedRefasCount(position) > 0;
 	}
 
-	get unplayedRefasCount(): number {
-		return _.size(_.filter(this._values, isUnplayedRefa));
+	private getUnplayedRefasCount(position: PrefPaperPosition): number {
+		return _.size(_.filter(this._values, (i) => isUnplayedRefaForPosition(i, position)));
 	}
 
 }

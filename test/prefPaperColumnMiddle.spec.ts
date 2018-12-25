@@ -22,7 +22,6 @@ describe("PrefPaperColumnMiddle tests", () => {
 			expect(column1.value).to.be.equal(60);
 			expect(column1.json).to.deep.equal([60]);
 			expect(column1.hasUnplayedRefa()).to.equal(false);
-			expect(column1.unplayedRefasCount).to.equal(0);
 		});
 	});
 
@@ -75,7 +74,6 @@ describe("PrefPaperColumnMiddle tests", () => {
 			expect(column1.value).to.be.equal(60);
 			expect(column1.json).to.deep.equal([60, {left: 0, middle: 0, right: 0}]);
 			expect(column1.hasUnplayedRefa()).to.equal(true);
-			expect(column1.unplayedRefasCount).to.equal(1);
 		});
 	});
 
@@ -95,17 +93,14 @@ describe("PrefPaperColumnMiddle tests", () => {
 			expect(column1.value).to.be.equal(90);
 			expect(column1.json).to.deep.equal([60, 70, 80, {left: 1, middle: 0, right: 0}, 90]);
 			expect(column1.hasUnplayedRefa()).to.equal(true);
-			expect(column1.unplayedRefasCount).to.equal(1);
 
 			expect(column2.value).to.be.equal(80);
 			expect(column2.json).to.deep.equal([60, 70, {left: 0, middle: -1, right: 0}, 80]);
 			expect(column2.hasUnplayedRefa()).to.equal(false);
-			expect(column2.unplayedRefasCount).to.equal(0);
 
 			expect(column3.value).to.be.equal(100);
 			expect(column3.json).to.deep.equal([60, 70, 80, 90, {left: 0, middle: 0, right: -1}, 100]);
 			expect(column3.hasUnplayedRefa()).to.equal(true);
-			expect(column3.unplayedRefasCount).to.equal(1);
 		});
 	});
 

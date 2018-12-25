@@ -51,33 +51,38 @@ export default class PrefPaper {
 	public processMain(main: PrefPaperMain, value: number, repealed: boolean = false) {
 		if (main.username !== this.username) throw new Error("PrefPaper::processMain:Usernames do not match. " + this.username + "!=" + main.username);
 		this._scoreCalculated = false;
-		return this.addMiddleValue(main.failed ? value : -value, repealed);
+		return this.addMiddleValue(value, !main.failed, repealed);
 	}
 
-	private addMiddleValue(value: number, repealed: boolean): PrefPaper {
-		if (!repealed && this._middle.hasUnplayedRefa()) {
-			this._middle.markPlayedRefa(PrefPaperPosition.MIDDLE, value > 0);
-		}
+	private addMiddleValue(value: number, passed: boolean, repealed: boolean): PrefPaper {
+		if (!repealed) this.markFollowerPlayedRefa(PrefPaperPosition.MIDDLE, passed);
+		this._middle.addValue(passed ? -value : value, repealed);
+		return this;
+	}
+
+	private addFollowerFailedMiddleValue(value: number, repealed: boolean): PrefPaper {
 		this._middle.addValue(value, repealed);
 		return this;
 	}
 
-	public processFollowing(follower: PrefPaperFollower, value: number, mainsPosition: PrefPaperPosition, repealed: boolean = false): PrefPaper {
+	public processFollowing(follower: PrefPaperFollower, value: number, mainPassed: boolean, mainsPosition: PrefPaperPosition, repealed: boolean = false): PrefPaper {
 		if (follower.followed) {
 			this._scoreCalculated = false;
 
 			switch (mainsPosition) {
 				case PrefPaperPosition.LEFT:
+					if (!repealed) this.markFollowerPlayedRefa(PrefPaperPosition.LEFT, mainPassed);
 					this.addLeftSupa(value * follower.tricks, repealed);
 					break;
 				case PrefPaperPosition.RIGHT:
+					if (!repealed) this.markFollowerPlayedRefa(PrefPaperPosition.LEFT, mainPassed);
 					this.addRightSupa(value * follower.tricks, repealed);
 					break;
 				default:
 					throw new Error("PrefPaper::processFollowing:Invalid position " + mainsPosition);
 			}
 
-			if (follower.failed) this.addMiddleValue(value, repealed);
+			if (follower.failed) this.addFollowerFailedMiddleValue(value, repealed);
 		}
 		return this;
 	}
@@ -90,8 +95,8 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public markPlayedRefa(position: PrefPaperPosition, passed: boolean): PrefPaper {
-		this._middle.markPlayedRefa(position, passed);
+	private markFollowerPlayedRefa(position: PrefPaperPosition, passed: boolean): PrefPaper {
+		if (this._middle.hasUnplayedRefa(position)) this._middle.markPlayedRefa(position, passed);
 		return this;
 	}
 
@@ -119,6 +124,10 @@ export default class PrefPaper {
 
 	get right(): number {
 		return this._right.value;
+	}
+
+	public hasUnplayedRefa(position: PrefPaperPosition = PrefPaperPosition.MIDDLE): boolean {
+		return this._middle.hasUnplayedRefa(position);
 	}
 
 	get mini(): PrefPaperObject {
