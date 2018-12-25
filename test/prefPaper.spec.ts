@@ -23,6 +23,15 @@ describe("PrefPaper tests", () => {
 		});
 	});
 
+	describe("PrefPaper hasUnusedRefas tests", () => {
+		it("PrefPaper addNewRefa 1 should work properly", () => {
+			expect(new PrefPaper("cope", 60).hasUnusedRefas()).to.be.equal(true);
+			expect(new PrefPaper("cope", 60, 2).hasUnusedRefas()).to.be.equal(true);
+			expect(new PrefPaper("cope", 60, 2).hasUnusedRefas()).to.be.equal(true);
+			expect(new PrefPaper("cope", 60, 0).hasUnusedRefas()).to.be.equal(false);
+		});
+	});
+
 	describe("PrefPaper method tests", () => {
 		const mini1 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: Infinity, unusedRefas: Infinity};
 		const paper1 = new PrefPaper("cope", 60);

@@ -126,6 +126,10 @@ export default class PrefPaper {
 		return this._right.value;
 	}
 
+	public hasUnusedRefas(): boolean {
+		return this._unusedRefas > 0;
+	}
+
 	public hasUnplayedRefa(position: PrefPaperPosition = PrefPaperPosition.MIDDLE): boolean {
 		return this._middle.hasUnplayedRefa(position);
 	}
