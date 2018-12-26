@@ -6,7 +6,7 @@ import PrefPaperMain from "./prefPaperMain";
 export default class PrefPaperFollower extends PrefPaperMain {
 	private readonly _followed: boolean;
 
-	constructor(username: string, followed: boolean, tricks: number, failed: boolean = false) {
+	constructor(username: string, followed: boolean, tricks: number = 0, failed: boolean = false) {
 		super(username, tricks, failed);
 		this._followed = followed;
 	}

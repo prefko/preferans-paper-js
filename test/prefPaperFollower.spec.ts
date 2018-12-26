@@ -8,6 +8,8 @@ describe("PrefPaperFollower tests", () => {
 
 	describe("PrefPaperFollower classes constructors tests", () => {
 		it("constructors should work", () => {
+			expect(() => new PrefPaperFollower("cope", false)).to.not.throw();
+			expect(new PrefPaperFollower("cope", false)).to.be.an("object");
 			expect(() => new PrefPaperFollower("cope", true, 2)).to.not.throw();
 			expect(new PrefPaperFollower("cope", true, 2)).to.be.an("object");
 			expect(() => new PrefPaperFollower("cope", true, 1, true)).to.not.throw();
