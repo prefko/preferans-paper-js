@@ -8,6 +8,8 @@ describe("PrefPaperMain tests", () => {
 
 	describe("PrefPaperMain classes constructors tests", () => {
 		it("constructors should work", () => {
+			expect(() => new PrefPaperMain("cope")).to.not.throw();
+			expect(new PrefPaperMain("cope")).to.be.an("object");
 			expect(() => new PrefPaperMain("cope", 2)).to.not.throw();
 			expect(new PrefPaperMain("cope", 2)).to.be.an("object");
 			expect(() => new PrefPaperMain("cope", 1, true)).to.not.throw();
