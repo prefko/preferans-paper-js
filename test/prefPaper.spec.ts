@@ -187,7 +187,7 @@ describe("PrefPaper tests", () => {
 		const follower5 = new PrefPaperFollower("mitko", false, 3);
 		const follower5b = new PrefPaperFollower("milja", false, 2);
 		const mini5 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
-		let paper5 = new PrefPaper("cope", 60, 2);
+		const paper5 = new PrefPaper("cope", 60, 2);
 		paper5.processFollowing(follower5, 10, true, PrefPaperPosition.LEFT)
 			.processFollowing(follower5b, 10, true, PrefPaperPosition.RIGHT)
 			.calculateScore(0, 0);
