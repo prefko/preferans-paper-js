@@ -55,24 +55,23 @@ export default class PrefPaper {
 	}
 
 	public processFollowing(follower: PrefPaperFollower, value: number, mainPassed: boolean, mainsPosition: PrefPaperPosition, repealed: boolean = false): PrefPaper {
-		if (follower.followed) {
-			this._scoreCalculated = false;
+		if (follower.followed) this._scoreCalculated = false;
 
-			switch (mainsPosition) {
-				case PrefPaperPosition.LEFT:
-					if (!repealed) this.markFollowerPlayedRefa(PrefPaperPosition.LEFT, mainPassed);
-					this.addLeftSupa(value * follower.tricks, repealed);
-					break;
-				case PrefPaperPosition.RIGHT:
-					if (!repealed) this.markFollowerPlayedRefa(PrefPaperPosition.LEFT, mainPassed);
-					this.addRightSupa(value * follower.tricks, repealed);
-					break;
-				default:
-					throw new Error("PrefPaper::processFollowing:Invalid position " + mainsPosition);
-			}
-
-			if (follower.failed) this.addFollowerFailedMiddleValue(value, repealed);
+		switch (mainsPosition) {
+			case PrefPaperPosition.LEFT:
+				if (!repealed) this.markPlayedRefa(PrefPaperPosition.LEFT, mainPassed);
+				if (follower.followed) this.addLeftSupa(value * follower.tricks, repealed);
+				break;
+			case PrefPaperPosition.RIGHT:
+				if (!repealed) this.markPlayedRefa(PrefPaperPosition.RIGHT, mainPassed);
+				if (follower.followed) this.addRightSupa(value * follower.tricks, repealed);
+				break;
+			default:
+				throw new Error("PrefPaper::processFollowing:Invalid position " + mainsPosition);
 		}
+
+		if (follower.followed && follower.failed) this._middle.addValue(value, repealed);
+
 		return this;
 	}
 
@@ -93,17 +92,12 @@ export default class PrefPaper {
 	}
 
 	private addMiddleValue(value: number, passed: boolean, repealed: boolean): PrefPaper {
-		if (!repealed) this.markFollowerPlayedRefa(PrefPaperPosition.MIDDLE, passed);
+		if (!repealed) this.markPlayedRefa(PrefPaperPosition.MIDDLE, passed);
 		this._middle.addValue(passed ? -value : value, repealed);
 		return this;
 	}
 
-	private addFollowerFailedMiddleValue(value: number, repealed: boolean): PrefPaper {
-		this._middle.addValue(value, repealed);
-		return this;
-	}
-
-	private markFollowerPlayedRefa(position: PrefPaperPosition, passed: boolean): PrefPaper {
+	private markPlayedRefa(position: PrefPaperPosition, passed: boolean): PrefPaper {
 		if (this._middle.hasUnplayedRefa(position)) this._middle.markPlayedRefa(position, passed);
 		return this;
 	}

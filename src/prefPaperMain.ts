@@ -3,8 +3,8 @@
 
 export default class PrefPaperMain {
 	private readonly _username: string;
-	private readonly _tricks: number = 0;
-	private readonly _failed: boolean = false;
+	private readonly _tricks: number;
+	private readonly _failed: boolean;
 
 	constructor(username: string, tricks: number = 0, failed: boolean = false) {
 		this._username = username;

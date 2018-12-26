@@ -136,7 +136,7 @@ describe("PrefPaper tests", () => {
 	});
 
 	describe("PrefPaper mini tests", () => {
-		const follower1 = new PrefPaperFollower("mitko", true, 3);
+		const follower1 = new PrefPaperFollower("milja", true, 3);
 		it("PrefPaper json should throw", () => {
 			expect(() => new PrefPaper("cope", 60)
 				.processFollowing(follower1, 10, true, PrefPaperPosition.RIGHT)
@@ -152,7 +152,7 @@ describe("PrefPaper tests", () => {
 			expect(paper1.mini).to.deep.equal(mini1);
 		});
 
-		const follower2 = new PrefPaperFollower("mitko", true, 3);
+		const follower2 = new PrefPaperFollower("milja", true, 3);
 		const mini2 = {score: -570, username: "cope", left: 0, middle: 60, right: 30, refas: 2, unusedRefas: 2};
 		const paper2 = new PrefPaper("cope", 60, 2)
 			.processFollowing(follower2, 10, true, PrefPaperPosition.RIGHT)
@@ -185,10 +185,13 @@ describe("PrefPaper tests", () => {
 		});
 
 		const follower5 = new PrefPaperFollower("mitko", false, 3);
+		const follower5b = new PrefPaperFollower("milja", false, 2);
 		const mini5 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
-		const paper5 = new PrefPaper("cope", 60, 2)
-			.processFollowing(follower5, 10, true, PrefPaperPosition.LEFT)
+		let paper5 = new PrefPaper("cope", 60, 2);
+		paper5.processFollowing(follower5, 10, true, PrefPaperPosition.LEFT)
+			.processFollowing(follower5b, 10, true, PrefPaperPosition.RIGHT)
 			.calculateScore(0, 0);
+
 		it("PrefPaper processFollowing 5 should work properly", () => {
 			expect(paper5.mini).to.deep.equal(mini5);
 		});
@@ -241,8 +244,8 @@ describe("PrefPaper tests", () => {
 				middle:
 					[
 						60,
-						{left: 1, middle: 1, right: 0},
-						{left: 1, middle: -1, right: 0},
+						{left: 1, middle: 1, right: 1},
+						{left: 0, middle: -1, right: 0},
 						50,
 						60,
 						{value: 48, repealed: true},
