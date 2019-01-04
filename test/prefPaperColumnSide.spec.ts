@@ -23,11 +23,11 @@ describe("PrefPaperColumnSide tests", () => {
 		const column2 = new PrefPaperColumnSide(PrefPaperPosition.MIDDLE);
 		const column3 = new PrefPaperColumnSide(PrefPaperPosition.RIGHT);
 		it("PrefPaperColumnSide methods should return proper values", () => {
-			expect(column1.value).to.be.equal(0);
+			expect(column1.value).to.equal(0);
 			expect(column1.json).to.deep.equal([]);
-			expect(column2.value).to.be.equal(0);
+			expect(column2.value).to.equal(0);
 			expect(column2.json).to.deep.equal([]);
-			expect(column3.value).to.be.equal(0);
+			expect(column3.value).to.equal(0);
 			expect(column3.json).to.deep.equal([]);
 		});
 	});
@@ -37,11 +37,11 @@ describe("PrefPaperColumnSide tests", () => {
 		const column2 = new PrefPaperColumnSide(PrefPaperPosition.MIDDLE).reset();
 		const column3 = new PrefPaperColumnSide(PrefPaperPosition.RIGHT).reset();
 		it("PrefPaperColumnSide reset should return proper values", () => {
-			expect(column1.value).to.be.equal(0);
+			expect(column1.value).to.equal(0);
 			expect(column1.json).to.deep.equal([]);
-			expect(column2.value).to.be.equal(0);
+			expect(column2.value).to.equal(0);
 			expect(column2.json).to.deep.equal([]);
-			expect(column3.value).to.be.equal(0);
+			expect(column3.value).to.equal(0);
 			expect(column3.json).to.deep.equal([]);
 		});
 	});
@@ -50,7 +50,7 @@ describe("PrefPaperColumnSide tests", () => {
 		const column1 = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 		column1.addValue(10).addValue(8).addValue(10, true).addValue(22);
 		it("PrefPaperColumnSide addValue should return proper values", () => {
-			expect(column1.value).to.be.equal(40);
+			expect(column1.value).to.equal(40);
 			expect(column1.json).to.deep.equal([10, 18, {value: 28, repealed: true}, 40]);
 		});
 		it("PrefPaperColumnSide addValue should throw", () => {
@@ -62,7 +62,7 @@ describe("PrefPaperColumnSide tests", () => {
 		const column1 = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 		column1.addValue(10).addValue(8).addValue(16, true).addValue(10).reset();
 		it("PrefPaperColumnSide reset should return proper values", () => {
-			expect(column1.value).to.be.equal(0);
+			expect(column1.value).to.equal(0);
 			expect(column1.json).to.deep.equal([]);
 		});
 	});

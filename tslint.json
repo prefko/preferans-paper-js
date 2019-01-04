@@ -4,6 +4,7 @@
 		"tslint-config-prettier"
 	],
 	"rules": {
+		"one-variable-per-declaration": false,
 		"curly": [
 			true,
 			"ignore-same-line"

@@ -15,20 +15,20 @@ describe("PrefPaper tests", () => {
 			expect(() => new PrefPaper("cope", rand + 1)).to.throw();
 			expect(() => new PrefPaper("cope", rand)).to.not.throw();
 			expect(new PrefPaper("cope", rand)).to.be.an("object");
-			expect(new PrefPaper("cope", rand).username).to.be.equal("cope");
+			expect(new PrefPaper("cope", rand).username).to.equal("cope");
 			expect(() => new PrefPaper("cope", rand + 1, 2)).to.throw();
 			expect(() => new PrefPaper("cope", rand, 2)).to.not.throw();
 			expect(new PrefPaper("cope", rand, 2)).to.be.an("object");
-			expect(new PrefPaper("cope", rand, 2).username).to.be.equal("cope");
+			expect(new PrefPaper("cope", rand, 2).username).to.equal("cope");
 		});
 	});
 
 	describe("PrefPaper hasUnusedRefas tests", () => {
 		it("PrefPaper addNewRefa 1 should work properly", () => {
-			expect(new PrefPaper("cope", 60).hasUnusedRefas()).to.be.equal(true);
-			expect(new PrefPaper("cope", 60, 2).hasUnusedRefas()).to.be.equal(true);
-			expect(new PrefPaper("cope", 60, 2).hasUnusedRefas()).to.be.equal(true);
-			expect(new PrefPaper("cope", 60, 0).hasUnusedRefas()).to.be.equal(false);
+			expect(new PrefPaper("cope", 60).hasUnusedRefas()).to.equal(true);
+			expect(new PrefPaper("cope", 60, 2).hasUnusedRefas()).to.equal(true);
+			expect(new PrefPaper("cope", 60, 2).hasUnusedRefas()).to.equal(true);
+			expect(new PrefPaper("cope", 60, 0).hasUnusedRefas()).to.equal(false);
 		});
 	});
 
@@ -36,8 +36,8 @@ describe("PrefPaper tests", () => {
 		const mini1 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: Infinity, unusedRefas: Infinity};
 		const paper1 = new PrefPaper("cope", 60);
 		it("PrefPaper infinite refas methods should work properly", () => {
-			expect(paper1.left).to.be.equal(0);
-			expect(paper1.left).to.be.equal(0);
+			expect(paper1.left).to.equal(0);
+			expect(paper1.left).to.equal(0);
 			expect(paper1.middle).to.deep.equal(60);
 			expect(paper1.right).to.equal(0);
 			expect(paper1.mini).to.deep.equal(mini1);
@@ -47,7 +47,7 @@ describe("PrefPaper tests", () => {
 
 		const paper1b = new PrefPaper("cope", 60).reset();
 		it("PrefPaper infinite refas after reset methods should work properly", () => {
-			expect(paper1b.left).to.be.equal(0);
+			expect(paper1b.left).to.equal(0);
 			expect(paper1b.middle).to.deep.equal(60);
 			expect(paper1b.right).to.equal(0);
 			expect(paper1b.mini).to.deep.equal(mini1);
@@ -58,7 +58,7 @@ describe("PrefPaper tests", () => {
 		const mini2 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
 		const paper2 = new PrefPaper("cope", 60, 2);
 		it("PrefPaper methods should work properly", () => {
-			expect(paper2.left).to.be.equal(0);
+			expect(paper2.left).to.equal(0);
 			expect(paper2.middle).to.deep.equal(60);
 			expect(paper2.right).to.equal(0);
 			expect(paper2.mini).to.deep.equal(mini2);
@@ -68,7 +68,7 @@ describe("PrefPaper tests", () => {
 
 		const paper2b = new PrefPaper("cope", 60, 2).reset();
 		it("PrefPaper after reset methods should work properly", () => {
-			expect(paper2b.left).to.be.equal(0);
+			expect(paper2b.left).to.equal(0);
 			expect(paper2b.middle).to.deep.equal(60);
 			expect(paper2b.right).to.equal(0);
 			expect(paper2b.mini).to.deep.equal(mini2);
@@ -79,7 +79,7 @@ describe("PrefPaper tests", () => {
 		const mini3 = {score: -600, username: "cope", left: 0, middle: 60, right: 0, refas: 0, unusedRefas: 0};
 		const paper3 = new PrefPaper("cope", 60, 0);
 		it("PrefPaper methods should work properly", () => {
-			expect(paper3.left).to.be.equal(0);
+			expect(paper3.left).to.equal(0);
 			expect(paper3.middle).to.deep.equal(60);
 			expect(paper3.right).to.equal(0);
 			expect(paper3.mini).to.deep.equal(mini3);
@@ -87,7 +87,7 @@ describe("PrefPaper tests", () => {
 
 		const paper3b = new PrefPaper("cope", 60, 0).reset();
 		it("PrefPaper after reset methods should work properly", () => {
-			expect(paper3b.left).to.be.equal(0);
+			expect(paper3b.left).to.equal(0);
 			expect(paper3b.middle).to.deep.equal(60);
 			expect(paper3b.right).to.equal(0);
 			expect(paper3b.mini).to.deep.equal(mini3);
