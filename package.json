@@ -1,6 +1,6 @@
 {
 	"name": "preferans-paper-js",
-	"version": "2.6.5",
+	"version": "2.7.0",
 	"description": "nodejs paper for preferans",
 	"engines": {
 		"node": ">=8.9"
@@ -19,9 +19,6 @@
 		"latest-interactive": "yarn upgrade-interactive --latest",
 		"latest": "yarn upgrade --latest"
 	},
-	"files": [
-		"lib/**/*"
-	],
 	"nyc": {
 		"include": [
 			"src/**/*.ts"
