@@ -1,9 +1,9 @@
 language: node_js
 node_js:
-  - "node"
-  - "lts/*"
-  - "8"
+    - "node"
+    - "latest"
+    - "lts/*"
 cache:
-  directories:
-    - "node_modules"
+    directories:
+        - "node_modules"
 after_success: "yarn coveralls"
