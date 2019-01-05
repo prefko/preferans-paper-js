@@ -1,12 +1,12 @@
 {
 	"name": "preferans-paper-js",
-	"version": "2.6.2",
+	"version": "2.6.3",
 	"description": "nodejs paper for preferans",
 	"engines": {
 		"node": ">=8.9"
 	},
 	"main": "./lib/prefPaper.js",
-	"types": "lib/prefPaper.d.ts",
+	"types": "./lib/prefPaper.d.ts",
 	"scripts": {
 		"build": "tsc",
 		"build:watch": "tsc --watch",
