@@ -1,16 +1,17 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
 
-import {isNumber} from 'lodash';
+import { isNumber } from 'lodash';
 import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
-import PrefPaperFollower from "./prefPaperFollower";
-import {PrefPaperPosition} from './prefPaperEnums';
-import PrefPaperColumnSide from "./prefPaperColumnSide";
-import PrefPaperMain from "./prefPaperMain";
+import PrefPaperFollower from './prefPaperFollower';
+import { PrefPaperPosition } from './prefPaperEnums';
+import PrefPaperColumnSide from './prefPaperColumnSide';
+import PrefPaperMain from './prefPaperMain';
 
 export type PrefPaperObject = { score: number, username: string, refas: number, unusedRefas: number, left: number, middle: number, right: number };
 
 export default class PrefPaper {
+	// TODO: add replacements possibility
 	private readonly _username: string;
 	private readonly _bula: number;
 	private readonly _refas = Infinity;
@@ -49,7 +50,7 @@ export default class PrefPaper {
 	}
 
 	public processMain(main: PrefPaperMain, value: number, repealed: boolean = false) {
-		if (main.username !== this.username) throw new Error("PrefPaper::processMain:Usernames do not match. " + this.username + "!=" + main.username);
+		if (main.username !== this.username) throw new Error('PrefPaper::processMain:Usernames do not match. ' + this.username + '!=' + main.username);
 		this._scoreCalculated = false;
 		return this.addMiddleValue(value, !main.failed, repealed);
 	}
@@ -67,7 +68,7 @@ export default class PrefPaper {
 				if (follower.followed) this.addRightSupa(value * follower.tricks, repealed);
 				break;
 			default:
-				throw new Error("PrefPaper::processFollowing:Invalid position " + mainsPosition);
+				throw new Error('PrefPaper::processFollowing:Invalid position ' + mainsPosition);
 		}
 
 		if (follower.followed && follower.failed) this._middle.addValue(value, repealed);
@@ -76,7 +77,7 @@ export default class PrefPaper {
 	}
 
 	public addNewRefa(): PrefPaper {
-		if (this._unusedRefas <= 0) throw new Error("PrefPaper::addNewRefa:Cannot add any more refas! Unused refas count: " + this._unusedRefas);
+		if (this._unusedRefas <= 0) throw new Error('PrefPaper::addNewRefa:Cannot add any more refas! Unused refas count: ' + this._unusedRefas);
 
 		this._unusedRefas--;
 		this._middle.addRefa();
@@ -129,7 +130,7 @@ export default class PrefPaper {
 	}
 
 	get mini(): PrefPaperObject {
-		if (!this._scoreCalculated) throw new Error("PrefPaper::mini:Score is invalid. Entries were made without score recalculation.");
+		if (!this._scoreCalculated) throw new Error('PrefPaper::mini:Score is invalid. Entries were made without score recalculation.');
 
 		return {
 			score: this._score,
@@ -138,12 +139,12 @@ export default class PrefPaper {
 			right: this.right,
 			refas: this._refas,
 			unusedRefas: this._unusedRefas,
-			username: this._username
+			username: this._username,
 		};
 	}
 
 	get json(): object {
-		if (!this._scoreCalculated) throw new Error("PrefPaper::mini:Score is invalid. Entries were made without score recalculation.");
+		if (!this._scoreCalculated) throw new Error('PrefPaper::mini:Score is invalid. Entries were made without score recalculation.');
 
 		return {
 			score: this._score,
@@ -152,7 +153,7 @@ export default class PrefPaper {
 			right: this._right.json,
 			refas: this._refas,
 			unusedRefas: this._unusedRefas,
-			username: this._username
+			username: this._username,
 		};
 	}
 };
