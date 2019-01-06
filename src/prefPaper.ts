@@ -11,8 +11,7 @@ import PrefPaperMain from './prefPaperMain';
 export type PrefPaperObject = { score: number, username: string, refas: number, unusedRefas: number, left: number, middle: number, right: number };
 
 export default class PrefPaper {
-	// TODO: add replacements possibility
-	private readonly _username: string;
+	private _username: string;
 	private readonly _bula: number;
 	private readonly _refas = Infinity;
 	private _unusedRefas = Infinity;
@@ -115,6 +114,10 @@ export default class PrefPaper {
 
 	get username(): string {
 		return this._username;
+	}
+
+	set username(username: string) {
+		this._username = username;
 	}
 
 	get left(): number {
