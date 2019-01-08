@@ -3,3 +3,6 @@ logo: http://prefko.com/img/logo.gif
 title: preferans-paper-js
 description: preferans paper
 show_downloads: "true"
+include:
+  - "_*_.html"
+  - "_*_.*.html"
