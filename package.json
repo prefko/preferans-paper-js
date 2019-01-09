@@ -1,6 +1,6 @@
 {
 	"name": "preferans-paper-js",
-	"version": "2.7.2",
+	"version": "2.7.3",
 	"description": "nodejs paper for preferans",
 	"engines": {
 		"node": ">=8.9"
@@ -8,6 +8,7 @@
 	"main": "./lib/prefPaper.js",
 	"types": "./lib/prefPaper.d.ts",
 	"scripts": {
+		"all": "yarn & yarn build & yarn test & yarn docs",
 		"build": "tsc",
 		"build:watch": "tsc --watch",
 		"lint": "tslint -p tsconfig.json",
