@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
 
 export default abstract class PrefPaperEntry {
 
@@ -7,15 +7,15 @@ export default abstract class PrefPaperEntry {
 		return n % 2 === 0;
 	}
 
-	get number(): boolean {
+	get isNumber(): boolean {
 		return false;
 	}
 
-	get refa(): boolean {
+	get isRefa(): boolean {
 		return false;
 	}
 
-	get hat(): boolean {
+	get isHat(): boolean {
 		return false;
 	}
 

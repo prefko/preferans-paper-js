@@ -28,7 +28,7 @@ export default class PrefPaperEntryNumber extends PrefPaperEntry {
 		this._repealed = repealed;
 	}
 
-	get number(): boolean {
+	get isNumber(): boolean {
 		return true;
 	}
 

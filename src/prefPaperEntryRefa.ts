@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
 
-import {PrefPaperPosition} from "./prefPaperEnums";
-import PrefPaperEntry from "./prefPaperEntry";
+import { PrefPaperPosition } from './prefPaperEnums';
+import PrefPaperEntry from './prefPaperEntry';
 
 export type PrefPaperEntryRefaObject = { left: number, middle: number, right: number };
 
@@ -23,42 +23,42 @@ export default class PrefPaperEntryRefa extends PrefPaperEntry {
 	}
 
 	public setLeftPlayed(passed: boolean): PrefPaperEntryRefa {
-		if (this.leftPlayed) {
-			throw new Error("PrefPaperEntryRefa::setLeftPlayed:Left already marked as played!");
+		if (this.hasLeftPlayed) {
+			throw new Error('PrefPaperEntryRefa::setLeftPlayed:Left already marked as played!');
 		}
 		this._left = passed ? 1 : -1;
 		return this;
 	}
 
 	public setMiddlePlayed(passed: boolean): PrefPaperEntryRefa {
-		if (this.middlePlayed) {
-			throw new Error("PrefPaperEntryRefa::setMiddlePlayed:Middle already marked as played!");
+		if (this.hasMiddlePlayed) {
+			throw new Error('PrefPaperEntryRefa::setMiddlePlayed:Middle already marked as played!');
 		}
 		this._middle = passed ? 1 : -1;
 		return this;
 	}
 
 	public setRightPlayed(passed: boolean): PrefPaperEntryRefa {
-		if (this.rightPlayed) {
-			throw new Error("PrefPaperEntryRefa::setRightPlayed:Right already marked as played!");
+		if (this.hasRightPlayed) {
+			throw new Error('PrefPaperEntryRefa::setRightPlayed:Right already marked as played!');
 		}
 		this._right = passed ? 1 : -1;
 		return this;
 	}
 
-	get refa(): boolean {
+	get isRefa(): boolean {
 		return true;
 	}
 
-	get leftPlayed(): boolean {
+	get hasLeftPlayed(): boolean {
 		return this._left !== 0;
 	}
 
-	get middlePlayed(): boolean {
+	get hasMiddlePlayed(): boolean {
 		return this._middle !== 0;
 	}
 
-	get rightPlayed(): boolean {
+	get hasRightPlayed(): boolean {
 		return this._right !== 0;
 	}
 
@@ -66,7 +66,7 @@ export default class PrefPaperEntryRefa extends PrefPaperEntry {
 		return {
 			left: this._left,
 			middle: this._middle,
-			right: this._right
+			right: this._right,
 		};
 	}
 }

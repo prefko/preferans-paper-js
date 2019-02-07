@@ -6,22 +6,22 @@ import PrefPaperEntry from "./prefPaperEntry";
 export type PrefPaperEntryHatObject = { hat: number };
 
 export default class PrefPaperEntryHat extends PrefPaperEntry {
-	private readonly _crossed: boolean;
+	private readonly _isCrossed: boolean;
 
 	constructor(crossed = false) {
 		super();
-		this._crossed = crossed;
+		this._isCrossed = crossed;
 	}
 
-	get crossed(): boolean {
-		return this._crossed;
+	get isCrossed(): boolean {
+		return this._isCrossed;
 	}
 
-	get hat(): boolean {
+	get isHat(): boolean {
 		return true;
 	}
 
 	get json(): PrefPaperEntryHatObject {
-		return {hat: this._crossed ? -1 : 1};
+		return {hat: this._isCrossed ? -1 : 1};
 	}
 }

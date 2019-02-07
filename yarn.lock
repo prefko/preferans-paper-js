@@ -687,8 +687,8 @@ growl@1.10.5, "growl@~> 1.10.0":
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.10.5.tgz#f2735dc2283674fa67478b10181059355c369e5e"
 
 handlebars@^4.0.11, handlebars@^4.0.6:
-  version "4.0.12"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.0.12.tgz#2c15c8a96d46da5e266700518ba8cb8d919d5bc5"
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.0.tgz#0d6a6f34ff1f63cecec8423aa4169827bf787c3a"
   dependencies:
     async "^2.5.0"
     optimist "^0.6.1"
@@ -1704,9 +1704,9 @@ typescript@3.2.x:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.4.tgz#c585cb952912263d915b462726ce244ba510ef3d"
 
-typescript@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.3.1.tgz#6de14e1db4b8a006ac535e482c8ba018c55f750b"
+typescript@^3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.3.3.tgz#f1657fc7daa27e1a8930758ace9ae8da31403221"
 
 uglify-js@^3.1.4:
   version "3.4.9"

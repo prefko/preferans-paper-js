@@ -17,19 +17,19 @@ describe("PrefPaperEntryHat tests", () => {
 	describe("PrefPaperEntryHat methods tests", () => {
 		const eHat = new PrefPaperEntryHat();
 		it("PrefPaperEntryHat methods should return proper values", () => {
-			expect(eHat.number).to.equal(false);
-			expect(eHat.refa).to.equal(false);
-			expect(eHat.hat).to.equal(true);
-			expect(eHat.crossed).to.equal(false);
+			expect(eHat.isNumber).to.equal(false);
+			expect(eHat.isRefa).to.equal(false);
+			expect(eHat.isHat).to.equal(true);
+			expect(eHat.isCrossed).to.equal(false);
 			expect(eHat.json).to.deep.equal({hat: 1});
 		});
 
 		const eHatCrossed = new PrefPaperEntryHat(true);
-		it("PrefPaperEntryHat crossed methods should return proper values", () => {
-			expect(eHatCrossed.number).to.equal(false);
-			expect(eHatCrossed.refa).to.equal(false);
-			expect(eHatCrossed.hat).to.equal(true);
-			expect(eHatCrossed.hat).to.equal(true);
+		it("PrefPaperEntryHat isCrossed methods should return proper values", () => {
+			expect(eHatCrossed.isNumber).to.equal(false);
+			expect(eHatCrossed.isRefa).to.equal(false);
+			expect(eHatCrossed.isHat).to.equal(true);
+			expect(eHatCrossed.isHat).to.equal(true);
 			expect(eHatCrossed.json).to.deep.equal({hat: -1});
 		});
 	});

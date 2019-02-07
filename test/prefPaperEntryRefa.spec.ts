@@ -18,12 +18,12 @@ describe("PrefPaperEntryRefa tests", () => {
 	describe("PrefPaperEntryRefa methods tests", () => {
 		const eRefa = new PrefPaperEntryRefa();
 		it("PrefPaperEntryRefa methods should return proper values", () => {
-			expect(eRefa.number).to.equal(false);
-			expect(eRefa.refa).to.equal(true);
-			expect(eRefa.hat).to.equal(false);
-			expect(eRefa.leftPlayed).to.equal(false);
-			expect(eRefa.middlePlayed).to.equal(false);
-			expect(eRefa.rightPlayed).to.equal(false);
+			expect(eRefa.isNumber).to.equal(false);
+			expect(eRefa.isRefa).to.equal(true);
+			expect(eRefa.isHat).to.equal(false);
+			expect(eRefa.hasLeftPlayed).to.equal(false);
+			expect(eRefa.hasMiddlePlayed).to.equal(false);
+			expect(eRefa.hasRightPlayed).to.equal(false);
 			expect(eRefa.json).to.deep.equal({left: 0, middle: 0, right: 0});
 		});
 	});
@@ -152,9 +152,9 @@ describe("PrefPaperEntryRefa tests", () => {
 				}
 			});
 			it("setPlayed should equal" + JSON.stringify(c.j), () => {
-				expect(r.leftPlayed).to.equal(c.r[0]);
-				expect(r.middlePlayed).to.equal(c.r[1]);
-				expect(r.rightPlayed).to.equal(c.r[2]);
+				expect(r.hasLeftPlayed).to.equal(c.r[0]);
+				expect(r.hasMiddlePlayed).to.equal(c.r[1]);
+				expect(r.hasRightPlayed).to.equal(c.r[2]);
 				expect(r.json).to.deep.equal(c.j);
 			});
 		});
