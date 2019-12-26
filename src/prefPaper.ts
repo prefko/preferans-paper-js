@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 'use strict';
 
-import { isNumber } from 'lodash';
 import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
 import PrefPaperFollower from './prefPaperFollower';
-import { PrefPaperPosition } from './prefPaperEnums';
+import {PrefPaperPosition} from './prefPaperEnums';
 import PrefPaperColumnSide from './prefPaperColumnSide';
 import PrefPaperMain from './prefPaperMain';
 
@@ -15,9 +14,9 @@ export default class PrefPaper {
 	private readonly _bula: number;
 	private readonly _refas = Infinity;
 	private _unusedRefas = Infinity;
-	private _left: PrefPaperColumnSide;
+	private _left: PrefPaperColumnSide = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 	private _middle: PrefPaperColumnMiddle;
-	private _right: PrefPaperColumnSide;
+	private _right: PrefPaperColumnSide = new PrefPaperColumnSide(PrefPaperPosition.RIGHT);
 	private _score: number;
 	private _scoreCalculated: boolean = true;
 
@@ -29,9 +28,7 @@ export default class PrefPaper {
 			this._unusedRefas = refas;
 		}
 
-		this._left = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 		this._middle = new PrefPaperColumnMiddle(this._bula);
-		this._right = new PrefPaperColumnSide(PrefPaperPosition.RIGHT);
 		this._score = -this._bula * 10;
 	}
 
@@ -39,38 +36,35 @@ export default class PrefPaper {
 		this._left = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 		this._middle = new PrefPaperColumnMiddle(this._bula);
 		this._right = new PrefPaperColumnSide(PrefPaperPosition.RIGHT);
+		this._score = -this._bula * 10;
 		return this;
 	}
 
-	public calculateScore(leftValue: number, rightValue: number): PrefPaper {
-		this._score = this.left + this.right - (this.middle * 10) - leftValue - rightValue;
+	public calculateScore(supa1: number, supa2: number): PrefPaper {
+		this._score = this.left + this.right - (this.middle * 10) - supa1 - supa2;
 		this._scoreCalculated = true;
 		return this;
 	}
 
-	public processMain(main: PrefPaperMain, value: number, repealed: boolean = false) {
-		if (main.username !== this.username) throw new Error('PrefPaper::processMain:Usernames do not match. ' + this.username + '!=' + main.username);
+	public processAsMain(main: PrefPaperMain, value: number, repealed: boolean = false) {
+		if (main.username !== this.username) throw new Error('PrefPaper::processAsMain:Usernames do not match. ' + this.username + '!=' + main.username);
 		this._scoreCalculated = false;
 		return this.addMiddleValue(value, !main.failed, repealed);
 	}
 
-	public processFollowing(follower: PrefPaperFollower, value: number, mainPassed: boolean, mainsPosition: PrefPaperPosition, repealed: boolean = false): PrefPaper {
+	public processFollower(follower: PrefPaperFollower, value: number, mainPassed: boolean, mainsPosition: PrefPaperPosition, repealed: boolean = false): PrefPaper {
 		if (follower.followed) this._scoreCalculated = false;
 
-		switch (mainsPosition) {
-			case PrefPaperPosition.LEFT:
-				if (!repealed) this.markPlayedRefa(PrefPaperPosition.LEFT, mainPassed);
-				if (follower.followed) this.addLeftSupa(value * follower.tricks, repealed);
-				break;
-			case PrefPaperPosition.RIGHT:
-				if (!repealed) this.markPlayedRefa(PrefPaperPosition.RIGHT, mainPassed);
-				if (follower.followed) this.addRightSupa(value * follower.tricks, repealed);
-				break;
-			default:
-				throw new Error('PrefPaper::processFollowing:Invalid position ' + mainsPosition);
-		}
+		if (!repealed) this.markPlayedRefa(mainsPosition, mainPassed);
 
-		if (follower.followed && follower.failed) this._middle.addValue(value, repealed);
+		if (follower.followed) {
+			let supa = value * follower.tricks;
+			if (PrefPaperPosition.LEFT === mainsPosition) this.addLeftSupa(supa, repealed);
+			else if (PrefPaperPosition.RIGHT === mainsPosition) this.addRightSupa(supa, repealed);
+			else throw new Error('PrefPaper::processFollower:Invalid position ' + mainsPosition);
+
+			if (follower.failed) this._middle.addValue(value, repealed);
+		}
 
 		return this;
 	}
