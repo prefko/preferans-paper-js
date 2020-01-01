@@ -5,13 +5,12 @@ import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
 import PrefPaperFollower from './prefPaperFollower';
 import {PrefPaperPosition} from './prefPaperEnums';
 import PrefPaperColumnSide from './prefPaperColumnSide';
-import PrefPaperMain from './prefPaperMain';
+import PrefPaperPlayer from './prefPaperPlayer';
 
-export type PrefPaperObject = { score: number, username: string, refas: number, unusedRefas: number, left: number, middle: number, right: number };
+export type PrefPaperObject = { designation: 'p1' | 'p2' | 'p3', score: number, refas: number, unusedRefas: number, left: number, middle: number, right: number };
 
 export default class PrefPaper {
-	private _designation: 'p1' | 'p2' | 'p3';
-	private _username: string;
+	private readonly _designation: 'p1' | 'p2' | 'p3';
 	private readonly _bula: number;
 	private readonly _refas = Infinity;
 	private _unusedRefas = Infinity;
@@ -21,9 +20,8 @@ export default class PrefPaper {
 	private _score: number;
 	private _scoreCalculated: boolean = true;
 
-	constructor(designation: 'p1' | 'p2' | 'p3', username: string, bula: number, refas: number = Infinity) {
+	constructor(designation: 'p1' | 'p2' | 'p3', bula: number, refas: number = Infinity) {
 		this._designation = designation;
-		this._username = username;
 		this._bula = bula;
 		if (refas >= 0 && refas < Infinity) {
 			this._refas = refas;
@@ -48,8 +46,8 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processAsMain(main: PrefPaperMain, value: number, repealed: boolean = false) {
-		if (main.username !== this.username) throw new Error('PrefPaper::processAsMain:Usernames do not match. ' + this.username + '!=' + main.username);
+	public processAsMain(main: PrefPaperPlayer, value: number, repealed: boolean = false) {
+		if (main.designation !== this.designation) throw new Error('PrefPaper::processAsMain:Designations do not match. ' + this.designation + '!=' + main.designation);
 		this._scoreCalculated = false;
 		return this.addMiddleValue(value, !main.failed, repealed);
 	}
@@ -112,14 +110,6 @@ export default class PrefPaper {
 		return this._designation;
 	}
 
-	get username(): string {
-		return this._username;
-	}
-
-	set username(username: string) {
-		this._username = username;
-	}
-
 	get left(): number {
 		return this._left.value;
 	}
@@ -136,13 +126,13 @@ export default class PrefPaper {
 		if (!this._scoreCalculated) throw new Error('PrefPaper::mini:Score is invalid. Entries were made without score recalculation.');
 
 		return {
+			designation: this._designation,
 			score: this._score,
 			left: this.left,
 			middle: this.middle,
 			right: this.right,
 			refas: this._refas,
-			unusedRefas: this._unusedRefas,
-			username: this._username,
+			unusedRefas: this._unusedRefas
 		};
 	}
 
@@ -150,13 +140,13 @@ export default class PrefPaper {
 		if (!this._scoreCalculated) throw new Error('PrefPaper::mini:Score is invalid. Entries were made without score recalculation.');
 
 		return {
+			designation: this._designation,
 			score: this._score,
 			left: this._left.json,
 			middle: this._middle.json,
 			right: this._right.json,
 			refas: this._refas,
-			unusedRefas: this._unusedRefas,
-			username: this._username,
+			unusedRefas: this._unusedRefas
 		};
 	}
 };
