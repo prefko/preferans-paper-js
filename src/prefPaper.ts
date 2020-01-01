@@ -9,7 +9,7 @@ import PrefPaperPlayer from './prefPaperPlayer';
 
 type PrefPaperObject = { designation: 'p1' | 'p2' | 'p3', score: number, refas: number, unusedRefas: number, left: number, middle: number, right: number };
 
-export {PrefPaperPlayer, PrefPaperFollower, PrefPaperObject};
+export {PrefPaperPlayer, PrefPaperFollower, PrefPaperObject, PrefPaperPosition};
 
 export default class PrefPaper {
 	private readonly _designation: 'p1' | 'p2' | 'p3';
