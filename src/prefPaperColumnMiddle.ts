@@ -32,11 +32,11 @@ const _isUnplayedRefaForPosition = (v: PrefPaperEntry, position: PrefPaperPositi
 		const r = v as PrefPaperEntryRefa;
 		switch (position) {
 			case PrefPaperPosition.LEFT:
-				return !r.hasLeftPlayed;
+				return !r.leftPlayed;
 			case PrefPaperPosition.MIDDLE:
-				return !r.hasMiddlePlayed;
+				return !r.middlePlayed;
 			case PrefPaperPosition.RIGHT:
-				return !r.hasRightPlayed;
+				return !r.rightPlayed;
 		}
 	}
 	return false;
@@ -58,32 +58,18 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 		return this;
 	}
 
-	public addValue(value: number, repealed: boolean = false): PrefPaperColumnMiddle {
-		if (!PrefPaperEntry.isEven(value)) throw new Error('PrefPaperColumnMiddle::addValue:Value is not valid: ' + value + '. Value must be larger than 0 and even.');
-
-		const newValue = this._value + value;
-		const entry = new PrefPaperEntryNumber(newValue);
-		if (repealed) {
-			entry.repealed = true;
-			this._values.push(entry);
-
-		} else {
-			this.processHatAddition(value);
-			this._value = newValue;
-			if (0 !== this._value) {
-				this._values.push(entry);
-			}
-		}
-
+	public addValue(value: number): PrefPaperColumnMiddle {
+		const entry = this._makeNumberEntry(value);
+		this._value = entry.value;
+		this._processHats(value);	// <- ALWAYS before the .push(entry)
+		if (0 !== this._value) this._values.push(entry);
 		return this;
 	}
 
-	public processHatAddition(value: number): PrefPaperColumnMiddle {
-		if (_shouldAddHat(this._values, this._value, value)) {
-			this._values.push(new PrefPaperEntryHat());
-		} else if (_shouldAddHatCrossed(this._values, this._value, value)) {
-			this._values.push(new PrefPaperEntryHat(true));
-		}
+	public addValueRepealed(value: number): PrefPaperColumnMiddle {
+		const entry = this._makeNumberEntry(value);
+		entry.repealed = true;
+		this._values.push(entry);
 		return this;
 	}
 
@@ -92,24 +78,47 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 		return this;
 	}
 
-	public markPlayedRefa(position: PrefPaperPosition, passed: boolean): PrefPaperColumnMiddle {
+	public markPlayedRefaPassed(position: PrefPaperPosition): PrefPaperColumnMiddle {
+		return this._markPlayedRefa(position, false);
+	}
+
+	public markPlayedRefaFailed(position: PrefPaperPosition): PrefPaperColumnMiddle {
+		return this._markPlayedRefa(position, true);
+	}
+
+	public hasOpenRefa(position: PrefPaperPosition = PrefPaperPosition.MIDDLE): boolean {
+		return this._getOpenRefasCount(position) > 0;
+	}
+
+	private _markPlayedRefa(position: PrefPaperPosition, failed: boolean): PrefPaperColumnMiddle {
 		const index = _.findIndex(this._values, (i: PrefPaperEntry): boolean => _isUnplayedRefaForPosition(i, position));
-		if (index < 0) {
-			throw new Error('PrefPaperColumnMiddle::markPlayedRefa:There are no open refas for that position: ' + position);
-		}
+		if (index < 0) throw new Error('PrefPaperColumnMiddle::markPlayedRefa:There are no open refas for that position: ' + position);
 
 		const r = this._values[index] as PrefPaperEntryRefa;
-		r.setPlayed(position, passed);
+		if (failed) r.setPlayedFailed(position);
+		else r.setPlayedPassed(position);
 		this._values[index] = r;
 		return this;
 	}
 
-	public hasUnplayedRefa(position: PrefPaperPosition = PrefPaperPosition.MIDDLE): boolean {
-		return this.getUnplayedRefasCount(position) > 0;
+	private _getOpenRefasCount(position: PrefPaperPosition): number {
+		return _.size(_.filter(this._values, (i: PrefPaperEntry): boolean => _isUnplayedRefaForPosition(i, position)));
 	}
 
-	private getUnplayedRefasCount(position: PrefPaperPosition): number {
-		return _.size(_.filter(this._values, (i: PrefPaperEntry): boolean => _isUnplayedRefaForPosition(i, position)));
+	private _makeNumberEntry(value: number): PrefPaperEntryNumber {
+		return new PrefPaperEntryNumber(this._value + value);
+	}
+
+	private _processHats(value: number): PrefPaperColumnMiddle {
+		if (_shouldAddHat(this._values, this._value, value)) {
+			this._values.push(new PrefPaperEntryHat());
+
+		} else if (_shouldAddHatCrossed(this._values, this._value, value)) {
+			let hat = new PrefPaperEntryHat();
+			hat.crossed = true;
+			this._values.push(hat);
+		}
+		return this;
 	}
 
 }

@@ -2,109 +2,106 @@
 'use strict';
 
 import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
-import PrefPaperFollower from './prefPaperFollower';
 import {PrefPaperPosition} from './prefPaperEnums';
 import PrefPaperColumnSide from './prefPaperColumnSide';
-import PrefPaperPlayer from './prefPaperPlayer';
 
-type PrefPaperObject = { designation: 'p1' | 'p2' | 'p3', score: number, refas: number, unusedRefas: number, left: number, middle: number, right: number };
+type PrefPaperObject = { designation: 'p1' | 'p2' | 'p3', left: object[], middle: object[], right: object[] };
+type PrefPaperMiniObject = { designation: 'p1' | 'p2' | 'p3', left: number, middle: number, right: number };
+type PrefPaperPlayerObject = { designation: 'p1' | 'p2' | 'p3', tricks: number, failed: boolean, followed: boolean };
 
-export {PrefPaperPlayer, PrefPaperFollower, PrefPaperObject, PrefPaperPosition};
+export {PrefPaperObject, PrefPaperMiniObject, PrefPaperPlayerObject};
 
 export default class PrefPaper {
 	private readonly _designation: 'p1' | 'p2' | 'p3';
 	private readonly _bula: number;
-	private readonly _refas = Infinity;
-	private _unusedRefas = Infinity;
-	private _left: PrefPaperColumnSide = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
+	private _left: PrefPaperColumnSide;
 	private _middle: PrefPaperColumnMiddle;
-	private _right: PrefPaperColumnSide = new PrefPaperColumnSide(PrefPaperPosition.RIGHT);
-	private _score: number;
-	private _scoreCalculated: boolean = true;
+	private _right: PrefPaperColumnSide;
 
-	constructor(designation: 'p1' | 'p2' | 'p3', bula: number, refas: number = Infinity) {
+	constructor(designation: 'p1' | 'p2' | 'p3', bula: number) {
 		this._designation = designation;
 		this._bula = bula;
-		if (refas >= 0 && refas < Infinity) {
-			this._refas = refas;
-			this._unusedRefas = refas;
-		}
 
+		this._left = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 		this._middle = new PrefPaperColumnMiddle(this._bula);
-		this._score = -this._bula * 10;
+		this._right = new PrefPaperColumnSide(PrefPaperPosition.RIGHT);
 	}
 
 	public reset(): PrefPaper {
 		this._left = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 		this._middle = new PrefPaperColumnMiddle(this._bula);
 		this._right = new PrefPaperColumnSide(PrefPaperPosition.RIGHT);
-		this._score = -this._bula * 10;
 		return this;
 	}
 
-	public calculateScore(supa1: number, supa2: number): PrefPaper {
-		this._score = this.left + this.right - (this.middle * 10) - supa1 - supa2;
-		this._scoreCalculated = true;
+	private _markPlayedRefaPassed(position: PrefPaperPosition): PrefPaper {
+		if (this._middle.hasOpenRefa(position)) this._middle.markPlayedRefaPassed(position);
 		return this;
 	}
 
-	public processAsMain(main: PrefPaperPlayer, value: number, repealed: boolean = false) {
-		if (main.designation !== this.designation) throw new Error('PrefPaper::processAsMain:Designations do not match. ' + this.designation + '!=' + main.designation);
-		this._scoreCalculated = false;
-		return this.addMiddleValue(value, !main.failed, repealed);
+	private _markPlayedRefaFailed(position: PrefPaperPosition): PrefPaper {
+		if (this._middle.hasOpenRefa(position)) this._middle.markPlayedRefaFailed(position);
+		return this;
 	}
 
-	public processFollower(follower: PrefPaperFollower, value: number, mainPassed: boolean, mainsPosition: PrefPaperPosition, repealed: boolean = false): PrefPaper {
-		if (follower.followed) this._scoreCalculated = false;
+	public processAsMain(designation: 'p1' | 'p2' | 'p3', failed: boolean, value: number) {
+		if (designation !== this.designation) throw new Error('PrefPaper::processAsMain:Designations do not match. ' + this.designation + '!=' + designation);
+		if (failed) this._markPlayedRefaFailed(PrefPaperPosition.MIDDLE);
+		else this._markPlayedRefaPassed(PrefPaperPosition.MIDDLE);
+		this._middle.addValue(failed ? value : -value);
+		return this;
+	}
 
-		if (!repealed) this.markPlayedRefa(mainsPosition, mainPassed);
+	public processAsMainRepealed(designation: 'p1' | 'p2' | 'p3', failed: boolean, value: number) {
+		if (designation !== this.designation) throw new Error('PrefPaper::processAsMain:Designations do not match. ' + this.designation + '!=' + designation);
+		this._middle.addValueRepealed(failed ? value : -value);
+		return this;
+	}
 
-		if (follower.followed) {
-			let supa = value * follower.tricks;
-			if (PrefPaperPosition.LEFT === mainsPosition) this.addLeftSupa(supa, repealed);
-			else if (PrefPaperPosition.RIGHT === mainsPosition) this.addRightSupa(supa, repealed);
-			else throw new Error('PrefPaper::processFollower:Invalid position ' + mainsPosition);
+	public processAsFollower(tricks: number, failed: boolean, value: number,
+							 mainsPosition: PrefPaperPosition.LEFT | PrefPaperPosition.RIGHT): PrefPaper {
+		let supa = value * tricks;
+		if (PrefPaperPosition.LEFT === mainsPosition) this._addLeftSupa(supa);
+		else this._addRightSupa(supa);
+		if (failed) this._middle.addValue(value);
+		return this;
+	}
 
-			if (follower.failed) this._middle.addValue(value, repealed);
-		}
-
+	public processAsFollowerRepealed(tricks: number, failed: boolean, value: number,
+									 mainsPosition: PrefPaperPosition.LEFT | PrefPaperPosition.RIGHT): PrefPaper {
+		let supa = value * tricks;
+		if (PrefPaperPosition.LEFT === mainsPosition) this._addLeftSupaRepealed(supa);
+		else this._addRightSupaRepealed(supa);
+		if (failed) this._middle.addValueRepealed(value);
 		return this;
 	}
 
 	public addNewRefa(): PrefPaper {
-		if (this._unusedRefas <= 0) throw new Error('PrefPaper::addNewRefa:Cannot add any more refas! Unused refas count: ' + this._unusedRefas);
-
-		this._unusedRefas--;
 		this._middle.addRefa();
 		return this;
 	}
 
-	public hasUnusedRefas(): boolean {
-		return this._unusedRefas > 0;
-	}
-
 	public hasUnplayedRefa(position: PrefPaperPosition = PrefPaperPosition.MIDDLE): boolean {
-		return this._middle.hasUnplayedRefa(position);
+		return this._middle.hasOpenRefa(position);
 	}
 
-	private addMiddleValue(value: number, passed: boolean, repealed: boolean): PrefPaper {
-		if (!repealed) this.markPlayedRefa(PrefPaperPosition.MIDDLE, passed);
-		this._middle.addValue(passed ? -value : value, repealed);
+	private _addLeftSupa(value: number): PrefPaper {
+		this._left.addValue(value);
 		return this;
 	}
 
-	private markPlayedRefa(position: PrefPaperPosition, passed: boolean): PrefPaper {
-		if (this._middle.hasUnplayedRefa(position)) this._middle.markPlayedRefa(position, passed);
+	private _addLeftSupaRepealed(value: number): PrefPaper {
+		this._left.addValueRepealed(value);
 		return this;
 	}
 
-	private addLeftSupa(value: number, repealed: boolean): PrefPaper {
-		this._left.addValue(value, repealed);
+	private _addRightSupa(value: number): PrefPaper {
+		this._right.addValue(value);
 		return this;
 	}
 
-	private addRightSupa(value: number, repealed: boolean): PrefPaper {
-		this._right.addValue(value, repealed);
+	private _addRightSupaRepealed(value: number): PrefPaper {
+		this._right.addValueRepealed(value);
 		return this;
 	}
 
@@ -124,31 +121,21 @@ export default class PrefPaper {
 		return this._right.value;
 	}
 
-	get mini(): PrefPaperObject {
-		if (!this._scoreCalculated) throw new Error('PrefPaper::mini:Score is invalid. Entries were made without score recalculation.');
-
+	get mini(): PrefPaperMiniObject {
 		return {
 			designation: this._designation,
-			score: this._score,
 			left: this.left,
 			middle: this.middle,
-			right: this.right,
-			refas: this._refas,
-			unusedRefas: this._unusedRefas
+			right: this.right
 		};
 	}
 
-	get json(): object {
-		if (!this._scoreCalculated) throw new Error('PrefPaper::mini:Score is invalid. Entries were made without score recalculation.');
-
+	get json(): PrefPaperObject {
 		return {
 			designation: this._designation,
-			score: this._score,
 			left: this._left.json,
 			middle: this._middle.json,
-			right: this._right.json,
-			refas: this._refas,
-			unusedRefas: this._unusedRefas
+			right: this._right.json
 		};
 	}
 };

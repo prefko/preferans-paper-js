@@ -3,10 +3,6 @@
 
 export default abstract class PrefPaperEntry {
 
-	public static isEven(n: number): boolean {
-		return n % 2 === 0;
-	}
-
 	get isNumber(): boolean {
 		return false;
 	}

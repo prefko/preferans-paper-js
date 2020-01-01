@@ -4,17 +4,21 @@
 import {map} from 'lodash';
 import PrefPaperEntry from "./prefPaperEntry";
 
+const _isEven = (n: number): boolean => n % 2 === 0;
+
 export default abstract class PrefPaperColumn {
 
 	protected static isValidValue(v: number): boolean {
-		return PrefPaperEntry.isEven(v) && v > 0;
+		return v > 0 && _isEven(v);
 	}
 
 	protected _value: number = 0;
 	protected _initialValue: number = 0;
 	protected _values: PrefPaperEntry[] = [];
 
-	public abstract addValue(value: number, repealed?: boolean): PrefPaperColumn;
+	public abstract addValue(value: number): PrefPaperColumn;
+
+	public abstract addValueRepealed(value: number): PrefPaperColumn;
 
 	public reset(): PrefPaperColumn {
 		this._values = [];

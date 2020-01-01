@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-import { PrefPaperPosition } from './prefPaperEnums';
+import {PrefPaperPosition} from './prefPaperEnums';
 import PrefPaperEntry from './prefPaperEntry';
 
 export type PrefPaperEntryRefaObject = { left: number, middle: number, right: number };
@@ -11,55 +11,78 @@ export default class PrefPaperEntryRefa extends PrefPaperEntry {
 	private _middle = 0;
 	private _right = 0;
 
-	public setPlayed(position: PrefPaperPosition, passed: boolean): PrefPaperEntryRefa {
+	public setPlayedPassed(position: PrefPaperPosition): PrefPaperEntryRefa {
 		switch (position) {
 			case PrefPaperPosition.LEFT:
-				return this.setLeftPlayed(passed);
+				return this.setLeftPlayedPassed();
 			case PrefPaperPosition.MIDDLE:
-				return this.setMiddlePlayed(passed);
+				return this.setMiddlePlayedPassed();
 			case PrefPaperPosition.RIGHT:
-				return this.setRightPlayed(passed);
+				return this.setRightPlayedPassed();
 		}
 	}
 
-	public setLeftPlayed(passed: boolean): PrefPaperEntryRefa {
-		if (this.hasLeftPlayed) {
-			throw new Error('PrefPaperEntryRefa::setLeftPlayed:Left already marked as played!');
+	public setPlayedFailed(position: PrefPaperPosition): PrefPaperEntryRefa {
+		switch (position) {
+			case PrefPaperPosition.LEFT:
+				return this.setLeftPlayedFailed();
+			case PrefPaperPosition.MIDDLE:
+				return this.setMiddlePlayedFailed();
+			case PrefPaperPosition.RIGHT:
+				return this.setRightPlayedFailed();
 		}
-		this._left = passed ? 1 : -1;
+	}
+
+	public setLeftPlayedPassed(): PrefPaperEntryRefa {
+		if (this.leftPlayed) throw new Error('PrefPaperEntryRefa::setLeftPlayedPassed:Left already marked as played!');
+		this._left = 1;
 		return this;
 	}
 
-	public setMiddlePlayed(passed: boolean): PrefPaperEntryRefa {
-		if (this.hasMiddlePlayed) {
-			throw new Error('PrefPaperEntryRefa::setMiddlePlayed:Middle already marked as played!');
-		}
-		this._middle = passed ? 1 : -1;
+	public setLeftPlayedFailed(): PrefPaperEntryRefa {
+		if (this.leftPlayed) throw new Error('PrefPaperEntryRefa::setLeftPlayedFailed:Left already marked as played!');
+		this._left = -1;
 		return this;
 	}
 
-	public setRightPlayed(passed: boolean): PrefPaperEntryRefa {
-		if (this.hasRightPlayed) {
-			throw new Error('PrefPaperEntryRefa::setRightPlayed:Right already marked as played!');
-		}
-		this._right = passed ? 1 : -1;
+	public setMiddlePlayedPassed(): PrefPaperEntryRefa {
+		if (this.middlePlayed) throw new Error('PrefPaperEntryRefa::setMiddlePlayedPassed:Middle already marked as played!');
+		this._middle = 1;
 		return this;
+	}
+
+	public setMiddlePlayedFailed(): PrefPaperEntryRefa {
+		if (this.middlePlayed) throw new Error('PrefPaperEntryRefa::setMiddlePlayedFailed:Middle already marked as played!');
+		this._middle = -1;
+		return this;
+	}
+
+	public setRightPlayedPassed(): PrefPaperEntryRefa {
+		if (this.rightPlayed) throw new Error('PrefPaperEntryRefa::setRightPlayedPassed:Right already marked as played!');
+		this._right = 1;
+		return this;
+	}
+
+	public setRightPlayedFailed(): PrefPaperEntryRefa {
+		if (this.rightPlayed) throw new Error('PrefPaperEntryRefa::setRightPlayedFailed:Right already marked as played!');
+		this._right = -1;
+		return this;
+	}
+
+	get leftPlayed(): boolean {
+		return this._left !== 0;
+	}
+
+	get middlePlayed(): boolean {
+		return this._middle !== 0;
+	}
+
+	get rightPlayed(): boolean {
+		return this._right !== 0;
 	}
 
 	get isRefa(): boolean {
 		return true;
-	}
-
-	get hasLeftPlayed(): boolean {
-		return this._left !== 0;
-	}
-
-	get hasMiddlePlayed(): boolean {
-		return this._middle !== 0;
-	}
-
-	get hasRightPlayed(): boolean {
-		return this._right !== 0;
 	}
 
 	get json(): PrefPaperEntryRefaObject {

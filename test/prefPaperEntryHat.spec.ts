@@ -9,7 +9,6 @@ describe("PrefPaperEntryHat tests", () => {
 	describe("PrefPaperEntryHat classes constructors tests", () => {
 		it("constructors should work", () => {
 			expect(() => new PrefPaperEntryHat()).to.not.throw();
-			expect(() => new PrefPaperEntryHat(true)).to.not.throw();
 			expect(new PrefPaperEntryHat()).to.be.an("object");
 		});
 	});
@@ -20,11 +19,12 @@ describe("PrefPaperEntryHat tests", () => {
 			expect(eHat.isNumber).to.equal(false);
 			expect(eHat.isRefa).to.equal(false);
 			expect(eHat.isHat).to.equal(true);
-			expect(eHat.isCrossed).to.equal(false);
+			expect(eHat.crossed).to.equal(false);
 			expect(eHat.json).to.deep.equal({hat: 1});
 		});
 
-		const eHatCrossed = new PrefPaperEntryHat(true);
+		const eHatCrossed = new PrefPaperEntryHat();
+		eHatCrossed.crossed = true;
 		it("PrefPaperEntryHat isCrossed methods should return proper values", () => {
 			expect(eHatCrossed.isNumber).to.equal(false);
 			expect(eHatCrossed.isRefa).to.equal(false);

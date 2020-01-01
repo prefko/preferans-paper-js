@@ -5,18 +5,21 @@ import PrefPaperEntry from "./prefPaperEntry";
 
 export type PrefPaperEntryNumberRepealedObject = { value: number, repealed: boolean };
 
+const _isEven = (n: number): boolean => n % 2 === 0;
+
 export default class PrefPaperEntryNumber extends PrefPaperEntry {
 
-	protected _repealed: boolean;	// <- Repealed by referee (poništena ruka)
+	protected _repealed: boolean = false;	// <- Repealed by referee (poništena ruka)
 	private readonly _value: number;
 
-	constructor(value: number, repealed: boolean = false) {
+	constructor(value: number) {
 		super();
-		if (!PrefPaperEntry.isEven(value)) {
-			throw new Error("PrefPaperEntryNumber::constructor:Value is not even " + value);
-		}
+		if (!_isEven(value)) throw new Error("PrefPaperEntryNumber::constructor:Value is not even " + value);
 
 		this._value = value;
+	}
+
+	set repealed(repealed: boolean) {
 		this._repealed = repealed;
 	}
 
@@ -24,16 +27,12 @@ export default class PrefPaperEntryNumber extends PrefPaperEntry {
 		return this._repealed;
 	}
 
-	set repealed(repealed: boolean) {
-		this._repealed = repealed;
+	get value(): number {
+		return this._value;
 	}
 
 	get isNumber(): boolean {
 		return true;
-	}
-
-	get value(): number {
-		return this._value;
 	}
 
 	get json(): number | PrefPaperEntryNumberRepealedObject {

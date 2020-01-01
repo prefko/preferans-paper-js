@@ -4,8 +4,6 @@
 import {expect} from 'chai';
 import PrefPaper from '../src/prefPaper';
 import {PrefPaperPosition} from '../src/prefPaperEnums';
-import PrefPaperFollower from '../src/prefPaperFollower';
-import PrefPaperPlayer from '../src/prefPaperPlayer';
 
 describe('PrefPaper tests', () => {
 
@@ -16,31 +14,15 @@ describe('PrefPaper tests', () => {
 			expect(() => new PrefPaper('p1', rand)).to.not.throw();
 			expect(new PrefPaper('p1', rand)).to.be.an('object');
 			expect(new PrefPaper('p1', rand).designation).to.equal('p1');
-			expect(() => new PrefPaper('p1', rand + 1, 2)).to.throw();
-			expect(() => new PrefPaper('p1', rand, 2)).to.not.throw();
-			expect(new PrefPaper('p1', rand, 2)).to.be.an('object');
-			expect(new PrefPaper('p1', rand, 2).designation).to.equal('p1');
-		});
-	});
-
-	describe('PrefPaper hasUnusedRefas tests', () => {
-		it('PrefPaper addNewRefa 1 should work properly', () => {
-			expect(new PrefPaper('p1', 60).hasUnusedRefas()).to.equal(true);
-			expect(new PrefPaper('p1', 60, 2).hasUnusedRefas()).to.equal(true);
-			expect(new PrefPaper('p1', 60, 2).hasUnusedRefas()).to.equal(true);
-			expect(new PrefPaper('p1', 60, 0).hasUnusedRefas()).to.equal(false);
 		});
 	});
 
 	describe('PrefPaper method tests', () => {
 		const mini1 = {
-			score: -600,
 			designation: 'p1',
 			left: 0,
 			middle: 60,
-			right: 0,
-			refas: Infinity,
-			unusedRefas: Infinity
+			right: 0
 		};
 		const paper1 = new PrefPaper('p1', 60);
 		it('PrefPaper infinite refas methods should work properly', () => {
@@ -63,8 +45,8 @@ describe('PrefPaper tests', () => {
 			expect(paper1b.addNewRefa().hasUnplayedRefa()).to.equal(true);
 		});
 
-		const mini2 = {score: -600, designation: 'p1', left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
-		const paper2 = new PrefPaper('p1', 60, 2);
+		const mini2 = {designation: 'p1', left: 0, middle: 60, right: 0};
+		const paper2 = new PrefPaper('p1', 60);
 		it('PrefPaper methods should work properly', () => {
 			expect(paper2.left).to.equal(0);
 			expect(paper2.middle).to.deep.equal(60);
@@ -74,7 +56,7 @@ describe('PrefPaper tests', () => {
 			expect(paper2.addNewRefa().hasUnplayedRefa()).to.equal(true);
 		});
 
-		const paper2b = new PrefPaper('p1', 60, 2).reset();
+		const paper2b = new PrefPaper('p1', 60).reset();
 		it('PrefPaper after reset methods should work properly', () => {
 			expect(paper2b.left).to.equal(0);
 			expect(paper2b.middle).to.deep.equal(60);
@@ -84,8 +66,8 @@ describe('PrefPaper tests', () => {
 			expect(paper2b.addNewRefa().hasUnplayedRefa()).to.equal(true);
 		});
 
-		const mini3 = {score: -600, designation: 'p1', left: 0, middle: 60, right: 0, refas: 0, unusedRefas: 0};
-		const paper3 = new PrefPaper('p1', 60, 0);
+		const mini3 = {designation: 'p1', left: 0, middle: 60, right: 0};
+		const paper3 = new PrefPaper('p1', 60);
 		it('PrefPaper methods should work properly', () => {
 			expect(paper3.left).to.equal(0);
 			expect(paper3.middle).to.deep.equal(60);
@@ -93,7 +75,7 @@ describe('PrefPaper tests', () => {
 			expect(paper3.mini).to.deep.equal(mini3);
 		});
 
-		const paper3b = new PrefPaper('p1', 60, 0).reset();
+		const paper3b = new PrefPaper('p1', 60).reset();
 		it('PrefPaper after reset methods should work properly', () => {
 			expect(paper3b.left).to.equal(0);
 			expect(paper3b.middle).to.deep.equal(60);
@@ -103,167 +85,144 @@ describe('PrefPaper tests', () => {
 	});
 
 	describe('PrefPaper addNewRefa tests', () => {
-		const mini1 = {score: -600, designation: 'p1', left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 1};
-		const paper1 = new PrefPaper('p1', 60, 2).addNewRefa();
+		const mini1 = {designation: 'p1', left: 0, middle: 60, right: 0};
+		const paper1 = new PrefPaper('p1', 60).addNewRefa();
 		it('PrefPaper addNewRefa 1 should work properly', () => {
 			expect(paper1.mini).to.deep.equal(mini1);
 		});
 
-		const mini2 = {score: -600, designation: 'p1', left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 0};
-		const paper2 = new PrefPaper('p1', 60, 2).addNewRefa().addNewRefa();
+		const mini2 = {designation: 'p1', left: 0, middle: 60, right: 0};
+		const paper2 = new PrefPaper('p1', 60).addNewRefa().addNewRefa();
 		it('PrefPaper addNewRefa 2 should work properly', () => {
 			expect(paper2.mini).to.deep.equal(mini2);
 		});
 
-		it('PrefPaper addNewRefa should throw', () => {
-			expect(() => new PrefPaper('p1', 60, 0).addNewRefa()).to.throw();
+		it('PrefPaper addNewRefa should not throw', () => {
+			expect(() => new PrefPaper('p1', 60).addNewRefa()).to.not.throw();
 		});
 	});
 
 	describe('PrefPaper markPlayedRefa tests', () => {
-		const follower = new PrefPaperFollower('p3', true, 3);
-		const mini = {score: -570, designation: 'p1', left: 30, middle: 60, right: 0, refas: 2, unusedRefas: 1};
-		const paper = new PrefPaper('p1', 60, 2)
+		const mini = {designation: 'p1', left: 30, middle: 60, right: 0};
+		const paper = new PrefPaper('p1', 60)
 			.addNewRefa()
-			.processFollower(follower, 10, true, PrefPaperPosition.LEFT)
-			.calculateScore(0, 0);
+			.processAsFollower(3, false, 10, PrefPaperPosition.LEFT);
 		it('PrefPaper addNewRefa 1 should work properly', () => {
 			expect(paper.mini).to.deep.equal(mini);
 		});
 	});
 
 	describe('PrefPaper add values tests', () => {
-		const main = new PrefPaperPlayer('p1', 3);
 		const rand = Math.ceil((Math.random() * 1000)) * 2;
 		it('PrefPaper processAsMain should throw because of odd value', () => {
-			expect(() => new PrefPaper('p1', 60).processAsMain(main, rand + 1)).to.throw();
+			expect(() => new PrefPaper('p1', 60).processAsMain('p1', false, rand + 1)).to.throw();
+			expect(() => new PrefPaper('p1', 60).processAsMainRepealed('p1', false, rand + 1)).to.throw();
+			expect(() => new PrefPaper('p1', 60).processAsMain('p1', true, rand + 1)).to.throw();
+			expect(() => new PrefPaper('p1', 60).processAsMainRepealed('p1', true, rand + 1)).to.throw();
 		});
 		it('PrefPaper processAsMain should throw because of designation', () => {
-			expect(() => new PrefPaper('p3', 60).processAsMain(main, 10)).to.throw();
+			expect(() => new PrefPaper('p3', 60).processAsMain('p1', false, 10)).to.throw();
+			expect(() => new PrefPaper('p3', 60).processAsMainRepealed('p1', false, 10)).to.throw();
+			expect(() => new PrefPaper('p3', 60).processAsMain('p1', true, 10)).to.throw();
+			expect(() => new PrefPaper('p3', 60).processAsMainRepealed('p1', true, 10)).to.throw();
 		});
 	});
 
 	describe('PrefPaper mini tests', () => {
-		const follower1 = new PrefPaperFollower('p2', true, 3);
-		it('PrefPaper json should throw', () => {
+		it('PrefPaper json should not throw 1', () => {
 			expect(() => new PrefPaper('p1', 60)
-				.processFollower(follower1, 10, true, PrefPaperPosition.RIGHT)
+				.processAsFollower(3, false, 10, PrefPaperPosition.RIGHT)
 				.mini,
-			).to.throw();
+			).to.not.throw();
 		});
 
-		const mini1 = {score: -570, designation: 'p1', left: 30, middle: 60, right: 0, refas: 2, unusedRefas: 2};
-		const paper1 = new PrefPaper('p1', 60, 2)
-			.processFollower(follower1, 10, true, PrefPaperPosition.LEFT)
-			.calculateScore(0, 0);
+		const mini1 = {designation: 'p1', left: 30, middle: 60, right: 0};
+		const paper1 = new PrefPaper('p1', 60)
+			.processAsFollower(3, false, 10, PrefPaperPosition.LEFT);
 		it('PrefPaper processFollower 1 should work properly', () => {
 			expect(paper1.mini).to.deep.equal(mini1);
 		});
 
-		const follower2 = new PrefPaperFollower('p2', true, 3);
-		const mini2 = {score: -570, designation: 'p1', left: 0, middle: 60, right: 30, refas: 2, unusedRefas: 2};
-		const paper2 = new PrefPaper('p1', 60, 2)
-			.processFollower(follower2, 10, true, PrefPaperPosition.RIGHT)
-			.calculateScore(0, 0);
+		const mini2 = {designation: 'p1', left: 0, middle: 60, right: 30};
+		const paper2 = new PrefPaper('p1', 60)
+			.processAsFollower(3, false, 10, PrefPaperPosition.RIGHT);
 		it('PrefPaper processFollower 2 should work properly', () => {
 			expect(paper2.mini).to.deep.equal(mini2);
 		});
 
-		it('PrefPaper addLeftSupa should throw', () => {
-			expect(() => new PrefPaper('p1', 60)
-				.processFollower(follower2, 10, true, PrefPaperPosition.MIDDLE)).to.throw();
-		});
-
-		const follower3 = new PrefPaperFollower('p3', true, 3, true);
-		const mini3 = {score: -670, designation: 'p1', left: 30, middle: 70, right: 0, refas: 2, unusedRefas: 2};
-		const paper3 = new PrefPaper('p1', 60, 2)
-			.processFollower(follower3, 10, true, PrefPaperPosition.LEFT)
-			.calculateScore(0, 0);
+		const mini3 = {designation: 'p1', left: 30, middle: 70, right: 0};
+		const paper3 = new PrefPaper('p1', 60)
+			.processAsFollower(3, true, 10, PrefPaperPosition.LEFT);
 		it('PrefPaper processFollower 3 should work properly', () => {
 			expect(paper3.mini).to.deep.equal(mini3);
 		});
 
-		const follower4 = new PrefPaperFollower('p3', true, 3, true);
-		const mini4 = {score: -670, designation: 'p1', left: 0, middle: 70, right: 30, refas: 2, unusedRefas: 2};
-		const paper4 = new PrefPaper('p1', 60, 2)
-			.processFollower(follower4, 10, true, PrefPaperPosition.RIGHT)
-			.calculateScore(0, 0);
+		const mini4 = {designation: 'p1', left: 0, middle: 70, right: 30};
+		const paper4 = new PrefPaper('p1', 60)
+			.processAsFollower(3, true, 10, PrefPaperPosition.RIGHT);
 		it('PrefPaper processFollower 4 should work properly', () => {
 			expect(paper4.mini).to.deep.equal(mini4);
 		});
 
-		const follower5 = new PrefPaperFollower('p3', false, 3);
-		const follower5b = new PrefPaperFollower('p2', false, 2);
-		const mini5 = {score: -600, designation: 'p1', left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
-		const paper5 = new PrefPaper('p1', 60, 2);
-		paper5.processFollower(follower5, 10, true, PrefPaperPosition.LEFT)
-			.processFollower(follower5b, 10, true, PrefPaperPosition.RIGHT)
-			.calculateScore(0, 0);
+		const mini5 = {designation: 'p1', left: 30, middle: 60, right: 20};
+		const paper5 = new PrefPaper('p1', 60);
+		paper5
+			.processAsFollower(3, false, 10, PrefPaperPosition.LEFT)
+			.processAsFollower(2, false, 10, PrefPaperPosition.RIGHT);
 
 		it('PrefPaper processFollower 5 should work properly', () => {
 			expect(paper5.mini).to.deep.equal(mini5);
 		});
 
-		const follower6 = new PrefPaperFollower('p3', true, 3, true);
-		const mini6 = {score: -600, designation: 'p1', left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
-		const paper6 = new PrefPaper('p1', 60, 2)
-			.processFollower(follower6, 10, true, PrefPaperPosition.LEFT, true)
-			.calculateScore(0, 0);
+		const mini6 = {designation: 'p1', left: 0, middle: 60, right: 0};
+		const paper6 = new PrefPaper('p1', 60)
+			.processAsFollowerRepealed(3, true, 10, PrefPaperPosition.LEFT);
 		it('PrefPaper processFollower 6 should work properly', () => {
 			expect(paper6.mini).to.deep.equal(mini6);
 		});
 
-		const follower7 = new PrefPaperFollower('p3', true, 3);
-		const mini7 = {score: -600, designation: 'p1', left: 0, middle: 60, right: 0, refas: 2, unusedRefas: 2};
-		const paper7 = new PrefPaper('p1', 60, 2)
-			.processFollower(follower7, 10, true, PrefPaperPosition.RIGHT, true)
-			.calculateScore(0, 0);
+		const mini7 = {designation: 'p1', left: 0, middle: 60, right: 0};
+		const paper7 = new PrefPaper('p1', 60)
+			.processAsFollowerRepealed(3, false, 10, PrefPaperPosition.RIGHT);
 		it('PrefPaper processFollower 7 should work properly', () => {
 			expect(paper7.mini).to.deep.equal(mini7);
 		});
 	});
 
 	describe('PrefPaper json tests', () => {
-		const follower = new PrefPaperFollower('p3', true, 3);
-		it('PrefPaper json should throw', () => {
+		it('PrefPaper json should not throw 2', () => {
 			expect(() => new PrefPaper('p1', 60)
-				.processFollower(follower, 10, true, PrefPaperPosition.RIGHT)
+				.processAsFollower(3, false, 10, PrefPaperPosition.RIGHT)
 				.json,
-			).to.throw();
+			).to.not.throw();
 		});
 
-		const main = new PrefPaperPlayer('p1', 6);
-		const mainFailed = new PrefPaperPlayer('p1', 6, true);
-		const failer = new PrefPaperFollower('p2', true, 1, true);
-		const paper = new PrefPaper('p1', 60, 5)
+		const paper = new PrefPaper('p1', 60)
 			.addNewRefa()
 			.addNewRefa()
-			.processAsMain(main, 10)
-			.processAsMain(mainFailed, 10)
-			.processFollower(follower, 10, true, PrefPaperPosition.RIGHT)
-			.processAsMain(main, 12, true)
-			.processFollower(failer, 10, true, PrefPaperPosition.LEFT)
-			.calculateScore(0, 0);
+			.processAsMain('p1', false, 10)
+			.processAsMain('p1', true, 10)
+			.processAsFollower(3, false, 10, PrefPaperPosition.RIGHT)
+			.processAsMainRepealed('p1', false, 12)
+			.processAsFollower(1, true, 10, PrefPaperPosition.LEFT)
+		;
 
 		const json = {
-			score: -660,
+			designation: 'p1',
 			left: [10],
 			middle:
 				[
 					60,
-					{left: 1, middle: 1, right: 1},
+					{left: 0, middle: 1, right: 0},
 					{left: 0, middle: -1, right: 0},
 					50,
 					60,
 					{value: 48, repealed: true},
 					70,
 				],
-			right: [30],
-			refas: 5,
-			unusedRefas: 3,
-			designation: 'p1',
+			right: [30]
 		};
-		it('PrefPaper addNewRefa 1 should work properly', () => {
+		it('PrefPaper lots of stuff work properly', () => {
 			expect(paper.json).to.deep.equal(json);
 		});
 	});

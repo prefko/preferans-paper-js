@@ -13,20 +13,25 @@ export default class PrefPaperColumnSide extends PrefPaperColumn {
 		this._position = position;
 	}
 
-	public addValue(value: number, repealed: boolean = false): PrefPaperColumn {
-		if (!PrefPaperColumn.isValidValue(value)) {
-			throw new Error("PrefPaperColumn::addValue:Value is not valid: " + value + ". Value must be larger than 0 and even.");
-		}
+	private pushValue(value: number, repealed: boolean = false): PrefPaperEntryNumber {
+		if (!PrefPaperColumn.isValidValue(value)) throw new Error("PrefPaperColumn::pushValue:Value is not valid: " + value + ". Value must be larger than 0 and even.");
 
 		const newValue = this._value + value;
 		const entry = new PrefPaperEntryNumber(newValue);
-		if (repealed) {
-			entry.repealed = true;
-		} else {
-			this._value = newValue;
-		}
+		entry.repealed = repealed;
 		this._values.push(entry);
 
+		return entry;
+	}
+
+	public addValue(value: number): PrefPaperColumn {
+		const entry = this.pushValue(value);
+		this._value = entry.value;
+		return this;
+	}
+
+	public addValueRepealed(value: number): PrefPaperColumn {
+		this.pushValue(value, true);
 		return this;
 	}
 
