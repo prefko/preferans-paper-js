@@ -7,7 +7,9 @@ import {PrefPaperPosition} from './prefPaperEnums';
 import PrefPaperColumnSide from './prefPaperColumnSide';
 import PrefPaperPlayer from './prefPaperPlayer';
 
-export type PrefPaperObject = { designation: 'p1' | 'p2' | 'p3', score: number, refas: number, unusedRefas: number, left: number, middle: number, right: number };
+type PrefPaperObject = { designation: 'p1' | 'p2' | 'p3', score: number, refas: number, unusedRefas: number, left: number, middle: number, right: number };
+
+export {PrefPaperPlayer, PrefPaperFollower, PrefPaperObject};
 
 export default class PrefPaper {
 	private readonly _designation: 'p1' | 'p2' | 'p3';
