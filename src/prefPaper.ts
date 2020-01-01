@@ -10,6 +10,7 @@ import PrefPaperMain from './prefPaperMain';
 export type PrefPaperObject = { score: number, username: string, refas: number, unusedRefas: number, left: number, middle: number, right: number };
 
 export default class PrefPaper {
+	private _designation: 'p1' | 'p2' | 'p3';
 	private _username: string;
 	private readonly _bula: number;
 	private readonly _refas = Infinity;
@@ -20,7 +21,8 @@ export default class PrefPaper {
 	private _score: number;
 	private _scoreCalculated: boolean = true;
 
-	constructor(username: string, bula: number, refas: number = Infinity) {
+	constructor(designation: 'p1' | 'p2' | 'p3', username: string, bula: number, refas: number = Infinity) {
+		this._designation = designation;
 		this._username = username;
 		this._bula = bula;
 		if (refas >= 0 && refas < Infinity) {
@@ -104,6 +106,10 @@ export default class PrefPaper {
 	private addRightSupa(value: number, repealed: boolean): PrefPaper {
 		this._right.addValue(value, repealed);
 		return this;
+	}
+
+	get designation(): 'p1' | 'p2' | 'p3' {
+		return this._designation;
 	}
 
 	get username(): string {
