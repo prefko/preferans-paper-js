@@ -7,9 +7,6 @@ import PrefPaperColumnSide from './prefPaperColumnSide';
 
 type PrefPaperObject = { designation: 'p1' | 'p2' | 'p3', left: object[], middle: object[], right: object[] };
 type PrefPaperMiniObject = { designation: 'p1' | 'p2' | 'p3', left: number, middle: number, right: number };
-type PrefPaperPlayerObject = { designation: 'p1' | 'p2' | 'p3', tricks: number, failed: boolean, followed: boolean };
-
-export {PrefPaperObject, PrefPaperMiniObject, PrefPaperPlayerObject};
 
 export default class PrefPaper {
 	private readonly _designation: 'p1' | 'p2' | 'p3';
