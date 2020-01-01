@@ -5,17 +5,18 @@ import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
 import {PrefPaperPosition} from './prefPaperEnums';
 import PrefPaperColumnSide from './prefPaperColumnSide';
 
-type PrefPaperObject = { designation: 'p1' | 'p2' | 'p3', left: object[], middle: object[], right: object[] };
-type PrefPaperMiniObject = { designation: 'p1' | 'p2' | 'p3', left: number, middle: number, right: number };
+type PrefDesignation = 'p1' | 'p2' | 'p3';
+type PrefPaperObject = { designation: PrefDesignation, left: object[], middle: object[], right: object[] };
+type PrefPaperMiniObject = { designation: PrefDesignation, left: number, middle: number, right: number };
 
 export default class PrefPaper {
-	private readonly _designation: 'p1' | 'p2' | 'p3';
+	private readonly _designation: PrefDesignation;
 	private readonly _bula: number;
 	private _left: PrefPaperColumnSide;
 	private _middle: PrefPaperColumnMiddle;
 	private _right: PrefPaperColumnSide;
 
-	constructor(designation: 'p1' | 'p2' | 'p3', bula: number) {
+	constructor(designation: PrefDesignation, bula: number) {
 		this._designation = designation;
 		this._bula = bula;
 
@@ -41,7 +42,7 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processAsMain(designation: 'p1' | 'p2' | 'p3', failed: boolean, value: number) {
+	public processAsMain(value: number, designation: PrefDesignation, failed: boolean) {
 		if (designation !== this.designation) throw new Error('PrefPaper::processAsMain:Designations do not match. ' + this.designation + '!=' + designation);
 		if (failed) this._markPlayedRefaFailed(PrefPaperPosition.MIDDLE);
 		else this._markPlayedRefaPassed(PrefPaperPosition.MIDDLE);
@@ -49,13 +50,13 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processAsMainRepealed(designation: 'p1' | 'p2' | 'p3', failed: boolean, value: number) {
+	public processAsMainRepealed(value: number, designation: PrefDesignation, failed: boolean) {
 		if (designation !== this.designation) throw new Error('PrefPaper::processAsMain:Designations do not match. ' + this.designation + '!=' + designation);
 		this._middle.addValueRepealed(failed ? value : -value);
 		return this;
 	}
 
-	public processAsFollower(tricks: number, failed: boolean, value: number,
+	public processAsFollower(value: number, tricks: number, failed: boolean,
 							 mainsPosition: PrefPaperPosition.LEFT | PrefPaperPosition.RIGHT): PrefPaper {
 		let supa = value * tricks;
 		if (PrefPaperPosition.LEFT === mainsPosition) this._addLeftSupa(supa);
@@ -64,7 +65,7 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processAsFollowerRepealed(tricks: number, failed: boolean, value: number,
+	public processAsFollowerRepealed(value: number, tricks: number, failed: boolean,
 									 mainsPosition: PrefPaperPosition.LEFT | PrefPaperPosition.RIGHT): PrefPaper {
 		let supa = value * tricks;
 		if (PrefPaperPosition.LEFT === mainsPosition) this._addLeftSupaRepealed(supa);
@@ -102,7 +103,7 @@ export default class PrefPaper {
 		return this;
 	}
 
-	get designation(): 'p1' | 'p2' | 'p3' {
+	get designation(): PrefDesignation {
 		return this._designation;
 	}
 
