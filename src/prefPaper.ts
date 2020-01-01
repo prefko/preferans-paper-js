@@ -9,6 +9,21 @@ type PrefDesignation = 'p1' | 'p2' | 'p3';
 type PrefPaperObject = { designation: PrefDesignation, left: object[], middle: object[], right: object[] };
 type PrefPaperMiniObject = { designation: PrefDesignation, left: number, middle: number, right: number };
 
+const _myPositionFromDesignations = (me: PrefDesignation, main: PrefDesignation): PrefPaperPosition.LEFT | PrefPaperPosition.RIGHT => {
+	if (me === main) throw new Error('PrefPaper::_myPositionFromDesignations:Designations should not match! But: ' + me + '===' + main);
+
+	if ('p1' === me) {
+		if ('p2' === main) return PrefPaperPosition.RIGHT;
+		return PrefPaperPosition.LEFT;
+	} else if ('p2' === me) {
+		if ('p3' === main) return PrefPaperPosition.RIGHT;
+		return PrefPaperPosition.LEFT;
+	} else {
+		if ('p1' === main) return PrefPaperPosition.RIGHT;
+		return PrefPaperPosition.LEFT;
+	}
+};
+
 export default class PrefPaper {
 	private readonly _designation: PrefDesignation;
 	private readonly _bula: number;
@@ -57,9 +72,10 @@ export default class PrefPaper {
 	}
 
 	public processAsFollower(value: number, designation: PrefDesignation, tricks: number, failed: boolean,
-							 mainsPosition: PrefPaperPosition.LEFT | PrefPaperPosition.RIGHT): PrefPaper {
+							 mainsDesignation: PrefDesignation): PrefPaper {
 		if (designation !== this.designation) throw new Error('PrefPaper::processAsFollower:Designations do not match. ' + this.designation + '!=' + designation);
 		let supa = value * tricks;
+		const mainsPosition = _myPositionFromDesignations(designation, mainsDesignation);
 		if (PrefPaperPosition.LEFT === mainsPosition) this._addLeftSupa(supa);
 		else this._addRightSupa(supa);
 		if (failed) this._middle.addValue(value);
@@ -67,9 +83,10 @@ export default class PrefPaper {
 	}
 
 	public processAsFollowerRepealed(value: number, designation: PrefDesignation, tricks: number, failed: boolean,
-									 mainsPosition: PrefPaperPosition.LEFT | PrefPaperPosition.RIGHT): PrefPaper {
+									 mainsDesignation: PrefDesignation): PrefPaper {
 		if (designation !== this.designation) throw new Error('PrefPaper::processAsFollowerRepealed:Designations do not match. ' + this.designation + '!=' + designation);
 		let supa = value * tricks;
+		const mainsPosition = _myPositionFromDesignations(designation, mainsDesignation);
 		if (PrefPaperPosition.LEFT === mainsPosition) this._addLeftSupaRepealed(supa);
 		else this._addRightSupaRepealed(supa);
 		if (failed) this._middle.addValueRepealed(value);
@@ -81,8 +98,8 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public hasUnplayedRefa(position: PrefPaperPosition = PrefPaperPosition.MIDDLE): boolean {
-		return this._middle.hasOpenRefa(position);
+	public hasUnplayedRefa(): boolean {
+		return this._middle.hasOpenRefa(PrefPaperPosition.MIDDLE);
 	}
 
 	private _addLeftSupa(value: number): PrefPaper {
