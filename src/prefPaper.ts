@@ -56,8 +56,9 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processAsFollower(value: number, tricks: number, failed: boolean,
+	public processAsFollower(value: number, designation: PrefDesignation, tricks: number, failed: boolean,
 							 mainsPosition: PrefPaperPosition.LEFT | PrefPaperPosition.RIGHT): PrefPaper {
+		if (designation !== this.designation) throw new Error('PrefPaper::processAsFollower:Designations do not match. ' + this.designation + '!=' + designation);
 		let supa = value * tricks;
 		if (PrefPaperPosition.LEFT === mainsPosition) this._addLeftSupa(supa);
 		else this._addRightSupa(supa);
@@ -65,8 +66,9 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processAsFollowerRepealed(value: number, tricks: number, failed: boolean,
+	public processAsFollowerRepealed(value: number, designation: PrefDesignation, tricks: number, failed: boolean,
 									 mainsPosition: PrefPaperPosition.LEFT | PrefPaperPosition.RIGHT): PrefPaper {
+		if (designation !== this.designation) throw new Error('PrefPaper::processAsFollowerRepealed:Designations do not match. ' + this.designation + '!=' + designation);
 		let supa = value * tricks;
 		if (PrefPaperPosition.LEFT === mainsPosition) this._addLeftSupaRepealed(supa);
 		else this._addRightSupaRepealed(supa);
