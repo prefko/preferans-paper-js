@@ -1,6 +1,6 @@
 {
 	"name": "preferans-paper-js",
-	"version": "3.0.5",
+	"version": "3.1.0",
 	"description": "nodejs paper for preferans",
 	"engines": {
 		"node": ">=8.9"
@@ -8,10 +8,11 @@
 	"main": "./lib/prefPaper.js",
 	"types": "./lib/prefPaper.d.ts",
 	"scripts": {
-		"all": "yarn & yarn build & yarn test & yarn docs",
+		"all": "yarn & yarn clean & yarn build & yarn test & yarn docs",
 		"build": "del /S /Q lib\\* && tsc",
 		"build:watch": "tsc --watch",
 		"lint": "tslint -p tsconfig.json",
+		"clean": "tslint --config tslint-imports.json --fix --project .",
 		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
 		"docs": "typedoc --readme none --out docs src",
 		"test": "nyc mocha -r ts-node/register test/**/*.spec.ts",
@@ -75,6 +76,7 @@
 		"ts-node": "^8.5.4",
 		"tslint": "^5.20.1",
 		"tslint-config-prettier": "^1.18.0",
+		"tslint-etc": "^1.10.0",
 		"typedoc": "^0.15.6",
 		"typescript": "^3.7.4"
 	}
