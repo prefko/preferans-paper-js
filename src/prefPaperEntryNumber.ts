@@ -1,9 +1,8 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
 
-import PrefPaperEntry from "./prefPaperEntry";
-
-export type PrefPaperEntryNumberRepealedObject = { value: number, repealed: boolean };
+import PrefPaperEntry from './prefPaperEntry';
+import { PrefPaperEntryNumberRepealedObject } from './prefPaper.types';
 
 const _isEven = (n: number): boolean => n % 2 === 0;
 
@@ -14,7 +13,7 @@ export default class PrefPaperEntryNumber extends PrefPaperEntry {
 
 	constructor(value: number) {
 		super();
-		if (!_isEven(value)) throw new Error("PrefPaperEntryNumber::constructor:Value is not even " + value);
+		if (!_isEven(value)) throw new Error('PrefPaperEntryNumber::constructor:Value is not even ' + value);
 
 		this._value = value;
 	}
@@ -36,7 +35,7 @@ export default class PrefPaperEntryNumber extends PrefPaperEntry {
 	}
 
 	get json(): number | PrefPaperEntryNumberRepealedObject {
-		if (this.repealed) return {value: this._value, repealed: true};
+		if (this.repealed) return { value: this._value, repealed: true };
 		return this._value;
 	}
 }

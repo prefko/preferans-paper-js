@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 'use strict';
 
-import {PrefPaperPosition} from './prefPaperEnums';
+import { PrefPaperPosition } from './prefPaperEnums';
 import PrefPaperEntry from './prefPaperEntry';
-
-export type PrefPaperEntryRefaObject = { left: number, middle: number, right: number };
+import { PrefPaperEntryRefaObject } from './prefPaper.types';
 
 export default class PrefPaperEntryRefa extends PrefPaperEntry {
 	private _left = 0;
