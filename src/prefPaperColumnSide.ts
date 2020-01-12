@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
 
-import {PrefPaperPosition} from './prefPaperEnums';
-import PrefPaperEntryNumber from "./prefPaperEntryNumber";
-import PrefPaperColumn from "./prefPaperColumn";
+import { PrefPaperPosition } from './prefPaper.enums';
+import PrefPaperEntryNumber from './prefPaperEntryNumber';
+import PrefPaperColumn from './prefPaperColumn';
 
 export default class PrefPaperColumnSide extends PrefPaperColumn {
 	protected _position: PrefPaperPosition;
@@ -25,7 +25,7 @@ export default class PrefPaperColumnSide extends PrefPaperColumn {
 	}
 
 	private _pushValue(value: number, repealed: boolean = false): PrefPaperEntryNumber {
-		if (!PrefPaperColumn.isValidValue(value)) throw new Error("PrefPaperColumn::pushValue:Value is not valid: " + value + ". Value must be larger than 0 and even.");
+		if (!PrefPaperColumn.isValidValue(value)) throw new Error('PrefPaperColumn::pushValue:Value is not valid: ' + value + '. Value must be larger than 0 and even.');
 
 		const newValue = this._value + value;
 		const entry = new PrefPaperEntryNumber(newValue);

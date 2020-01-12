@@ -2,7 +2,7 @@
 'use strict';
 
 import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
-import { PrefPaperPosition } from './prefPaperEnums';
+import { PrefPaperPosition } from './prefPaper.enums';
 import PrefPaperColumnSide from './prefPaperColumnSide';
 import { PrefDesignation, PrefPaperMiniObject, PrefPaperObject } from './prefPaper.types';
 

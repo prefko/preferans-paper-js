@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
 
-import {map} from 'lodash';
-import PrefPaperEntry from "./prefPaperEntry";
+import { map } from 'lodash';
+import PrefPaperEntry from './prefPaperEntry';
 
 const _isEven = (n: number): boolean => n % 2 === 0;
 

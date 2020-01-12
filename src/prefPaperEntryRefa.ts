@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-import { PrefPaperPosition } from './prefPaperEnums';
+import { PrefPaperPosition } from './prefPaper.enums';
 import PrefPaperEntry from './prefPaperEntry';
 import { PrefPaperEntryRefaObject } from './prefPaper.types';
 

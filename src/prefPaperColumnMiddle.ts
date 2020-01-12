@@ -3,7 +3,7 @@
 
 import * as _ from 'lodash';
 import PrefPaperColumn from './prefPaperColumn';
-import {PrefPaperPosition} from './prefPaperEnums';
+import { PrefPaperPosition } from './prefPaper.enums';
 import PrefPaperEntry from './prefPaperEntry';
 import PrefPaperEntryNumber from './prefPaperEntryNumber';
 import PrefPaperEntryRefa from './prefPaperEntryRefa';
@@ -114,7 +114,7 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 			this._values.push(new PrefPaperEntryHat());
 
 		} else if (_shouldAddHatCrossed(this._values, this._value, value)) {
-			let hat = new PrefPaperEntryHat();
+			const hat = new PrefPaperEntryHat();
 			hat.crossed = true;
 			this._values.push(hat);
 		}
