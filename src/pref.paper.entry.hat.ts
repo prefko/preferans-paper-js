@@ -1,8 +1,7 @@
-#!/usr/bin/env node
 'use strict';
 
-import PrefPaperEntry from './prefPaperEntry';
-import { PrefPaperEntryHatObject } from './prefPaper.types';
+import PrefPaperEntry from './pref.paper.entry';
+import PrefPaperEntryHatObjectType from './types/pref.paper.entry.hat.object.type';
 
 export default class PrefPaperEntryHat extends PrefPaperEntry {
 	private _crossed: boolean = false;
@@ -23,7 +22,7 @@ export default class PrefPaperEntryHat extends PrefPaperEntry {
 		return true;
 	}
 
-	get json(): PrefPaperEntryHatObject {
-		return { hat: this._crossed ? -1 : 1 };
+	get json(): PrefPaperEntryHatObjectType {
+		return {hat: this._crossed ? -1 : 1};
 	}
 }

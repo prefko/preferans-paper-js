@@ -1,9 +1,9 @@
-#!/usr/bin/env node
 'use strict';
 
-import { PrefPaperPosition } from './prefPaper.enums';
-import PrefPaperEntryNumber from './prefPaperEntryNumber';
-import PrefPaperColumn from './prefPaperColumn';
+import PrefPaperColumn from './pref.paper.column';
+import PrefPaperEntryNumber from './pref.paper.entry.number';
+
+import PrefPaperPosition from './enums/pref.paper.position';
 
 export default class PrefPaperColumnSide extends PrefPaperColumn {
 	protected _position: PrefPaperPosition;
@@ -34,5 +34,4 @@ export default class PrefPaperColumnSide extends PrefPaperColumn {
 
 		return entry;
 	}
-
 }

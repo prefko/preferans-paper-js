@@ -1,9 +1,8 @@
-#!/usr/bin/env node
 'use strict';
 
-import { PrefPaperPosition } from './prefPaper.enums';
-import PrefPaperEntry from './prefPaperEntry';
-import { PrefPaperEntryRefaObject } from './prefPaper.types';
+import PrefPaperEntry from './pref.paper.entry';
+import PrefPaperPosition from './enums/pref.paper.position';
+import PrefPaperEntryRefaObjectType from './types/pref.paper.entry.refa.object.type';
 
 export default class PrefPaperEntryRefa extends PrefPaperEntry {
 	private _left = 0;
@@ -84,11 +83,11 @@ export default class PrefPaperEntryRefa extends PrefPaperEntry {
 		return true;
 	}
 
-	get json(): PrefPaperEntryRefaObject {
+	get json(): PrefPaperEntryRefaObjectType {
 		return {
 			left: this._left,
 			middle: this._middle,
-			right: this._right,
+			right: this._right
 		};
 	}
 }

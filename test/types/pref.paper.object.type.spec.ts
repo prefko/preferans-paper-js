@@ -1,0 +1,1 @@
+describe('pref.paper.object.type.ts tests', () => it('should be implemented'));

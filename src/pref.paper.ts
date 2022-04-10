@@ -1,12 +1,13 @@
-#!/usr/bin/env node
 'use strict';
 
-import PrefPaperColumnMiddle from './prefPaperColumnMiddle';
-import { PrefPaperPosition } from './prefPaper.enums';
-import PrefPaperColumnSide from './prefPaperColumnSide';
-import { PrefDesignation, PrefPaperMiniObject, PrefPaperObject } from './prefPaper.types';
+import PrefPaperColumnSide from './pref.paper.column.side';
+import PrefPaperPosition from './enums/pref.paper.position';
+import PrefPaperColumnMiddle from './pref.paper.column.middle';
+import PrefDesignationType from './types/pref.designation.type';
+import PrefPaperObjectType from './types/pref.paper.object.type';
+import PrefPaperMiniObjectType from './types/pref.paper.mini.object.type';
 
-const _myPositionFromDesignations = (me: PrefDesignation, main: PrefDesignation): PrefPaperPosition.LEFT | PrefPaperPosition.RIGHT => {
+const _myPositionFromDesignations = (me: PrefDesignationType, main: PrefDesignationType): PrefPaperPosition.LEFT | PrefPaperPosition.RIGHT => {
 	if (me === main) throw new Error('PrefPaper::_myPositionFromDesignations:Designations should not match! But: ' + me + '===' + main);
 
 	if ('p1' === me) {
@@ -22,13 +23,13 @@ const _myPositionFromDesignations = (me: PrefDesignation, main: PrefDesignation)
 };
 
 export default class PrefPaper {
-	private readonly _designation: PrefDesignation;
+	private readonly _designation: PrefDesignationType;
 	private readonly _bula: number;
 	private _left: PrefPaperColumnSide;
 	private _middle: PrefPaperColumnMiddle;
 	private _right: PrefPaperColumnSide;
 
-	constructor(designation: PrefDesignation, bula: number) {
+	constructor(designation: PrefDesignationType, bula: number) {
 		this._designation = designation;
 		this._bula = bula;
 
@@ -44,7 +45,7 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processAsMain(value: number, designation: PrefDesignation, failed: boolean) {
+	public processAsMain(value: number, designation: PrefDesignationType, failed: boolean) {
 		if (designation !== this.designation) throw new Error('PrefPaper::processAsMain:Designations do not match. ' + this.designation + '!=' + designation);
 		if (failed) this._markPlayedRefaFailed(PrefPaperPosition.MIDDLE);
 		else this._markPlayedRefaPassed(PrefPaperPosition.MIDDLE);
@@ -52,14 +53,13 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processAsMainRepealed(value: number, designation: PrefDesignation, failed: boolean) {
+	public processAsMainRepealed(value: number, designation: PrefDesignationType, failed: boolean) {
 		if (designation !== this.designation) throw new Error('PrefPaper::processAsMain:Designations do not match. ' + this.designation + '!=' + designation);
 		this._middle.addValueRepealed(failed ? value : -value);
 		return this;
 	}
 
-	public processAsFollower(value: number, designation: PrefDesignation, tricks: number, failed: boolean,
-							 mainsDesignation: PrefDesignation): PrefPaper {
+	public processAsFollower(value: number, designation: PrefDesignationType, tricks: number, failed: boolean, mainsDesignation: PrefDesignationType): PrefPaper {
 		if (designation !== this.designation) throw new Error('PrefPaper::processAsFollower:Designations do not match. ' + this.designation + '!=' + designation);
 		const supa = value * tricks;
 		const mainsPosition = _myPositionFromDesignations(designation, mainsDesignation);
@@ -69,8 +69,7 @@ export default class PrefPaper {
 		return this;
 	}
 
-	public processAsFollowerRepealed(value: number, designation: PrefDesignation, tricks: number, failed: boolean,
-									 mainsDesignation: PrefDesignation): PrefPaper {
+	public processAsFollowerRepealed(value: number, designation: PrefDesignationType, tricks: number, failed: boolean, mainsDesignation: PrefDesignationType): PrefPaper {
 		if (designation !== this.designation) throw new Error('PrefPaper::processAsFollowerRepealed:Designations do not match. ' + this.designation + '!=' + designation);
 		const supa = value * tricks;
 		const mainsPosition = _myPositionFromDesignations(designation, mainsDesignation);
@@ -119,7 +118,7 @@ export default class PrefPaper {
 		return this;
 	}
 
-	get designation(): PrefDesignation {
+	get designation(): PrefDesignationType {
 		return this._designation;
 	}
 
@@ -135,21 +134,21 @@ export default class PrefPaper {
 		return this._right.value;
 	}
 
-	get mini(): PrefPaperMiniObject {
+	get mini(): PrefPaperMiniObjectType {
 		return {
 			designation: this._designation,
 			left: this.left,
 			middle: this.middle,
-			right: this.right,
+			right: this.right
 		};
 	}
 
-	get json(): PrefPaperObject {
+	get json(): PrefPaperObjectType {
 		return {
 			designation: this._designation,
 			left: this._left.json,
 			middle: this._middle.json,
-			right: this._right.json,
+			right: this._right.json
 		};
 	}
-};
+}

@@ -1,8 +1,6 @@
-#!/usr/bin/env node
 'use strict';
 
 export default abstract class PrefPaperEntry {
-
 	get isNumber(): boolean {
 		return false;
 	}
@@ -16,4 +14,4 @@ export default abstract class PrefPaperEntry {
 	}
 
 	abstract get json(): any;
-};
+}

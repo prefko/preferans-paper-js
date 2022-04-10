@@ -1,12 +1,10 @@
-#!/usr/bin/env node
 'use strict';
 
-import { expect } from 'chai';
-import PrefPaperEntryNumber from '../src/prefPaperEntryNumber';
-import PrefPaperEntry from '../src/prefPaperEntry';
+import {expect} from 'chai';
+
+import PrefPaperEntryNumber from '../src/pref.paper.entry.number';
 
 describe('PrefPaperEntryNumber tests', () => {
-
 	describe('PrefPaperEntryNumber classes constructors tests', () => {
 		it('constructors should work', () => {
 			expect(() => new PrefPaperEntryNumber(3)).to.throw();
@@ -36,8 +34,7 @@ describe('PrefPaperEntryNumber tests', () => {
 			expect(eNumberRepealed.isHat).to.equal(false);
 			expect(eNumberRepealed.repealed).to.equal(true);
 			expect(eNumberRepealed.value).to.equal(60);
-			expect(eNumberRepealed.json).to.deep.equal({ value: 60, repealed: true });
+			expect(eNumberRepealed.json).to.deep.equal({value: 60, repealed: true});
 		});
 	});
-
 });

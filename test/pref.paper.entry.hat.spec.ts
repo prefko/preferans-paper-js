@@ -1,11 +1,10 @@
-#!/usr/bin/env node
 'use strict';
 
-import { expect } from 'chai';
-import PrefPaperEntryHat from '../src/prefPaperEntryHat';
+import {expect} from 'chai';
+
+import PrefPaperEntryHat from '../src/pref.paper.entry.hat';
 
 describe('PrefPaperEntryHat tests', () => {
-
 	describe('PrefPaperEntryHat classes constructors tests', () => {
 		it('constructors should work', () => {
 			expect(() => new PrefPaperEntryHat()).to.not.throw();
@@ -20,7 +19,7 @@ describe('PrefPaperEntryHat tests', () => {
 			expect(eHat.isRefa).to.equal(false);
 			expect(eHat.isHat).to.equal(true);
 			expect(eHat.crossed).to.equal(false);
-			expect(eHat.json).to.deep.equal({ hat: 1 });
+			expect(eHat.json).to.deep.equal({hat: 1});
 		});
 
 		const eHatCrossed = new PrefPaperEntryHat();
@@ -30,8 +29,7 @@ describe('PrefPaperEntryHat tests', () => {
 			expect(eHatCrossed.isRefa).to.equal(false);
 			expect(eHatCrossed.isHat).to.equal(true);
 			expect(eHatCrossed.isHat).to.equal(true);
-			expect(eHatCrossed.json).to.deep.equal({ hat: -1 });
+			expect(eHatCrossed.json).to.deep.equal({hat: -1});
 		});
 	});
-
 });

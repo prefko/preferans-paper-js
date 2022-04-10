@@ -1,13 +1,12 @@
-#!/usr/bin/env node
 'use strict';
 
-import { map } from 'lodash';
-import PrefPaperEntry from './prefPaperEntry';
+import {map} from 'lodash';
+
+import PrefPaperEntry from './pref.paper.entry';
 
 const _isEven = (n: number): boolean => n % 2 === 0;
 
 export default abstract class PrefPaperColumn {
-
 	protected static isValidValue(v: number): boolean {
 		return v > 0 && _isEven(v);
 	}
@@ -33,6 +32,4 @@ export default abstract class PrefPaperColumn {
 	get json(): object[] {
 		return map(this._values, (val) => val.json);
 	}
-
 }
-

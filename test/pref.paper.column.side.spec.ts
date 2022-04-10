@@ -1,12 +1,11 @@
-#!/usr/bin/env node
 'use strict';
 
-import { expect } from 'chai';
-import { PrefPaperPosition } from '../src/prefPaper.enums';
-import PrefPaperColumnSide from '../src/prefPaperColumnSide';
+import {expect} from 'chai';
+
+import PrefPaperColumnSide from '../src/pref.paper.column.side';
+import PrefPaperPosition from '../src/enums/pref.paper.position';
 
 describe('PrefPaperColumnSide tests', () => {
-
 	describe('PrefPaperColumnSide classes constructors tests', () => {
 		it('constructors should work', () => {
 			expect(() => new PrefPaperColumnSide(PrefPaperPosition.LEFT)).to.not.throw();
@@ -51,7 +50,7 @@ describe('PrefPaperColumnSide tests', () => {
 		column1.addValue(10).addValue(8).addValueRepealed(10).addValue(22);
 		it('PrefPaperColumnSide addValue should return proper values', () => {
 			expect(column1.value).to.equal(40);
-			expect(column1.json).to.deep.equal([10, 18, { value: 28, repealed: true }, 40]);
+			expect(column1.json).to.deep.equal([10, 18, {value: 28, repealed: true}, 40]);
 		});
 		it('PrefPaperColumnSide addValue should throw', () => {
 			expect(() => new PrefPaperColumnSide(PrefPaperPosition.LEFT).addValue(-8)).to.throw();
@@ -66,5 +65,4 @@ describe('PrefPaperColumnSide tests', () => {
 			expect(column1.json).to.deep.equal([]);
 		});
 	});
-
 });

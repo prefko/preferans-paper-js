@@ -1,13 +1,13 @@
-#!/usr/bin/env node
 'use strict';
 
 import * as _ from 'lodash';
-import PrefPaperColumn from './prefPaperColumn';
-import { PrefPaperPosition } from './prefPaper.enums';
-import PrefPaperEntry from './prefPaperEntry';
-import PrefPaperEntryNumber from './prefPaperEntryNumber';
-import PrefPaperEntryRefa from './prefPaperEntryRefa';
-import PrefPaperEntryHat from './prefPaperEntryHat';
+
+import PrefPaperEntry from './pref.paper.entry';
+import PrefPaperColumn from './pref.paper.column';
+import PrefPaperEntryHat from './pref.paper.entry.hat';
+import PrefPaperEntryRefa from './pref.paper.entry.refa';
+import PrefPaperPosition from './enums/pref.paper.position';
+import PrefPaperEntryNumber from './pref.paper.entry.number';
 
 const _getLastNonZeroValue = (vals: PrefPaperEntry[]): number => {
 	const nums = _.filter(vals, (v: PrefPaperEntry): boolean => {
@@ -21,11 +21,11 @@ const _getLastNonZeroValue = (vals: PrefPaperEntry[]): number => {
 	return last.value;
 };
 
-const _validAddHat = (last: number, val: number): boolean => val < 0 && (last + val) <= 0;
-const _shouldAddHat = (vals: PrefPaperEntry[], last: number, val: number): boolean => (_getLastNonZeroValue(vals) < 0) ? false : _validAddHat(last, val);
+const _validAddHat = (last: number, val: number): boolean => val < 0 && last + val <= 0;
+const _shouldAddHat = (vals: PrefPaperEntry[], last: number, val: number): boolean => (_getLastNonZeroValue(vals) < 0 ? false : _validAddHat(last, val));
 
-const _validAddHatCrossed = (last: number, val: number): boolean => val > 0 && (last + val) >= 0;
-const _shouldAddHatCrossed = (vals: PrefPaperEntry[], last: number, val: number): boolean => (_getLastNonZeroValue(vals) > 0) ? false : _validAddHatCrossed(last, val);
+const _validAddHatCrossed = (last: number, val: number): boolean => val > 0 && last + val >= 0;
+const _shouldAddHatCrossed = (vals: PrefPaperEntry[], last: number, val: number): boolean => (_getLastNonZeroValue(vals) > 0 ? false : _validAddHatCrossed(last, val));
 
 const _isUnplayedRefaForPosition = (v: PrefPaperEntry, position: PrefPaperPosition): boolean => {
 	if (v.isRefa) {
@@ -43,7 +43,6 @@ const _isUnplayedRefaForPosition = (v: PrefPaperEntry, position: PrefPaperPositi
 };
 
 export default class PrefPaperColumnMiddle extends PrefPaperColumn {
-
 	constructor(value: number) {
 		if (!PrefPaperColumn.isValidValue(value)) throw new Error('PrefPaperColumnMiddle::constructor:Value is not valid ' + value + '. Value must be larger than 0 and even.');
 
@@ -61,7 +60,7 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 	public addValue(value: number): PrefPaperColumnMiddle {
 		const entry = this._makeNumberEntry(value);
 		this._value = entry.value;
-		this._processHats(value);	// <- ALWAYS before the .push(entry)
+		this._processHats(value); // <- ALWAYS before the .push(entry)
 		if (0 !== this._value) this._values.push(entry);
 		return this;
 	}
@@ -112,7 +111,6 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 	private _processHats(value: number): PrefPaperColumnMiddle {
 		if (_shouldAddHat(this._values, this._value, value)) {
 			this._values.push(new PrefPaperEntryHat());
-
 		} else if (_shouldAddHatCrossed(this._values, this._value, value)) {
 			const hat = new PrefPaperEntryHat();
 			hat.crossed = true;
@@ -120,5 +118,4 @@ export default class PrefPaperColumnMiddle extends PrefPaperColumn {
 		}
 		return this;
 	}
-
 }
