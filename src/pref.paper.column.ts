@@ -3,12 +3,11 @@
 import {map} from 'lodash';
 
 import PrefPaperEntry from './pref.paper.entry';
-
-const _isEven = (n: number): boolean => n % 2 === 0;
+import isEven from './functions/is.even';
 
 export default abstract class PrefPaperColumn {
 	protected static isValidValue(v: number): boolean {
-		return v > 0 && _isEven(v);
+		return v > 0 && isEven(v);
 	}
 
 	protected _value: number = 0;
