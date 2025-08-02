@@ -1,51 +1,49 @@
 'use strict';
 
 import {each} from 'lodash';
-import {expect} from 'chai';
-
 import PrefPaperEntryRefa from '../src/pref.paper.entry.refa';
 import PrefPaperPosition from '../src/enums/pref.paper.position';
 
 describe('PrefPaperEntryRefa tests', () => {
 	describe('PrefPaperEntryRefa classes constructors tests', () => {
 		it('constructors should work', () => {
-			expect(() => new PrefPaperEntryRefa()).to.not.throw();
-			expect(new PrefPaperEntryRefa()).to.be.an('object');
+			expect(() => new PrefPaperEntryRefa()).not.toThrow();
+			expect(new PrefPaperEntryRefa()).toBeInstanceOf(Object);
 		});
 	});
 
 	describe('PrefPaperEntryRefa methods tests', () => {
 		const eRefa = new PrefPaperEntryRefa();
 		it('PrefPaperEntryRefa methods should return proper values', () => {
-			expect(eRefa.isNumber).to.equal(false);
-			expect(eRefa.isRefa).to.equal(true);
-			expect(eRefa.isHat).to.equal(false);
-			expect(eRefa.leftPlayed).to.equal(false);
-			expect(eRefa.middlePlayed).to.equal(false);
-			expect(eRefa.rightPlayed).to.equal(false);
-			expect(eRefa.json).to.deep.equal({left: 0, middle: 0, right: 0});
+			expect(eRefa.isNumber).toBe(false);
+			expect(eRefa.isRefa).toBe(true);
+			expect(eRefa.isHat).toBe(false);
+			expect(eRefa.leftPlayed).toBe(false);
+			expect(eRefa.middlePlayed).toBe(false);
+			expect(eRefa.rightPlayed).toBe(false);
+			expect(eRefa.json).toEqual({left: 0, middle: 0, right: 0});
 		});
 	});
 
 	describe('PrefPaperEntryRefa setPlayed tests', () => {
 		it('setPlayed should throw properly', () => {
-			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.LEFT)).to.not.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.LEFT).setPlayedPassed(PrefPaperPosition.LEFT)).to.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.LEFT).setPlayedFailed(PrefPaperPosition.LEFT)).to.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.LEFT).setPlayedPassed(PrefPaperPosition.LEFT)).to.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.LEFT).setPlayedFailed(PrefPaperPosition.LEFT)).to.throw();
+			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.LEFT)).not.toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.LEFT).setPlayedPassed(PrefPaperPosition.LEFT)).toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.LEFT).setPlayedFailed(PrefPaperPosition.LEFT)).toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.LEFT).setPlayedPassed(PrefPaperPosition.LEFT)).toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.LEFT).setPlayedFailed(PrefPaperPosition.LEFT)).toThrow();
 
-			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.MIDDLE)).to.not.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.MIDDLE).setPlayedPassed(PrefPaperPosition.MIDDLE)).to.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.MIDDLE).setPlayedFailed(PrefPaperPosition.MIDDLE)).to.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.MIDDLE).setPlayedPassed(PrefPaperPosition.MIDDLE)).to.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.MIDDLE).setPlayedFailed(PrefPaperPosition.MIDDLE)).to.throw();
+			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.MIDDLE)).not.toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.MIDDLE).setPlayedPassed(PrefPaperPosition.MIDDLE)).toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.MIDDLE).setPlayedFailed(PrefPaperPosition.MIDDLE)).toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.MIDDLE).setPlayedPassed(PrefPaperPosition.MIDDLE)).toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.MIDDLE).setPlayedFailed(PrefPaperPosition.MIDDLE)).toThrow();
 
-			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.RIGHT)).to.not.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.RIGHT).setPlayedPassed(PrefPaperPosition.RIGHT)).to.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.RIGHT).setPlayedFailed(PrefPaperPosition.RIGHT)).to.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.RIGHT).setPlayedPassed(PrefPaperPosition.RIGHT)).to.throw();
-			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.RIGHT).setPlayedFailed(PrefPaperPosition.RIGHT)).to.throw();
+			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.RIGHT)).not.toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.RIGHT).setPlayedPassed(PrefPaperPosition.RIGHT)).toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedPassed(PrefPaperPosition.RIGHT).setPlayedFailed(PrefPaperPosition.RIGHT)).toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.RIGHT).setPlayedPassed(PrefPaperPosition.RIGHT)).toThrow();
+			expect(() => new PrefPaperEntryRefa().setPlayedFailed(PrefPaperPosition.RIGHT).setPlayedFailed(PrefPaperPosition.RIGHT)).toThrow();
 		});
 
 		const combos = [
@@ -154,10 +152,10 @@ describe('PrefPaperEntryRefa tests', () => {
 				}
 			});
 			it('setPlayed should equal' + JSON.stringify(c.j), () => {
-				expect(r.leftPlayed).to.equal(c.r[0]);
-				expect(r.middlePlayed).to.equal(c.r[1]);
-				expect(r.rightPlayed).to.equal(c.r[2]);
-				expect(r.json).to.deep.equal(c.j);
+				expect(r.leftPlayed).toBe(c.r[0]);
+				expect(r.middlePlayed).toBe(c.r[1]);
+				expect(r.rightPlayed).toBe(c.r[2]);
+				expect(r.json).toEqual(c.j);
 			});
 		});
 	});

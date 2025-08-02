@@ -1,3 +1,5 @@
 'use strict';
 
-describe('pref.paper.entry.number.repealed.object.type.ts tests', () => it('should be implemented'));
+describe('pref.paper.entry.number.repealed.object.type.ts tests', () => {
+	test.todo('should be implemented');
+});

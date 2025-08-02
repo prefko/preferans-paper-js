@@ -1,35 +1,33 @@
 'use strict';
 
-import {expect} from 'chai';
-
 import PrefPaperEntryHat from '../src/pref.paper.entry.hat';
 
 describe('PrefPaperEntryHat tests', () => {
 	describe('PrefPaperEntryHat classes constructors tests', () => {
 		it('constructors should work', () => {
-			expect(() => new PrefPaperEntryHat()).to.not.throw();
-			expect(new PrefPaperEntryHat()).to.be.an('object');
+			expect(() => new PrefPaperEntryHat()).not.toThrow();
+			expect(new PrefPaperEntryHat()).toBeInstanceOf(Object);
 		});
 	});
 
 	describe('PrefPaperEntryHat methods tests', () => {
 		const eHat = new PrefPaperEntryHat();
 		it('PrefPaperEntryHat methods should return proper values', () => {
-			expect(eHat.isNumber).to.equal(false);
-			expect(eHat.isRefa).to.equal(false);
-			expect(eHat.isHat).to.equal(true);
-			expect(eHat.crossed).to.equal(false);
-			expect(eHat.json).to.deep.equal({hat: 1});
+			expect(eHat.isNumber).toBe(false);
+			expect(eHat.isRefa).toBe(false);
+			expect(eHat.isHat).toBe(true);
+			expect(eHat.crossed).toBe(false);
+			expect(eHat.json).toEqual({hat: 1});
 		});
 
 		const eHatCrossed = new PrefPaperEntryHat();
 		eHatCrossed.crossed = true;
 		it('PrefPaperEntryHat isCrossed methods should return proper values', () => {
-			expect(eHatCrossed.isNumber).to.equal(false);
-			expect(eHatCrossed.isRefa).to.equal(false);
-			expect(eHatCrossed.isHat).to.equal(true);
-			expect(eHatCrossed.isHat).to.equal(true);
-			expect(eHatCrossed.json).to.deep.equal({hat: -1});
+			expect(eHatCrossed.isNumber).toBe(false);
+			expect(eHatCrossed.isRefa).toBe(false);
+			expect(eHatCrossed.isHat).toBe(true);
+			expect(eHatCrossed.isHat).toBe(true);
+			expect(eHatCrossed.json).toEqual({hat: -1});
 		});
 	});
 });

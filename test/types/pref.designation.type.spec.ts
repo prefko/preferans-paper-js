@@ -1,3 +1,5 @@
 'use strict';
 
-describe('pref.designation.type.ts tests', () => it('should be implemented'));
+describe('pref.designation.type.ts tests', () => {
+	test.todo('should be implemented');
+});

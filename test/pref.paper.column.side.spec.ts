@@ -1,19 +1,17 @@
 'use strict';
 
-import {expect} from 'chai';
-
 import PrefPaperColumnSide from '../src/pref.paper.column.side';
 import PrefPaperPosition from '../src/enums/pref.paper.position';
 
 describe('PrefPaperColumnSide tests', () => {
 	describe('PrefPaperColumnSide classes constructors tests', () => {
 		it('constructors should work', () => {
-			expect(() => new PrefPaperColumnSide(PrefPaperPosition.LEFT)).to.not.throw();
-			expect(new PrefPaperColumnSide(PrefPaperPosition.LEFT)).to.be.an('object');
-			expect(() => new PrefPaperColumnSide(PrefPaperPosition.MIDDLE)).to.not.throw();
-			expect(new PrefPaperColumnSide(PrefPaperPosition.MIDDLE)).to.be.an('object');
-			expect(() => new PrefPaperColumnSide(PrefPaperPosition.RIGHT)).to.not.throw();
-			expect(new PrefPaperColumnSide(PrefPaperPosition.RIGHT)).to.be.an('object');
+			expect(() => new PrefPaperColumnSide(PrefPaperPosition.LEFT)).not.toThrow();
+			expect(new PrefPaperColumnSide(PrefPaperPosition.LEFT)).toBeInstanceOf(Object);
+			expect(() => new PrefPaperColumnSide(PrefPaperPosition.MIDDLE)).not.toThrow();
+			expect(new PrefPaperColumnSide(PrefPaperPosition.MIDDLE)).toBeInstanceOf(Object);
+			expect(() => new PrefPaperColumnSide(PrefPaperPosition.RIGHT)).not.toThrow();
+			expect(new PrefPaperColumnSide(PrefPaperPosition.RIGHT)).toBeInstanceOf(Object);
 		});
 	});
 
@@ -22,12 +20,12 @@ describe('PrefPaperColumnSide tests', () => {
 		const column2 = new PrefPaperColumnSide(PrefPaperPosition.MIDDLE);
 		const column3 = new PrefPaperColumnSide(PrefPaperPosition.RIGHT);
 		it('PrefPaperColumnSide methods should return proper values', () => {
-			expect(column1.value).to.equal(0);
-			expect(column1.json).to.deep.equal([]);
-			expect(column2.value).to.equal(0);
-			expect(column2.json).to.deep.equal([]);
-			expect(column3.value).to.equal(0);
-			expect(column3.json).to.deep.equal([]);
+			expect(column1.value).toBe(0);
+			expect(column1.json).toEqual([]);
+			expect(column2.value).toBe(0);
+			expect(column2.json).toEqual([]);
+			expect(column3.value).toBe(0);
+			expect(column3.json).toEqual([]);
 		});
 	});
 
@@ -36,12 +34,12 @@ describe('PrefPaperColumnSide tests', () => {
 		const column2 = new PrefPaperColumnSide(PrefPaperPosition.MIDDLE).reset();
 		const column3 = new PrefPaperColumnSide(PrefPaperPosition.RIGHT).reset();
 		it('PrefPaperColumnSide reset should return proper values', () => {
-			expect(column1.value).to.equal(0);
-			expect(column1.json).to.deep.equal([]);
-			expect(column2.value).to.equal(0);
-			expect(column2.json).to.deep.equal([]);
-			expect(column3.value).to.equal(0);
-			expect(column3.json).to.deep.equal([]);
+			expect(column1.value).toBe(0);
+			expect(column1.json).toEqual([]);
+			expect(column2.value).toBe(0);
+			expect(column2.json).toEqual([]);
+			expect(column3.value).toBe(0);
+			expect(column3.json).toEqual([]);
 		});
 	});
 
@@ -49,11 +47,11 @@ describe('PrefPaperColumnSide tests', () => {
 		const column1 = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 		column1.addValue(10).addValue(8).addValueRepealed(10).addValue(22);
 		it('PrefPaperColumnSide addValue should return proper values', () => {
-			expect(column1.value).to.equal(40);
-			expect(column1.json).to.deep.equal([10, 18, {value: 28, repealed: true}, 40]);
+			expect(column1.value).toBe(40);
+			expect(column1.json).toEqual([10, 18, {value: 28, repealed: true}, 40]);
 		});
 		it('PrefPaperColumnSide addValue should throw', () => {
-			expect(() => new PrefPaperColumnSide(PrefPaperPosition.LEFT).addValue(-8)).to.throw();
+			expect(() => new PrefPaperColumnSide(PrefPaperPosition.LEFT).addValue(-8)).toThrow();
 		});
 	});
 
@@ -61,8 +59,8 @@ describe('PrefPaperColumnSide tests', () => {
 		const column1 = new PrefPaperColumnSide(PrefPaperPosition.LEFT);
 		column1.addValue(10).addValue(8).addValueRepealed(16).addValue(10).reset();
 		it('PrefPaperColumnSide reset should return proper values', () => {
-			expect(column1.value).to.equal(0);
-			expect(column1.json).to.deep.equal([]);
+			expect(column1.value).toBe(0);
+			expect(column1.json).toEqual([]);
 		});
 	});
 });
