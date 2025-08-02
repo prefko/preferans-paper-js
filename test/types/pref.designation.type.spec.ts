@@ -1,1 +1,3 @@
+'use strict';
+
 describe('pref.designation.type.ts tests', () => it('should be implemented'));

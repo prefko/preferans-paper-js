@@ -1,1 +1,3 @@
+'use strict';
+
 describe('pref.paper.mini.object.type.ts tests', () => it('should be implemented'));
